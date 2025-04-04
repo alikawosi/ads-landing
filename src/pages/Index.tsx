@@ -1,14 +1,12 @@
 
 import React from 'react';
-import Layout from '@/components/layout/Layout';
-import HeroSection from '@/components/ui/hero-section';
-import FeatureSection from '@/components/ui/feature-section';
-import CTASection from '@/components/ui/cta-section';
-import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, BarChart, Target, Zap, Users, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { ArrowRight, Shield, Zap, BarChart, Target, Users } from 'lucide-react';
 import { COMPANY_NAME } from '@/constants';
+import FeatureSection from '@/components/ui/feature-section';
 
 const Index = () => {
   // Features for the main feature section
@@ -47,24 +45,76 @@ const Index = () => {
 
   return (
     <Layout fullWidth>
-      {/* Hero Section with BetterMode style */}
-      <HeroSection
-        title="Transform your dealership with AI-powered insights"
-        subtitle="Our platform helps car dealerships optimize inventory, match customers to vehicles, and increase profits through data-driven decisions."
-        ctaText="Book a Demo"
-        secondaryCtaText="Learn more"
-        secondaryCtaLink="/about"
-        imageSrc="/lovable-uploads/f054ab4a-f69e-4774-a1b0-f241ea7d4fb8.png"
-      />
-      
-      {/* What we offer section - BetterMode-style cards */}
-      <section className="py-24 bg-white dark:bg-gray-950 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="gradient-blur absolute top-0 left-1/4 w-1/2 h-1/2 opacity-50"></div>
-          <div className="gradient-blur absolute bottom-0 right-1/4 w-1/2 h-1/2 opacity-50"></div>
+      {/* Hero Section - Full width with gradient background */}
+      <section className="relative py-20 md:py-28 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-6 lg:pr-8">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">
+                Transform your dealership with 
+                <span className="text-saas-blue block mt-2">AI-powered insights</span>
+              </h1>
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg">
+                Our platform helps car dealerships optimize inventory, match customers to vehicles, and increase profits through data-driven decisions.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <Button size="lg" className="rounded-md" asChild>
+                  <Link to="/signup" className="px-8">
+                    Book a Demo
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" className="rounded-md group" asChild>
+                  <Link to="/about" className="px-8 flex items-center">
+                    <span>Learn more</span>
+                    <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </Button>
+              </div>
+              
+              {/* Trust indicators */}
+              <div className="hidden md:block">
+                <p className="text-sm text-gray-500 mb-3">TRUSTED BY LEADING DEALERSHIPS</p>
+                <div className="flex items-center space-x-6">
+                  <div className="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                  <div className="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                  <div className="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="lg:col-span-6 flex justify-center">
+              <div className="relative w-full max-w-lg">
+                {/* Main image with gradient border */}
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-saas-blue via-saas-gray to-saas-blue opacity-30 blur-md"></div>
+                <div className="relative rounded-xl overflow-hidden shadow-2xl">
+                  <img
+                    src="/lovable-uploads/f054ab4a-f69e-4774-a1b0-f241ea7d4fb8.png"
+                    alt="Dashboard Preview"
+                    className="w-full h-auto"
+                  />
+                </div>
+                
+                {/* Floating stats card */}
+                <div className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-[200px] animate-float">
+                  <div className="text-center">
+                    <h3 className="text-xl font-bold text-saas-blue">40% Faster</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Inventory Turnover</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        {/* Decorative elements */}
+        <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
+      </section>
+      
+      {/* What we offer section */}
+      <section className="py-20 bg-white dark:bg-gray-950">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center text-center mb-16">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-saas-blue/10 text-saas-blue text-sm font-medium mb-4">
               <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
@@ -78,52 +128,43 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* BetterMode-style feature cards with hover effect */}
-            <Card className="feature-card bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-md hover:shadow-xl transition-all">
-              <CardContent className="p-8">
-                <div className="w-14 h-14 rounded-full bg-saas-blue/10 flex items-center justify-center mb-6">
-                  <BarChart className="h-7 w-7 text-saas-blue" />
+            {/* Feature cards */}
+            <Card className="bg-white dark:bg-gray-800 border-0 shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+              <div className="h-2 bg-saas-blue w-full"></div>
+              <CardContent className="p-6">
+                <div className="w-12 h-12 rounded-full bg-saas-blue/10 flex items-center justify-center mb-4">
+                  <BarChart className="h-6 w-6 text-saas-blue" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Inventory Analytics</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                <h3 className="text-xl font-bold mb-2">Inventory Analytics</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   Make smarter purchasing decisions based on market demand and historical sales data.
                 </p>
-                <div className="flex items-center text-saas-blue text-sm font-medium">
-                  <span>Learn more</span>
-                  <ArrowRight size={16} className="ml-2" />
-                </div>
               </CardContent>
             </Card>
             
-            <Card className="feature-card bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-md hover:shadow-xl transition-all">
-              <CardContent className="p-8">
-                <div className="w-14 h-14 rounded-full bg-saas-blue/10 flex items-center justify-center mb-6">
-                  <Target className="h-7 w-7 text-saas-blue" />
+            <Card className="bg-white dark:bg-gray-800 border-0 shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+              <div className="h-2 bg-saas-blue w-full"></div>
+              <CardContent className="p-6">
+                <div className="w-12 h-12 rounded-full bg-saas-blue/10 flex items-center justify-center mb-4">
+                  <Target className="h-6 w-6 text-saas-blue" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Customer Matching</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                <h3 className="text-xl font-bold mb-2">Customer Matching</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   Connect the right customers to the right vehicles to increase closing rates.
                 </p>
-                <div className="flex items-center text-saas-blue text-sm font-medium">
-                  <span>Learn more</span>
-                  <ArrowRight size={16} className="ml-2" />
-                </div>
               </CardContent>
             </Card>
             
-            <Card className="feature-card bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-md hover:shadow-xl transition-all">
-              <CardContent className="p-8">
-                <div className="w-14 h-14 rounded-full bg-saas-blue/10 flex items-center justify-center mb-6">
-                  <Zap className="h-7 w-7 text-saas-blue" />
+            <Card className="bg-white dark:bg-gray-800 border-0 shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+              <div className="h-2 bg-saas-blue w-full"></div>
+              <CardContent className="p-6">
+                <div className="w-12 h-12 rounded-full bg-saas-blue/10 flex items-center justify-center mb-4">
+                  <Zap className="h-6 w-6 text-saas-blue" />
                 </div>
-                <h3 className="text-xl font-bold mb-3">Automated Follow-ups</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                <h3 className="text-xl font-bold mb-2">Automated Follow-ups</h3>
+                <p className="text-gray-600 dark:text-gray-300">
                   Never miss an opportunity with intelligent follow-up reminders and templates.
                 </p>
-                <div className="flex items-center text-saas-blue text-sm font-medium">
-                  <span>Learn more</span>
-                  <ArrowRight size={16} className="ml-2" />
-                </div>
               </CardContent>
             </Card>
           </div>
@@ -139,8 +180,8 @@ const Index = () => {
         </div>
       </section>
       
-      {/* How it works section - with better visual flow */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-900 relative overflow-hidden">
+      {/* How it works section */}
+      <section className="py-20 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center text-center mb-16">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-saas-blue/10 text-saas-blue text-sm font-medium mb-4">
@@ -153,93 +194,54 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-16 relative">
-            {/* Connecting line for desktop - BetterMode style with dashed line */}
-            <div className="hidden md:block absolute top-24 left-[calc(16.67%+20px)] right-[calc(16.67%+20px)] h-0.5 border-t-2 border-dashed border-saas-blue/30"></div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Connecting line for desktop */}
+            <div className="hidden md:block absolute top-24 left-[20%] right-[20%] h-0.5 bg-saas-blue/30"></div>
             
             {/* Step 1 */}
             <div className="relative flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-saas-blue text-white flex items-center justify-center text-xl font-bold mb-6 relative z-10 shadow-lg shadow-saas-blue/20">
+              <div className="w-12 h-12 rounded-full bg-saas-blue text-white flex items-center justify-center text-xl font-bold mb-6 relative z-10">
                 1
               </div>
               <h3 className="text-xl font-bold mb-3">Connect your DMS</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Quick integration with your existing Dealership Management System with secure API connections.
+                Quick integration with your existing Dealership Management System.
               </p>
-              
-              {/* Feature list BetterMode style */}
-              <ul className="mt-6 space-y-2 text-left">
-                <li className="flex items-start">
-                  <CheckCircle size={18} className="text-saas-blue mt-0.5 mr-2 flex-shrink-0" />
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">No code integration</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle size={18} className="text-saas-blue mt-0.5 mr-2 flex-shrink-0" />
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">Secure data transfer</span>
-                </li>
-              </ul>
             </div>
             
             {/* Step 2 */}
             <div className="relative flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-saas-blue text-white flex items-center justify-center text-xl font-bold mb-6 relative z-10 shadow-lg shadow-saas-blue/20">
+              <div className="w-12 h-12 rounded-full bg-saas-blue text-white flex items-center justify-center text-xl font-bold mb-6 relative z-10">
                 2
               </div>
               <h3 className="text-xl font-bold mb-3">AI Analysis</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Our AI analyzes your inventory, market data, and customer preferences to generate insights.
+                Our AI analyzes your inventory, market data, and customer preferences.
               </p>
-              
-              <ul className="mt-6 space-y-2 text-left">
-                <li className="flex items-start">
-                  <CheckCircle size={18} className="text-saas-blue mt-0.5 mr-2 flex-shrink-0" />
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">Deep learning algorithms</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle size={18} className="text-saas-blue mt-0.5 mr-2 flex-shrink-0" />
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">Market trend detection</span>
-                </li>
-              </ul>
             </div>
             
             {/* Step 3 */}
             <div className="relative flex flex-col items-center text-center">
-              <div className="w-16 h-16 rounded-full bg-saas-blue text-white flex items-center justify-center text-xl font-bold mb-6 relative z-10 shadow-lg shadow-saas-blue/20">
+              <div className="w-12 h-12 rounded-full bg-saas-blue text-white flex items-center justify-center text-xl font-bold mb-6 relative z-10">
                 3
               </div>
               <h3 className="text-xl font-bold mb-3">Optimize & Grow</h3>
               <p className="text-gray-600 dark:text-gray-300">
-                Act on data-driven insights to increase sales and maximize profits across your business.
+                Act on data-driven insights to increase sales and maximize profits.
               </p>
-              
-              <ul className="mt-6 space-y-2 text-left">
-                <li className="flex items-start">
-                  <CheckCircle size={18} className="text-saas-blue mt-0.5 mr-2 flex-shrink-0" />
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">Actionable recommendations</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle size={18} className="text-saas-blue mt-0.5 mr-2 flex-shrink-0" />
-                  <span className="text-gray-600 dark:text-gray-300 text-sm">Performance tracking</span>
-                </li>
-              </ul>
             </div>
           </div>
           
-          {/* Demo card - BetterMode style with gradient border */}
-          <div className="mt-24 gradient-border bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden">
+          <div className="mt-16 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-2">
               <div className="p-8 md:p-12 flex flex-col justify-center">
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-saas-blue/10 text-saas-blue text-sm font-medium mb-4">
-                  <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
-                  Request a demo
-                </div>
                 <h3 className="text-2xl font-bold mb-4">See the platform in action</h3>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
                   Book a personalized demo to see how {COMPANY_NAME} can transform your dealership operations and boost your bottom line.
                 </p>
-                <Button className="w-full md:w-auto rounded-md shadow-lg shadow-saas-blue/20" asChild>
-                  <Link to="/contact" className="flex items-center justify-center gap-2">
-                    Schedule Demo <ArrowRight size={16} />
+                <Button className="w-full md:w-auto" asChild>
+                  <Link to="/contact">
+                    Schedule Demo
                   </Link>
                 </Button>
               </div>
@@ -255,18 +257,16 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Main feature section - BetterMode style */}
+      {/* Main feature section */}
       <FeatureSection 
         title="AI-Powered Features Designed for Car Dealerships" 
         subtitle="Everything you need to optimize your operation and drive more sales"
         features={features}
       />
       
-      {/* Testimonials section - BetterMode carousel style */}
-      <section className="py-24 bg-white dark:bg-gray-950 relative overflow-hidden">
-        <div className="absolute top-20 left-1/4 w-96 h-96 rounded-full bg-saas-blue/5 blur-3xl"></div>
-        
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+      {/* Testimonials section */}
+      <section className="py-20 bg-white dark:bg-gray-950">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center text-center mb-16">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-saas-blue/10 text-saas-blue text-sm font-medium mb-4">
               <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
@@ -279,9 +279,8 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Testimonial 1 - BetterMode style with highlight */}
-            <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 p-2 hover:shadow-xl transition-all">
-              <div className="h-1 bg-gradient-to-r from-saas-blue to-saas-blue/60 rounded-t-md"></div>
+            {/* Testimonial 1 */}
+            <Card className="bg-white dark:bg-gray-800 shadow-md border-0">
               <CardContent className="p-6">
                 <div className="flex items-center mb-4">
                   <div className="text-saas-blue">
@@ -294,9 +293,7 @@ const Index = () => {
                   "Since implementing this platform, our inventory turnover has increased by 35%. The AI recommendations for which vehicles to stock have been spot on."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 mr-3 overflow-hidden">
-                    <div className="w-full h-full bg-gray-300 dark:bg-gray-600"></div>
-                  </div>
+                  <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 mr-3"></div>
                   <div>
                     <div className="font-semibold">Michael Rodriguez</div>
                     <div className="text-sm text-gray-500">California Motors</div>
@@ -306,8 +303,7 @@ const Index = () => {
             </Card>
             
             {/* Testimonial 2 */}
-            <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 p-2 hover:shadow-xl transition-all">
-              <div className="h-1 bg-gradient-to-r from-saas-blue to-saas-blue/60 rounded-t-md"></div>
+            <Card className="bg-white dark:bg-gray-800 shadow-md border-0">
               <CardContent className="p-6">
                 <div className="flex items-center mb-4">
                   <div className="text-saas-blue">
@@ -320,9 +316,7 @@ const Index = () => {
                   "The customer matching feature has completely transformed our sales approach. We're closing deals faster and customers are happier with their purchases."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 mr-3 overflow-hidden">
-                    <div className="w-full h-full bg-gray-300 dark:bg-gray-600"></div>
-                  </div>
+                  <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 mr-3"></div>
                   <div>
                     <div className="font-semibold">Sarah Johnson</div>
                     <div className="text-sm text-gray-500">Prestige Auto Group</div>
@@ -332,8 +326,7 @@ const Index = () => {
             </Card>
             
             {/* Testimonial 3 */}
-            <Card className="bg-white dark:bg-gray-800 shadow-lg border-0 p-2 hover:shadow-xl transition-all">
-              <div className="h-1 bg-gradient-to-r from-saas-blue to-saas-blue/60 rounded-t-md"></div>
+            <Card className="bg-white dark:bg-gray-800 shadow-md border-0">
               <CardContent className="p-6">
                 <div className="flex items-center mb-4">
                   <div className="text-saas-blue">
@@ -346,9 +339,7 @@ const Index = () => {
                   "The predictive analytics have given us a competitive edge in our market. We know what vehicles to stock before our competition does."
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-gray-700 mr-3 overflow-hidden">
-                    <div className="w-full h-full bg-gray-300 dark:bg-gray-600"></div>
-                  </div>
+                  <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 mr-3"></div>
                   <div>
                     <div className="font-semibold">David Thompson</div>
                     <div className="text-sm text-gray-500">Elite Motors</div>
@@ -360,50 +351,19 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Stats section - BetterMode style with cards */}
-      <section className="py-24 bg-gray-50 dark:bg-gray-900 relative overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex flex-col items-center text-center mb-16">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-saas-blue/10 text-saas-blue text-sm font-medium mb-4">
-              <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
-              Results
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Drive measurable business growth</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
-              Our dealership customers see significant improvements across all important metrics
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex flex-col items-center text-center p-8 rounded-xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700">
-              <div className="w-16 h-16 flex items-center justify-center rounded-full bg-saas-blue/10 mb-4">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-saas-blue">
-                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                </svg>
-              </div>
+      {/* Stats section */}
+      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-white dark:bg-gray-800 shadow-md">
               <div className="text-5xl font-bold text-saas-blue mb-2">40%</div>
               <p className="text-gray-600 dark:text-gray-300">Average Increase in Inventory Turnover</p>
             </div>
-            
-            <div className="flex flex-col items-center text-center p-8 rounded-xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700">
-              <div className="w-16 h-16 flex items-center justify-center rounded-full bg-saas-blue/10 mb-4">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-saas-blue">
-                  <path d="M12 20V10"></path>
-                  <path d="M18 20V4"></path>
-                  <path d="M6 20v-6"></path>
-                </svg>
-              </div>
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-white dark:bg-gray-800 shadow-md">
               <div className="text-5xl font-bold text-saas-blue mb-2">35%</div>
               <p className="text-gray-600 dark:text-gray-300">Higher Customer Satisfaction Scores</p>
             </div>
-            
-            <div className="flex flex-col items-center text-center p-8 rounded-xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700">
-              <div className="w-16 h-16 flex items-center justify-center rounded-full bg-saas-blue/10 mb-4">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-saas-blue">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-              </div>
+            <div className="flex flex-col items-center text-center p-6 rounded-lg bg-white dark:bg-gray-800 shadow-md">
               <div className="text-5xl font-bold text-saas-blue mb-2">28%</div>
               <p className="text-gray-600 dark:text-gray-300">Average Increase in Annual Revenue</p>
             </div>
@@ -411,16 +371,30 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Final CTA section - BetterMode style with gradient background */}
-      <CTASection
-        title="Ready to transform your dealership?"
-        subtitle="Join thousands of dealerships already using our AI solutions to optimize inventory, match customers, and increase profits."
-        ctaText="Start Free Trial"
-        ctaLink="/signup"
-        secondaryCtaText="Schedule Demo"
-        secondaryCtaLink="/contact"
-        backgroundClass="bg-gradient-to-br from-saas-blue to-saas-blue/80"
-      />
+      {/* Final CTA section */}
+      <section className="py-20 bg-saas-blue text-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to transform your dealership?</h2>
+            <p className="text-xl mb-8 opacity-90">
+              Join thousands of dealerships already using our AI solutions to optimize inventory, match customers, and increase profits.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button size="lg" className="bg-white text-saas-blue hover:bg-gray-100" asChild>
+                <Link to="/signup">
+                  Start Free Trial
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20" asChild>
+                <Link to="/contact">
+                  Schedule Demo
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
     </Layout>
   );
 };
