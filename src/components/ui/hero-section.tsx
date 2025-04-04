@@ -24,48 +24,64 @@ const HeroSection = ({
   imageSrc = "/lovable-uploads/74eb8123-02ad-48f5-ad7c-ae04f435a26b.png", // Default image path
 }: HeroSectionProps) => {
   return (
-    <section className="py-20 md:py-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
+    <section className="py-20 md:py-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="flex flex-col space-y-6 animate-slide-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-gray-900 dark:text-white">
+          <div className="flex flex-col space-y-6 animate-slide-in-left">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-saas-blue/10 text-saas-blue text-sm font-medium">
+              <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
+              AI-Powered Solutions
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               {title}
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300">
               {subtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" asChild>
-                <Link to={ctaLink} className="flex items-center gap-2">
-                  {ctaText} <ArrowRight size={16} />
+              <Button size="lg" className="rounded-full" asChild>
+                <Link to={ctaLink} className="px-8 flex items-center gap-2">
+                  {ctaText} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
               {secondaryCtaText && (
-                <Button size="lg" variant="outline" asChild>
-                  <Link to={secondaryCtaLink || "#"}>{secondaryCtaText}</Link>
+                <Button size="lg" variant="outline" className="rounded-full" asChild>
+                  <Link to={secondaryCtaLink || "#"} className="px-8">{secondaryCtaText}</Link>
                 </Button>
               )}
             </div>
           </div>
           
-          <div className="relative animate-fade-in">
-            <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-saas-blue via-saas-gray to-saas-blue opacity-30 blur"></div>
+          <div className="relative animate-slide-in-right">
+            <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-saas-blue via-saas-gray to-saas-blue opacity-30 blur-md"></div>
             <div className="relative hero-animation">
               {imageSrc ? (
                 <img
                   src={imageSrc}
                   alt="Hero"
-                  className="rounded-lg shadow-xl w-full max-w-md mx-auto"
+                  className="rounded-xl shadow-xl w-full max-w-md mx-auto"
                 />
               ) : (
                 <div className="bg-gray-200 rounded-lg h-72 w-full flex items-center justify-center">
                   <span className="text-gray-500">Image Placeholder</span>
                 </div>
               )}
+              
+              {/* Stats card overlay */}
+              <div className="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm font-medium">40% Faster Sales</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Background decorative elements */}
+      <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
     </section>
   );
 };
