@@ -12,7 +12,7 @@ const Layout = ({ children, fullWidth = false }: LayoutProps) => {
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-950">
       <Navbar />
-      <main className={`flex-grow ${fullWidth ? '' : 'container mx-auto px-4 md:px-6'}`}>
+      <main className="flex-grow">
         {children}
       </main>
       <Footer />

@@ -33,3 +33,52 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+
+/* Adding new animation for the floating elements */
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+/* Split background for hero section */
+.split-bg {
+  position: relative;
+}
+
+.split-bg::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: white;
+  z-index: -1;
+}
+
+.split-bg::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #f3f4f6;
+  z-index: -1;
+}
+
+.dark .split-bg::before {
+  background-color: #111827;
+}
+
+.dark .split-bg::after {
+  background-color: #030712;
+}
