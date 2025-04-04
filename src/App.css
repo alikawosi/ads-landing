@@ -48,37 +48,50 @@
   animation: float-slow 6s ease-in-out infinite;
 }
 
-/* Split background for hero section */
-.split-bg {
-  position: relative;
+/* Add a blurred gradient background effect */
+.gradient-blur {
+  background: radial-gradient(circle at center, rgba(0,92,184,0.15) 0%, rgba(255,255,255,0) 70%);
 }
 
-.split-bg::before {
+/* Curve design element for sections */
+.curved-section::before {
   content: '';
   position: absolute;
+  top: -50px;
   left: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background-color: white;
-  z-index: -1;
+  right: 0;
+  height: 50px;
+  background: inherit;
+  border-top-left-radius: 50% 100%;
+  border-top-right-radius: 50% 100%;
 }
 
-.split-bg::after {
+/* BetterMode-style card with subtle hover effects */
+.feature-card {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+/* Stylish gradient borders */
+.gradient-border {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.gradient-border::before {
   content: '';
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  background-color: #f3f4f6;
-  z-index: -1;
-}
-
-.dark .split-bg::before {
-  background-color: #111827;
-}
-
-.dark .split-bg::after {
-  background-color: #030712;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(to right, #005CB8, #66a1e2);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  pointer-events: none;
 }
