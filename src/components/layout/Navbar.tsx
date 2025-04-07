@@ -45,6 +45,12 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            <Link
+              to="/demo"
+              className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
+            >
+              Demo
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
@@ -83,6 +89,13 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
+              <Link
+                to="/demo"
+                className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Demo
+              </Link>
               <div className="flex flex-col space-y-2 pt-2 border-t">
                 <Button variant="outline" className="w-full" asChild>
                   <Link to="/login">Log in</Link>

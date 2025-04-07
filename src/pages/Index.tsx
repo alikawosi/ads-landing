@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -60,7 +59,7 @@ const Index = () => {
               
               <div className="flex flex-col sm:flex-row gap-4 mb-12">
                 <Button size="lg" className="rounded-md" asChild>
-                  <Link to="/signup" className="px-8">
+                  <Link to="/demo" className="px-8">
                     Book a Demo
                   </Link>
                 </Button>
@@ -387,7 +386,7 @@ const Index = () => {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20" asChild>
-                <Link to="/contact">
+                <Link to="/demo">
                   Schedule Demo
                 </Link>
               </Button>
