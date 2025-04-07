@@ -40,14 +40,14 @@ const HeroSection = ({
               {subtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="rounded-full" asChild>
-                <Link to={ctaLink} className="px-8 flex items-center gap-2">
+              <Button size="lg" radius="lg" className="px-8" asChild>
+                <Link to={ctaLink} className="flex items-center gap-2">
                   {ctaText} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
               {secondaryCtaText && (
-                <Button size="lg" variant="outline" className="rounded-full" asChild>
-                  <Link to={secondaryCtaLink || "#"} className="px-8">{secondaryCtaText}</Link>
+                <Button size="lg" variant="outline" radius="lg" className="px-8" asChild>
+                  <Link to={secondaryCtaLink || "#"}>{secondaryCtaText}</Link>
                 </Button>
               )}
             </div>

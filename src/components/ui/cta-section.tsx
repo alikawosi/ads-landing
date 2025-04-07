@@ -36,13 +36,13 @@ const CTASection = ({
             </p>
           )}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button size="lg" variant="default" className="bg-white text-saas-blue hover:bg-gray-100" asChild>
+            <Button size="lg" radius="lg" variant="default" className="bg-white text-saas-blue hover:bg-gray-100" asChild>
               <Link to={ctaLink} className="flex items-center gap-2">
                 {ctaText} <ArrowRight size={16} />
               </Link>
             </Button>
             {secondaryCtaText && (
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20" asChild>
+              <Button size="lg" radius="lg" variant="outline" className="border-white text-white hover:bg-white/20" asChild>
                 <Link to={secondaryCtaLink || "#"}>{secondaryCtaText}</Link>
               </Button>
             )}
