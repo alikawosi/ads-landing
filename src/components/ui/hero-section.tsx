@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import CarCard from './car-card';
 
 interface HeroSectionProps {
   title: string;
@@ -54,18 +55,37 @@ const HeroSection = ({
           
           <div className="relative animate-slide-in-right">
             <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-saas-blue via-saas-gray to-saas-blue opacity-30 blur-md"></div>
-            <div className="relative hero-animation">
-              {imageSrc ? (
-                <img
-                  src={imageSrc}
-                  alt="Hero"
-                  className="rounded-xl shadow-xl w-full max-w-md mx-auto"
+            <div className="relative z-10">
+              {/* Car Cards Display */}
+              <div className="grid grid-cols-2 gap-4 transform -rotate-6">
+                <CarCard
+                  imageSrc="/lovable-uploads/f054ab4a-f69e-4774-a1b0-f241ea7d4fb8.png"
+                  make="Tesla"
+                  model="Model S"
+                  year={2023}
+                  price={79900}
+                  priceRating="fair"
+                  className="transform translate-y-4 z-20"
                 />
-              ) : (
-                <div className="bg-gray-200 rounded-lg h-72 w-full flex items-center justify-center">
-                  <span className="text-gray-500">Image Placeholder</span>
-                </div>
-              )}
+                <CarCard
+                  imageSrc="/lovable-uploads/74eb8123-02ad-48f5-ad7c-ae04f435a26b.png"
+                  make="BMW"
+                  model="X5"
+                  year={2022}
+                  price={65500}
+                  priceRating="good"
+                  className="transform -translate-y-4 z-10"
+                />
+                <CarCard
+                  imageSrc="/lovable-uploads/f054ab4a-f69e-4774-a1b0-f241ea7d4fb8.png"
+                  make="Mercedes"
+                  model="E-Class"
+                  year={2023}
+                  price={84500}
+                  priceRating="high"
+                  className="transform translate-x-8 -translate-y-8 z-30"
+                />
+              </div>
               
               {/* Stats card overlay */}
               <div className="absolute -bottom-4 -right-4 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-lg">

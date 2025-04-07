@@ -33,3 +33,13 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+
+/* Car card hover animations */
+.car-card-hover {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.car-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
