@@ -1,10 +1,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ChevronDown, Search, BarChart2, Bot } from 'lucide-react';
+import { Menu, X, ChevronDown, Search, BarChart2, Bot, Layers } from 'lucide-react';
 import { NAVIGATION, COMPANY_NAME } from '../../constants';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -53,18 +54,28 @@ const Navbar = () => {
       description: "Find the most relevant and high-converting ads for your business",
       href: "/solutions/ads-search-tool",
       icon: <Search className="h-6 w-6 text-blue-500" />,
+      badge: null,
     },
     {
       title: "Marketing Tool",
       description: "Streamline your marketing operations with our comprehensive platform",
       href: "/solutions/marketing-tool",
       icon: <BarChart2 className="h-6 w-6 text-purple-500" />,
+      badge: null,
     },
     {
       title: "Gear 1: Searching Agent",
       description: "AI-powered car search that matches you with the perfect vehicle at the right price",
       href: "/solutions/gear1-searching-agent",
       icon: <Bot className="h-6 w-6 text-green-500" />,
+      badge: <Badge className="ml-2 bg-amber-500">Beta</Badge>,
+    },
+    {
+      title: "Stock Management",
+      description: "Smart inventory tracking and management system for dealerships",
+      href: "/solutions/stock-management",
+      icon: <Layers className="h-6 w-6 text-orange-500" />,
+      badge: <Badge className="ml-2 bg-blue-500">Coming Soon</Badge>,
     },
   ];
 
@@ -101,9 +112,12 @@ const Navbar = () => {
                           >
                             <div className="mr-3 mt-1">{solution.icon}</div>
                             <div>
-                              <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                {solution.title}
-                              </h3>
+                              <div className="flex items-center">
+                                <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                  {solution.title}
+                                </h3>
+                                {solution.badge}
+                              </div>
                               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                 {solution.description}
                               </p>
@@ -126,6 +140,12 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            <Link
+              to="/community"
+              className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
+            >
+              Community
+            </Link>
             <Link
               to="/demo"
               className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
@@ -179,7 +199,10 @@ const Navbar = () => {
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <div className="mr-2">{solution.icon}</div>
-                        <span>{solution.title}</span>
+                        <div className="flex items-center">
+                          <span>{solution.title}</span>
+                          {solution.badge && <span className="ml-2">{solution.badge}</span>}
+                        </div>
                       </Link>
                     ))}
                   </div>
@@ -196,6 +219,13 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
+              <Link
+                to="/community"
+                className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Community
+              </Link>
               <Link
                 to="/demo"
                 className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
