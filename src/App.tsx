@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import Demo from "./pages/Demo";
 import AdsSearchTool from "./pages/AdsSearchTool";
 import MarketingTool from "./pages/MarketingTool";
+import Gear1SearchingAgent from "./pages/Gear1SearchingAgent";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/demo" element={<Demo />} />
           <Route path="/solutions/ads-search-tool" element={<AdsSearchTool />} />
           <Route path="/solutions/marketing-tool" element={<MarketingTool />} />
+          <Route path="/solutions/gear1-searching-agent" element={<Gear1SearchingAgent />} />
           <Route path="/signup" element={<Contact />} /> {/* Using Contact page as signup for now */}
           <Route path="/login" element={<Contact />} /> {/* Using Contact page as login for now */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

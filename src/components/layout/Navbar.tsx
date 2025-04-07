@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ChevronDown, Search, Briefcase, BarChart2 } from 'lucide-react';
+import { Menu, X, ChevronDown, Search, BarChart2, Bot } from 'lucide-react';
 import { NAVIGATION, COMPANY_NAME } from '../../constants';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -59,6 +59,12 @@ const Navbar = () => {
       description: "Streamline your marketing operations with our comprehensive platform",
       href: "/solutions/marketing-tool",
       icon: <BarChart2 className="h-6 w-6 text-purple-500" />,
+    },
+    {
+      title: "Gear 1: Searching Agent",
+      description: "AI-powered car search that matches you with the perfect vehicle at the right price",
+      href: "/solutions/gear1-searching-agent",
+      icon: <Bot className="h-6 w-6 text-green-500" />,
     },
   ];
 
