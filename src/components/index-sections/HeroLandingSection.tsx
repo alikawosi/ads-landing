@@ -1,11 +1,10 @@
-
 import React from "react";
 import HeroSection from "@/components/ui/hero-section";
 
 const HeroLandingSection = () => (
   <HeroSection
-    title="Transform your dealership with"
-    subtitle="AI-powered insights & smart solutions for inventory, customers, pricing, and more."
+    title="Save Time, Cut Costs, Drive Success!"
+    subtitle="Find undermarket valued cars in minutes and increase your profits."
     ctaText="Book a Demo"
     ctaLink="/demo"
     secondaryCtaText="Learn more"
