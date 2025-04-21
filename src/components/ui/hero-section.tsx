@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -51,12 +50,6 @@ const HeroSection = ({
   secondaryCtaText,
   secondaryCtaLink,
 }: HeroSectionProps) => {
-  const CARD_OFFSET = 44; // px, tweak for overlap & angle
-  // Calculate translations for -45 degrees slope (moving right and up)
-  // -45deg: x = idx * CARD_OFFSET * cos(45deg) = idx*CARD_OFFSET*0.707
-  //        y = idx * CARD_OFFSET * -sin(45deg) = idx*CARD_OFFSET*(-0.707)
-  // We'll round to 0.707 for simplicity
-
   return (
     <section className="pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
@@ -88,28 +81,25 @@ const HeroSection = ({
               )}
             </div>
           </div>
-          <div className="relative flex items-center justify-center h-96 animate-slide-in-right">
-            <div className="relative w-full h-full">
-              {carHeroData.map((car, idx) => {
-                const translateX = CARD_OFFSET * idx * 0.707; // cos(45deg) ~ 0.707
-                const translateY = -CARD_OFFSET * idx * 0.707; // -sin(45deg) ~ -0.707
-                return (
-                  <div
-                    key={car.model}
-                    className={`absolute ${car.animationClass}`}
-                    style={{
-                      top: `${100 + idx * 20}px`,
-                      left: `${idx * 40}px`,
-                      zIndex: 30 - idx,
-                      transform: `translateX(${translateX}px) translateY(${translateY}px)`,
-                      transition: 'all 0.5s ease-out',
-                      animationDelay: `${idx * 0.2}s`
-                    }}
-                  >
-                    <CarCascadeCard {...car} />
-                  </div>
-                );
-              })}
+          <div className="relative flex items-end justify-center h-96 animate-slide-in-right">
+            <div className="flex flex-row gap-6 items-end h-full w-full justify-center">
+              {carHeroData.map((car, idx) => (
+                <div
+                  key={car.model}
+                  className={`
+                    ${idx === 0 ? "z-30" : idx === 1 ? "z-20" : "z-10"}
+                    animate-fade-in-up
+                  `}
+                  style={{
+                    animationDelay: `${idx * 0.18}s`
+                  }}
+                >
+                  <CarCascadeCard
+                    {...car}
+                    animationClass=""
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>

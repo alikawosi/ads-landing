@@ -40,11 +40,13 @@ const getBadge = (tag: PriceTagType) => {
   }
 };
 
-const calculatePriceDifference = (price: number, estimatedPrice: number): { percent: number; isLower: boolean } => {
+const calculatePriceDifference = (price: number, estimatedPrice: number): { percent: number; isLower: boolean; signedPercent: string } => {
   const difference = ((price - estimatedPrice) / estimatedPrice) * 100;
+  const percent = Math.abs(difference).toFixed(1);
   return {
-    percent: Math.abs(difference).toFixed(1) as unknown as number,
-    isLower: difference < 0
+    percent: percent as unknown as number,
+    isLower: difference < 0,
+    signedPercent: `${difference > 0 ? "+" : ""}${difference.toFixed(1)}`,
   };
 };
 
@@ -57,12 +59,12 @@ const CarCascadeCard: React.FC<CarCascadeCardProps> = ({
   priceTag,
   animationClass,
 }) => {
-  const { percent, isLower } = calculatePriceDifference(price, estimatedPrice);
-  
+  const { percent, isLower, signedPercent } = calculatePriceDifference(price, estimatedPrice);
+
   return (
     <div
       className={cn(
-        "bg-white dark:bg-gray-900 rounded-xl shadow-xl px-5 py-4 border car-card-hover w-56 relative transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl",
+        "bg-white dark:bg-gray-900 rounded-xl shadow-xl px-5 py-4 border car-card-hover w-64 max-w-xs relative transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl",
         animationClass
       )}
       style={{ borderRadius: "18px" }}
@@ -79,6 +81,11 @@ const CarCascadeCard: React.FC<CarCascadeCardProps> = ({
       </div>
       <div className="mb-2 text-xs text-gray-500">
         Est. Value: <span className="font-semibold">${estimatedPrice.toLocaleString()}</span>
+      </div>
+      <div className="mb-2 text-sm font-bold">
+        Difference: <span className={isLower ? "text-green-600" : "text-red-600"}>
+          {signedPercent}%
+        </span>
       </div>
       <div className="flex justify-between items-center">
         <div>{getBadge(priceTag)}</div>
