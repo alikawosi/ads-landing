@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -51,6 +50,8 @@ const HeroSection = ({
   secondaryCtaText,
   secondaryCtaLink,
 }: HeroSectionProps) => {
+  const CARD_OFFSET = 44; // px, tweak for overlap & angle
+
   return (
     <section className="py-20 md:py-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
@@ -83,7 +84,6 @@ const HeroSection = ({
             </div>
           </div>
           <div className="relative flex items-center justify-center h-72 md:h-80 animate-slide-in-right">
-            {/* Cascading car hero cards */}
             <div className="relative w-[400px] h-full flex">
               {carHeroData.map((car, idx) => (
                 <div
@@ -91,7 +91,7 @@ const HeroSection = ({
                   className={`absolute left-0 top-0 ${car.animationClass}`}
                   style={{
                     zIndex: 30 - idx,
-                    transform: `translateY(${idx * 28}px) translateX(${idx * 46}px)`,
+                    transform: `translateY(${idx * CARD_OFFSET}px) translateX(${idx * CARD_OFFSET}px)`,
                   }}
                 >
                   <CarCascadeCard {...car} />
@@ -101,7 +101,6 @@ const HeroSection = ({
           </div>
         </div>
       </div>
-      {/* Decorative background elements */}
       <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
     </section>
