@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import CarCascadeCard from "./CarCascadeCard";
+
 interface HeroSectionProps {
   title: string;
   subtitle: string;
@@ -10,6 +12,9 @@ interface HeroSectionProps {
   secondaryCtaText?: string;
   secondaryCtaLink?: string;
 }
+
+type AnimationType = "up" | "down";
+
 const carHeroData = [{
   model: "Camry XLE",
   year: 2024,
@@ -17,7 +22,7 @@ const carHeroData = [{
   price: 27800,
   estimatedPrice: 29300,
   priceTag: "good" as const,
-  animation: "up"
+  animation: "up" as AnimationType
 }, {
   model: "Accord EX",
   year: 2023,
@@ -25,7 +30,7 @@ const carHeroData = [{
   price: 23950,
   estimatedPrice: 24650,
   priceTag: "fair" as const,
-  animation: "down"
+  animation: "down" as AnimationType
 }, {
   model: "3 Series",
   year: 2024,
@@ -33,7 +38,7 @@ const carHeroData = [{
   price: 41200,
   estimatedPrice: 37800,
   priceTag: "high" as const,
-  animation: "up"
+  animation: "up" as AnimationType
 }, {
   model: "Civic LX",
   year: 2022,
@@ -41,9 +46,16 @@ const carHeroData = [{
   price: 21600,
   estimatedPrice: 21900,
   priceTag: "good" as const,
-  animation: "down"
+  animation: "down" as AnimationType
 }];
-const cardGalleryPositions = [
+
+interface CardPosition {
+  left: string;
+  top: string;
+  animation: AnimationType;
+}
+
+const cardGalleryPositions: CardPosition[] = [
 // (x, y, animationType)
 {
   left: "4%",
@@ -62,9 +74,11 @@ const cardGalleryPositions = [
   top: "55%",
   animation: "down"
 }];
-const getAnimationClass = (animationType: "up" | "down") => {
+
+const getAnimationClass = (animationType: AnimationType) => {
   return animationType === "up" ? "animate-fade-in-up" : "animate-fade-in-down";
 };
+
 const HeroSection = ({
   title,
   subtitle,
@@ -135,4 +149,5 @@ const HeroSection = ({
       </style>
     </section>;
 };
+
 export default HeroSection;
