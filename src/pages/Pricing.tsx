@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import PricingCard from '@/components/pricing/PricingCard';
 import CTASection from '@/components/ui/cta-section';
@@ -7,6 +7,12 @@ import { PRICING_PLANS } from '@/constants';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Pricing = () => {
+  const [billingType, setBillingType] = useState('monthly');
+
+  const handleBillingTypeChange = (value: string) => {
+    setBillingType(value);
+  };
+
   return (
     <Layout>
       <div className="pt-20 pb-16 md:pt-28 md:pb-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
@@ -23,7 +29,7 @@ const Pricing = () => {
       <section className="py-16 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
-            <Tabs defaultValue="monthly" className="w-[300px] mx-auto">
+            <Tabs defaultValue="monthly" className="w-[300px] mx-auto" onValueChange={handleBillingTypeChange}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="monthly">Monthly</TabsTrigger>
                 <TabsTrigger value="annually">Annually</TabsTrigger>
@@ -40,7 +46,15 @@ const Pricing = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {PRICING_PLANS.map((plan, index) => (
               <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <PricingCard {...plan} />
+                <PricingCard 
+                  name={plan.name}
+                  description={plan.description} 
+                  price={plan.price}
+                  features={plan.features}
+                  popular={plan.popular}
+                  cta={plan.cta}
+                  priceId={`${plan.name}-${billingType}`}
+                />
               </div>
             ))}
           </div>

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
@@ -7,11 +7,15 @@ import { useNavigate } from 'react-router-dom';
 
 interface PricingCardProps {
   name: string;
-  price: number;
+  price: {
+    monthly: number;
+    annually: number;
+  };
   description: string;
   features: string[];
-  priceId: string;
   popular?: boolean;
+  cta?: string;
+  priceId?: string;
 }
 
 const PricingCard = ({
@@ -19,10 +23,14 @@ const PricingCard = ({
   price,
   description,
   features,
-  priceId,
   popular = false,
+  cta = "Subscribe",
+  priceId = "",
 }: PricingCardProps) => {
   const navigate = useNavigate();
+  const [billingType, setBillingType] = useState('monthly');
+  
+  const displayPrice = billingType === 'monthly' ? price.monthly : price.annually;
 
   const handleSubscribe = () => {
     // Here you would implement the actual subscription logic
@@ -45,7 +53,7 @@ const PricingCard = ({
       </CardHeader>
       <CardContent className="flex-grow">
         <div className="mb-6">
-          <span className="text-3xl font-bold">${price}</span>
+          <span className="text-3xl font-bold">${displayPrice}</span>
           <span className="text-gray-500 dark:text-gray-400">/month</span>
         </div>
         <ul className="space-y-3">
@@ -63,7 +71,7 @@ const PricingCard = ({
           variant={popular ? 'default' : 'outline'}
           onClick={handleSubscribe}
         >
-          Subscribe
+          {cta}
         </Button>
       </CardFooter>
     </Card>
