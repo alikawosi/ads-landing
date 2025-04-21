@@ -1,7 +1,16 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, ChevronDown, Car, Key, Calendar, DollarSign, Layers, Users } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  Car,
+  Key,
+  Calendar,
+  DollarSign,
+  Layers,
+  Users,
+} from "lucide-react";
 import { NAVIGATION, COMPANY_NAME } from "../../constants";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -37,7 +46,10 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setSolutionsOpen(false);
       }
     };
@@ -51,21 +63,24 @@ const Navbar = () => {
   const solutions = [
     {
       title: "ADS Searching Tool",
-      description: "Find the most relevant and high-converting ads for your business",
+      description:
+        "Find the most relevant and high-converting ads for your business",
       href: "/solutions/ads-search-tool",
       icon: <Car className="h-6 w-6 text-blue-500" />,
       badge: null,
     },
     {
       title: "Marketing Tool",
-      description: "Streamline your marketing operations with our comprehensive platform",
+      description:
+        "Streamline your marketing operations with our comprehensive platform",
       href: "/solutions/marketing-tool",
       icon: <DollarSign className="h-6 w-6 text-purple-500" />,
       badge: null,
     },
     {
       title: "Gear 1: Searching Agent",
-      description: "AI agent searches based on user preferences and finds cars at the best prices",
+      description:
+        "AI agent searches based on user preferences and finds cars at the best prices",
       href: "/solutions/gear1-searching-agent",
       icon: <Key className="h-6 w-6 text-green-500" />,
       badge: <Badge className="ml-2 bg-amber-500">Beta</Badge>,
@@ -90,14 +105,19 @@ const Navbar = () => {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-white/95 dark:bg-saas-black/95 shadow-md backdrop-blur-sm py-3" : "bg-transparent py-5"
+        isScrolled
+          ? "bg-white/95 dark:bg-saas-black/95 shadow-md backdrop-blur-sm py-3"
+          : "bg-transparent py-5"
       )}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <img src="/lovable-uploads/29e92900-4a45-4b8b-a894-57b9c9c80c74.png" alt="Logo" className="h-8 w-auto" />
-            <span className="text-xl font-bold text-saas-blue">autodealersolution</span>
+            <img
+              src="/lovable-uploads/29e92900-4a45-4b8b-a894-57b9c9c80c74.png"
+              alt="Logo"
+              className="h-8 w-auto"
+            />
           </Link>
 
           {/* Desktop Menu */}
@@ -106,7 +126,7 @@ const Navbar = () => {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
+                    className="text-gray-600 dark:text-gray-300  transition-colors"
                     onClick={() => setSolutionsOpen(!solutionsOpen)}
                   >
                     Solutions
@@ -123,10 +143,14 @@ const Navbar = () => {
                             <div className="mr-3 mt-1">{solution.icon}</div>
                             <div>
                               <div className="flex items-center">
-                                <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">{solution.title}</h3>
+                                <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                  {solution.title}
+                                </h3>
                                 {solution.badge}
                               </div>
-                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{solution.description}</p>
+                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                {solution.description}
+                              </p>
                             </div>
                           </Link>
                         ))}
@@ -146,12 +170,6 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
-            <Link
-              to="/demo"
-              className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
-            >
-              Demo
-            </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
@@ -168,7 +186,10 @@ const Navbar = () => {
           </div>
 
           {/* Mobile menu button */}
-          <button className="md:hidden focus:outline-none" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button
+            className="md:hidden focus:outline-none"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
             {isMenuOpen ? (
               <X className="h-6 w-6 text-gray-600 dark:text-gray-300" />
             ) : (
@@ -188,7 +209,9 @@ const Navbar = () => {
                 >
                   <span>Solutions</span>
                   <ChevronDown
-                    className={`h-4 w-4 transition-transform ${solutionsOpen ? "transform rotate-180" : ""}`}
+                    className={`h-4 w-4 transition-transform ${
+                      solutionsOpen ? "transform rotate-180" : ""
+                    }`}
                   />
                 </button>
 
@@ -204,7 +227,9 @@ const Navbar = () => {
                         <div className="mr-2">{solution.icon}</div>
                         <div className="flex items-center">
                           <span>{solution.title}</span>
-                          {solution.badge && <span className="ml-2">{solution.badge}</span>}
+                          {solution.badge && (
+                            <span className="ml-2">{solution.badge}</span>
+                          )}
                         </div>
                       </Link>
                     ))}
@@ -222,13 +247,7 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
-              <Link
-                to="/demo"
-                className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Demo
-              </Link>
+
               <div className="flex flex-col space-y-2 pt-2 border-t">
                 <Button
                   variant="outline"

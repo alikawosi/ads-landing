@@ -1,11 +1,10 @@
-
 export const COMPANY_NAME = "autodealersolution";
 
 export const NAVIGATION = [
-  { name: "About", href: "/about" },
   { name: "Pricing", href: "/pricing" },
-  { name: "Contact", href: "/contact" },
   { name: "Community", href: "/community" },
+  { name: "Contact", href: "/contact" },
+  { name: "About Us", href: "/about" },
 ];
 
 export const COPYRIGHT = `© ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.`;
@@ -17,8 +16,8 @@ export const CONTACT_INFO = {
   social: {
     twitter: "https://twitter.com/autodealersolution",
     linkedin: "https://linkedin.com/company/autodealersolution",
-    facebook: "https://facebook.com/autodealersolution"
-  }
+    facebook: "https://facebook.com/autodealersolution",
+  },
 };
 
 export const TEAM_MEMBERS = [
@@ -26,20 +25,20 @@ export const TEAM_MEMBERS = [
     name: "Alex Morgan",
     role: "Founder & CEO",
     image: "/placeholder.svg",
-    bio: "15+ years in the automotive industry. Former dealership manager turned tech entrepreneur."
+    bio: "15+ years in the automotive industry. Former dealership manager turned tech entrepreneur.",
   },
   {
     name: "Sarah Johnson",
     role: "Chief Technology Officer",
     image: "/placeholder.svg",
-    bio: "AI specialist with background in machine learning and automotive data analytics."
+    bio: "AI specialist with background in machine learning and automotive data analytics.",
   },
   {
     name: "Michael Chen",
     role: "VP of Product",
     image: "/placeholder.svg",
-    bio: "Product visionary focused on building intuitive tools for the automotive industry."
-  }
+    bio: "Product visionary focused on building intuitive tools for the automotive industry.",
+  },
 ];
 
 export const PRICING_PLANS = [
@@ -48,24 +47,24 @@ export const PRICING_PLANS = [
     description: "Perfect for small dealerships just getting started.",
     price: {
       monthly: 99,
-      annually: 79
+      annually: 79,
     },
     features: [
       "Up to 50 vehicles in inventory",
       "Basic AI matching system",
       "Standard support",
       "Market analytics (basic)",
-      "Single location"
+      "Single location",
     ],
     cta: "Start Free Trial",
-    popular: false
+    popular: false,
   },
   {
     name: "Professional",
     description: "Ideal for growing dealerships with multiple staff members.",
     price: {
       monthly: 299,
-      annually: 239
+      annually: 239,
     },
     features: [
       "Up to 200 vehicles in inventory",
@@ -73,17 +72,17 @@ export const PRICING_PLANS = [
       "Priority support",
       "Market analytics (advanced)",
       "Customer behavior insights",
-      "Up to 3 locations"
+      "Up to 3 locations",
     ],
     cta: "Start Free Trial",
-    popular: true
+    popular: true,
   },
   {
     name: "Business",
     description: "For established dealerships with advanced needs.",
     price: {
       monthly: 599,
-      annually: 479
+      annually: 479,
     },
     features: [
       "Up to 500 vehicles in inventory",
@@ -93,9 +92,9 @@ export const PRICING_PLANS = [
       "Customer behavior insights",
       "Unlimited locations",
       "Custom integrations",
-      "API access"
+      "API access",
     ],
     cta: "Start Free Trial",
-    popular: false
-  }
+    popular: false,
+  },
 ];
