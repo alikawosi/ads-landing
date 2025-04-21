@@ -1,11 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Layout from '@/components/layout/Layout';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { ArrowRight, Shield, Zap, BarChart, Target, Users } from 'lucide-react';
-import { COMPANY_NAME } from '@/constants';
-import FeatureSection from '@/components/ui/feature-section';
+import React from "react";
+import { Link } from "react-router-dom";
+import Layout from "@/components/layout/Layout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight, BarChart, Target, Zap } from "lucide-react";
+import { COMPANY_NAME } from "@/constants";
+import FeatureSection from "@/components/ui/feature-section";
+import HeroSection from "@/components/ui/hero-section";
 
 const Index = () => {
   // Features for the main feature section
@@ -13,104 +14,47 @@ const Index = () => {
     {
       title: "Inventory Optimization",
       description: "AI-powered analysis to help you stock vehicles that sell faster",
-      icon: "BarChart"
+      icon: "BarChart",
     },
     {
       title: "Customer Matching",
       description: "Match customers with their ideal vehicles to increase closing rates",
-      icon: "Target"
+      icon: "Target",
     },
     {
       title: "Price Prediction",
       description: "Set optimal prices based on market data and demand analytics",
-      icon: "LineChart"
+      icon: "LineChart",
     },
     {
       title: "Lead Qualification",
       description: "Automatically qualify and prioritize leads most likely to convert",
-      icon: "FilterX"
+      icon: "FilterX",
     },
     {
       title: "Competitor Analysis",
       description: "Track and analyze competitor pricing and inventory strategies",
-      icon: "Users"
+      icon: "Users",
     },
     {
       title: "Performance Analytics",
       description: "Comprehensive dashboards to track all aspects of your business",
-      icon: "BarChart"
-    }
+      icon: "BarChart",
+    },
   ];
 
   return (
     <Layout fullWidth>
-      {/* Hero Section - Full width with gradient background */}
-      <section className="relative py-20 md:py-28 bg-gradient-to-br from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 lg:pr-8">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-6">
-                Transform your dealership with 
-                <span className="text-saas-blue block mt-2">AI-powered insights</span>
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg">
-                Our platform helps car dealerships optimize inventory, match customers to vehicles, and increase profits through data-driven decisions.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <Button size="lg" className="rounded-md" asChild>
-                  <Link to="/demo" className="px-8">
-                    Book a Demo
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" className="rounded-md group" asChild>
-                  <Link to="/about" className="px-8 flex items-center">
-                    <span>Learn more</span>
-                    <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </Button>
-              </div>
-              
-              {/* Trust indicators */}
-              <div className="hidden md:block">
-                <p className="text-sm text-gray-500 mb-3">TRUSTED BY LEADING DEALERSHIPS</p>
-                <div className="flex items-center space-x-6">
-                  <div className="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
-                  <div className="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
-                  <div className="h-6 w-24 bg-gray-200 dark:bg-gray-700 rounded"></div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="lg:col-span-6 flex justify-center">
-              <div className="relative w-full max-w-lg">
-                {/* Main image with gradient border */}
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-saas-blue via-saas-gray to-saas-blue opacity-30 blur-md"></div>
-                <div className="relative rounded-xl overflow-hidden shadow-2xl">
-                  <img
-                    src="/lovable-uploads/f054ab4a-f69e-4774-a1b0-f241ea7d4fb8.png"
-                    alt="Dashboard Preview"
-                    className="w-full h-auto"
-                  />
-                </div>
-                
-                {/* Floating stats card */}
-                <div className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg max-w-[200px] animate-float">
-                  <div className="text-center">
-                    <h3 className="text-xl font-bold text-saas-blue">40% Faster</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Inventory Turnover</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Decorative elements */}
-        <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
-      </section>
-      
+      {/* Hero Section */}
+      <HeroSection
+        title="Transform your dealership with"
+        subtitle="AI-powered insights & smart solutions for inventory, customers, pricing, and more."
+        ctaText="Book a Demo"
+        ctaLink="/demo"
+        secondaryCtaText="Learn more"
+        secondaryCtaLink="/about"
+      />
+
       {/* What we offer section */}
       <section className="py-20 bg-white dark:bg-gray-950">
         <div className="container mx-auto px-4 md:px-6">

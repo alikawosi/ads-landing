@@ -1,11 +1,11 @@
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, X, ChevronDown, Search, BarChart2, Bot, Layers } from 'lucide-react';
-import { NAVIGATION, COMPANY_NAME } from '../../constants';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { Menu, X, ChevronDown, Car, Key, Calendar, DollarSign, Layers, Users } from "lucide-react";
+import { NAVIGATION, COMPANY_NAME } from "../../constants";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -31,8 +31,8 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -42,9 +42,9 @@ const Navbar = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -53,41 +53,51 @@ const Navbar = () => {
       title: "ADS Searching Tool",
       description: "Find the most relevant and high-converting ads for your business",
       href: "/solutions/ads-search-tool",
-      icon: <Search className="h-6 w-6 text-blue-500" />,
+      icon: <Car className="h-6 w-6 text-blue-500" />,
       badge: null,
     },
     {
       title: "Marketing Tool",
       description: "Streamline your marketing operations with our comprehensive platform",
       href: "/solutions/marketing-tool",
-      icon: <BarChart2 className="h-6 w-6 text-purple-500" />,
+      icon: <DollarSign className="h-6 w-6 text-purple-500" />,
       badge: null,
     },
     {
       title: "Gear 1: Searching Agent",
-      description: "AI-powered car search that matches you with the perfect vehicle at the right price",
+      description: "AI agent searches based on user preferences and finds cars at the best prices",
       href: "/solutions/gear1-searching-agent",
-      icon: <Bot className="h-6 w-6 text-green-500" />,
+      icon: <Key className="h-6 w-6 text-green-500" />,
       badge: <Badge className="ml-2 bg-amber-500">Beta</Badge>,
     },
     {
       title: "Stock Management",
-      description: "Smart inventory tracking and management system for dealerships",
+      description: "Smart inventory tracking system for dealerships",
       href: "/solutions/stock-management",
       icon: <Layers className="h-6 w-6 text-orange-500" />,
+      badge: <Badge className="ml-2 bg-blue-500">Coming Soon</Badge>,
+    },
+    {
+      title: "Community",
+      description: "Join the community of smart dealerships",
+      href: "/community",
+      icon: <Users className="h-6 w-6 text-pink-500" />,
       badge: <Badge className="ml-2 bg-blue-500">Coming Soon</Badge>,
     },
   ];
 
   return (
-    <nav className={cn(
-      'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-      isScrolled ? 'bg-white/95 dark:bg-saas-black/95 shadow-md backdrop-blur-sm py-3' : 'bg-transparent py-5'
-    )}>
+    <nav
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled ? "bg-white/95 dark:bg-saas-black/95 shadow-md backdrop-blur-sm py-3" : "bg-transparent py-5"
+      )}
+    >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold text-saas-blue">{COMPANY_NAME}</span>
+            <img src="/lovable-uploads/29e92900-4a45-4b8b-a894-57b9c9c80c74.png" alt="Logo" className="h-8 w-auto" />
+            <span className="text-xl font-bold text-saas-blue">autodealersolution</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -95,7 +105,7 @@ const Navbar = () => {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger 
+                  <NavigationMenuTrigger
                     className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
                     onClick={() => setSolutionsOpen(!solutionsOpen)}
                   >
@@ -108,19 +118,15 @@ const Navbar = () => {
                           <Link
                             key={solution.title}
                             to={solution.href}
-                            className="flex items-start p-3 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                            className="flex items-start p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                           >
                             <div className="mr-3 mt-1">{solution.icon}</div>
                             <div>
                               <div className="flex items-center">
-                                <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                  {solution.title}
-                                </h3>
+                                <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">{solution.title}</h3>
                                 {solution.badge}
                               </div>
-                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                {solution.description}
-                              </p>
+                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{solution.description}</p>
                             </div>
                           </Link>
                         ))}
@@ -130,7 +136,7 @@ const Navbar = () => {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            
+
             {NAVIGATION.map((item) => (
               <Link
                 key={item.name}
@@ -141,12 +147,6 @@ const Navbar = () => {
               </Link>
             ))}
             <Link
-              to="/community"
-              className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
-            >
-              Community
-            </Link>
-            <Link
               to="/demo"
               className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
             >
@@ -155,19 +155,20 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" asChild>
+            <Button
+              variant="outline"
+              asChild
+              className="rounded-[16px] px-6 py-2 border-2 border-saas-blue"
+            >
               <Link to="/login">Log in</Link>
             </Button>
-            <Button asChild>
+            <Button className="rounded-[16px] px-6 py-2" asChild>
               <Link to="/signup">Sign up</Link>
             </Button>
           </div>
 
           {/* Mobile menu button */}
-          <button
-            className="md:hidden focus:outline-none"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
+          <button className="md:hidden focus:outline-none" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? (
               <X className="h-6 w-6 text-gray-600 dark:text-gray-300" />
             ) : (
@@ -181,14 +182,16 @@ const Navbar = () => {
           <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-saas-black shadow-md animate-fade-in">
             <div className="flex flex-col px-4 pt-2 pb-4 space-y-2">
               <div className="relative">
-                <button 
+                <button
                   onClick={() => setSolutionsOpen(!solutionsOpen)}
                   className="flex items-center justify-between w-full px-3 py-2 text-gray-600 dark:text-gray-300"
                 >
                   <span>Solutions</span>
-                  <ChevronDown className={`h-4 w-4 transition-transform ${solutionsOpen ? 'transform rotate-180' : ''}`} />
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform ${solutionsOpen ? "transform rotate-180" : ""}`}
+                  />
                 </button>
-                
+
                 {solutionsOpen && (
                   <div className="pl-4 mt-1 space-y-2">
                     {solutions.map((solution) => (
@@ -208,7 +211,7 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-              
+
               {NAVIGATION.map((item) => (
                 <Link
                   key={item.name}
@@ -220,13 +223,6 @@ const Navbar = () => {
                 </Link>
               ))}
               <Link
-                to="/community"
-                className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Community
-              </Link>
-              <Link
                 to="/demo"
                 className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
                 onClick={() => setIsMenuOpen(false)}
@@ -234,10 +230,14 @@ const Navbar = () => {
                 Demo
               </Link>
               <div className="flex flex-col space-y-2 pt-2 border-t">
-                <Button variant="outline" className="w-full" asChild>
+                <Button
+                  variant="outline"
+                  className="w-full rounded-[16px] px-6 py-2 border-2 border-saas-blue"
+                  asChild
+                >
                   <Link to="/login">Log in</Link>
                 </Button>
-                <Button className="w-full" asChild>
+                <Button className="w-full rounded-[16px] px-6 py-2" asChild>
                   <Link to="/signup">Sign up</Link>
                 </Button>
               </div>
