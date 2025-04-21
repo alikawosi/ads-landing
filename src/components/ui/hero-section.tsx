@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -51,6 +52,10 @@ const HeroSection = ({
   secondaryCtaLink,
 }: HeroSectionProps) => {
   const CARD_OFFSET = 44; // px, tweak for overlap & angle
+  // Calculate translations for -45 degrees slope (moving right and up)
+  // -45deg: x = idx * CARD_OFFSET * cos(45deg) = idx*CARD_OFFSET*0.707
+  //        y = idx * CARD_OFFSET * -sin(45deg) = idx*CARD_OFFSET*(-0.707)
+  // We'll round to 0.707 for simplicity
 
   return (
     <section className="py-20 md:py-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
@@ -85,18 +90,21 @@ const HeroSection = ({
           </div>
           <div className="relative flex items-center justify-center h-72 md:h-80 animate-slide-in-right">
             <div className="relative w-[400px] h-full flex">
-              {carHeroData.map((car, idx) => (
-                <div
-                  key={car.model}
-                  className={`absolute left-0 top-0 ${car.animationClass}`}
-                  style={{
-                    zIndex: 30 - idx,
-                    transform: `translateY(${idx * CARD_OFFSET}px) translateX(${idx * CARD_OFFSET}px)`,
-                  }}
-                >
-                  <CarCascadeCard {...car} />
-                </div>
-              ))}
+              {carHeroData.map((car, idx) => {
+                const translateAmount = CARD_OFFSET * idx * 0.707; // cos(45deg) ~ 0.707
+                return (
+                  <div
+                    key={car.model}
+                    className={`absolute left-0 top-0 ${car.animationClass}`}
+                    style={{
+                      zIndex: 30 - idx,
+                      transform: `translateX(${translateAmount}px) translateY(-${translateAmount}px)`,
+                    }}
+                  >
+                    <CarCascadeCard {...car} />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
