@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -20,7 +21,7 @@ const carHeroData = [
     price: 27800,
     estimatedPrice: 29300,
     priceTag: "good" as const,
-    animationClass: "animate-fade-in z-30"
+    animation: "up"
   },
   {
     model: "Accord EX",
@@ -29,7 +30,7 @@ const carHeroData = [
     price: 23950,
     estimatedPrice: 24650,
     priceTag: "fair" as const,
-    animationClass: "animate-slide-in-right z-20"
+    animation: "down"
   },
   {
     model: "3 Series",
@@ -38,9 +39,30 @@ const carHeroData = [
     price: 41200,
     estimatedPrice: 37800,
     priceTag: "high" as const,
-    animationClass: "animate-slide-in z-10"
+    animation: "up"
+  },
+  {
+    model: "Civic LX",
+    year: 2022,
+    mileage: 15800,
+    price: 21600,
+    estimatedPrice: 21900,
+    priceTag: "good" as const,
+    animation: "down"
   },
 ];
+
+const cardGalleryPositions = [
+  // (x, y, animationType)
+  { left: "4%", top: "20%", animation: "up" },
+  { left: "28%", top: "50%", animation: "down" },
+  { left: "55%", top: "25%", animation: "up" },
+  { left: "73%", top: "55%", animation: "down" },
+];
+
+const getAnimationClass = (animationType: "up" | "down") => {
+  return animationType === "up" ? "animate-fade-in-up" : "animate-fade-in-down";
+};
 
 const HeroSection = ({
   title,
@@ -81,17 +103,26 @@ const HeroSection = ({
               )}
             </div>
           </div>
-          <div className="relative flex items-end justify-center h-96 animate-slide-in-right">
-            <div className="flex flex-row gap-6 items-end h-full w-full justify-center">
-              {carHeroData.map((car, idx) => (
+          {/* Card "gallery": free placement, not in a line or cascade */}
+          <div className="relative h-[410px] min-h-[340px] w-full">
+            {carHeroData.map((car, idx) => {
+              const pos = cardGalleryPositions[idx % cardGalleryPositions.length];
+              return (
                 <div
                   key={car.model}
                   className={`
-                    ${idx === 0 ? "z-30" : idx === 1 ? "z-20" : "z-10"}
-                    animate-fade-in-up
+                    absolute
+                    ${getAnimationClass(pos.animation)}
+                    shadow-xl
+                    transition-all
+                    rounded-xl
                   `}
                   style={{
-                    animationDelay: `${idx * 0.18}s`
+                    left: pos.left,
+                    top: pos.top,
+                    zIndex: 30 - idx,
+                    width: '260px',
+                    animationDelay: `${idx * 0.23}s`
                   }}
                 >
                   <CarCascadeCard
@@ -99,15 +130,28 @@ const HeroSection = ({
                     animationClass=""
                   />
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </div>
       </div>
       <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
+      {/* Inject custom fade-in-down keyframes if missing */}
+      <style>
+        {`
+        @keyframes fadeInDown {
+          from { opacity: 0; transform: translateY(-24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-down {
+          animation: fadeInDown 0.7s cubic-bezier(0.38,0.56,0.17,0.99) forwards;
+        }
+        `}
+      </style>
     </section>
   );
 };
 
 export default HeroSection;
+
