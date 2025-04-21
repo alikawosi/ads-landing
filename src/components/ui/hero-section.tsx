@@ -76,7 +76,7 @@ const cardGalleryPositions: CardPosition[] = [
 }];
 
 const getAnimationClass = (animationType: AnimationType) => {
-  return animationType === "up" ? "animate-fade-in-up" : "animate-fade-in-down";
+  return animationType === "up" ? "animate-float-up" : "animate-float-down";
 };
 
 const HeroSection = ({
@@ -114,7 +114,8 @@ const HeroSection = ({
           <div className="relative h-[410px] min-h-[340px] w-full">
             {carHeroData.map((car, idx) => {
             const pos = cardGalleryPositions[idx % cardGalleryPositions.length];
-            return <div key={car.model} className={`
+            return <div key={car.model} 
+                    className={`
                     absolute
                     ${getAnimationClass(pos.animation)}
                     shadow-xl
@@ -135,15 +136,35 @@ const HeroSection = ({
       </div>
       <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
-      {/* Inject custom fade-in-down keyframes if missing */}
+      {/* Adding both up and down animation keyframes */}
       <style>
         {`
+        @keyframes floatUp {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes floatDown {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(15px); }
+        }
+        
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
         @keyframes fadeInDown {
           from { opacity: 0; transform: translateY(-24px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in-down {
-          animation: fadeInDown 0.7s cubic-bezier(0.38,0.56,0.17,0.99) forwards;
+        
+        .animate-float-up {
+          animation: floatUp 5s ease-in-out infinite, fadeInUp 0.7s ease-out forwards;
+        }
+        
+        .animate-float-down {
+          animation: floatDown 5s ease-in-out infinite, fadeInDown 0.7s ease-out forwards;
         }
         `}
       </style>
