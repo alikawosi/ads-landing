@@ -1,8 +1,8 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import CarHeroCard from "./car-hero-card";
+import CarCascadeCard from "./CarCascadeCard";
 
 interface HeroSectionProps {
   title: string;
@@ -12,6 +12,36 @@ interface HeroSectionProps {
   secondaryCtaText?: string;
   secondaryCtaLink?: string;
 }
+
+const carHeroData = [
+  {
+    model: "Camry XLE",
+    year: 2024,
+    mileage: 8200,
+    price: 27800,
+    estimatedPrice: 29300,
+    priceTag: "good" as const,
+    animationClass: "animate-float z-30"
+  },
+  {
+    model: "Accord EX",
+    year: 2023,
+    mileage: 14300,
+    price: 23950,
+    estimatedPrice: 24650,
+    priceTag: "fair" as const,
+    animationClass: "ml-8 -mt-4 z-20 animate-slide-in-right"
+  },
+  {
+    model: "3 Series",
+    year: 2024,
+    mileage: 2900,
+    price: 41200,
+    estimatedPrice: 37800,
+    priceTag: "high" as const,
+    animationClass: "ml-16 -mt-7 z-10 animate-slide-in-right"
+  },
+];
 
 const HeroSection = ({
   title,
@@ -52,38 +82,25 @@ const HeroSection = ({
               )}
             </div>
           </div>
-
-          <div className="relative flex items-center justify-center animate-slide-in-right">
-            {/* Animated car cards */}
-            <div className="flex gap-6">
-              <CarHeroCard
-                title="Toyota"
-                model="Camry XLE"
-                year={2024}
-                price={27800}
-                highlight="Top Seller"
-                animationClass="animate-float"
-              />
-              <CarHeroCard
-                title="Honda"
-                model="Accord EX"
-                year={2023}
-                price={26950}
-                highlight="Hot Deal"
-                animationClass="animate-slide-in-right"
-              />
-              <CarHeroCard
-                title="BMW"
-                model="3 Series"
-                year={2024}
-                price={41200}
-                animationClass="animate-slide-in-right"
-              />
+          <div className="relative flex items-center justify-center h-72 md:h-80 animate-slide-in-right">
+            {/* Cascading car hero cards */}
+            <div className="relative w-[400px] h-full flex">
+              {carHeroData.map((car, idx) => (
+                <div
+                  key={car.model}
+                  className={`absolute left-0 top-0 ${car.animationClass}`}
+                  style={{
+                    zIndex: 30 - idx,
+                    transform: `translateY(${idx * 28}px) translateX(${idx * 46}px)`,
+                  }}
+                >
+                  <CarCascadeCard {...car} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </div>
-
       {/* Decorative background elements */}
       <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
