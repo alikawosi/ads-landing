@@ -1,15 +1,13 @@
 
 import React from "react";
 import Layout from "@/components/layout/Layout";
+import HeroLandingSection from "@/components/index-sections/HeroLandingSection";
+import WhatWeOfferSection from "@/components/index-sections/WhatWeOfferSection";
+import HowItWorksSection from "@/components/index-sections/HowItWorksSection";
 import FeatureSection from "@/components/ui/feature-section";
-
-// New separated components for sections
-import HeroLandingSection from "@/components/index-page/HeroLandingSection";
-import WhatWeOfferSection from "@/components/index-page/WhatWeOfferSection";
-import HowItWorksSection from "@/components/index-page/HowItWorksSection";
-import TestimonialsSection from "@/components/index-page/TestimonialsSection";
-import StatsSection from "@/components/index-page/StatsSection";
-import FinalCtaSection from "@/components/index-page/FinalCtaSection";
+import TestimonialsSection from "@/components/index-sections/TestimonialsSection";
+import StatsSection from "@/components/index-sections/StatsSection";
+import FinalCtaSection from "@/components/index-sections/FinalCtaSection";
 
 const features = [
   {
