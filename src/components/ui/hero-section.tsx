@@ -15,6 +15,13 @@ interface HeroSectionProps {
 
 type AnimationType = "up" | "down";
 
+// --- Fix: move type annotation for gallery positions! 
+interface CardPosition {
+  left: string;
+  top: string;
+  animation: AnimationType;
+}
+
 const carHeroData = [{
   model: "Camry XLE",
   year: 2024,
@@ -49,33 +56,29 @@ const carHeroData = [{
   animation: "down" as AnimationType
 }];
 
-interface CardPosition {
-  left: string;
-  top: string;
-  animation: AnimationType;
-}
-
+// --- Fix: correct type on array! Only use AnimationType
 const cardGalleryPositions: CardPosition[] = [
-// (x, y, animationType)
-{
-  left: "4%",
-  top: "20%",
-  animation: "up"
-}, {
-  left: "28%",
-  top: "50%",
-  animation: "down"
-}, {
-  left: "55%",
-  top: "25%",
-  animation: "up"
-}, {
-  left: "73%",
-  top: "55%",
-  animation: "down"
-}];
+  {
+    left: "4%",
+    top: "20%",
+    animation: "up"
+  }, {
+    left: "28%",
+    top: "50%",
+    animation: "down"
+  }, {
+    left: "55%",
+    top: "25%",
+    animation: "up"
+  }, {
+    left: "73%",
+    top: "55%",
+    animation: "down"
+  }
+];
 
-const getAnimationClass = (animationType: AnimationType) => {
+// Only return float class, not fade.
+const getFloatAnimationClass = (animationType: AnimationType) => {
   return animationType === "up" ? "animate-float-up" : "animate-float-down";
 };
 
@@ -87,7 +90,8 @@ const HeroSection = ({
   secondaryCtaText,
   secondaryCtaLink
 }: HeroSectionProps) => {
-  return <section className="pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
+  return (
+    <section className="pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col space-y-6 animate-slide-in-left">
@@ -105,70 +109,58 @@ const HeroSection = ({
                   {ctaText}
                 </Link>
               </Button>
-              {secondaryCtaText && <Button size="lg" variant="outline" className="rounded-[16px] px-8" asChild>
+              {secondaryCtaText && (
+                <Button size="lg" variant="outline" className="rounded-[16px] px-8" asChild>
                   <Link to={secondaryCtaLink || "#"}>{secondaryCtaText}</Link>
-                </Button>}
+                </Button>
+              )}
             </div>
           </div>
           {/* Card "gallery": free placement, not in a line or cascade */}
           <div className="relative h-[410px] min-h-[340px] w-full">
             {carHeroData.map((car, idx) => {
-            const pos = cardGalleryPositions[idx % cardGalleryPositions.length];
-            return <div key={car.model} 
-                    className={`
-                    absolute
-                    ${getAnimationClass(pos.animation)}
-                    shadow-xl
-                    transition-all
-                    rounded-xl
-                  `} style={{
-              left: pos.left,
-              top: pos.top,
-              zIndex: 30 - idx,
-              width: '260px',
-              animationDelay: `${idx * 0.23}s`
-            }}>
+              const pos = cardGalleryPositions[idx % cardGalleryPositions.length];
+              return (
+                <div
+                  key={car.model}
+                  className={`absolute ${getFloatAnimationClass(pos.animation)} shadow-xl transition-all rounded-xl`}
+                  style={{
+                    left: pos.left,
+                    top: pos.top,
+                    zIndex: 30 - idx,
+                    width: '260px',
+                    animationDelay: `${idx * 0.23}s`
+                  }}
+                >
                   <CarCascadeCard {...car} animationClass="" />
-                </div>;
-          })}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
       <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
-      {/* Adding both up and down animation keyframes */}
       <style>
         {`
         @keyframes floatUp {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-15px); }
         }
-        
         @keyframes floatDown {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(15px); }
         }
-        
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes fadeInDown {
-          from { opacity: 0; transform: translateY(-24px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
         .animate-float-up {
-          animation: floatUp 5s ease-in-out infinite, fadeInUp 0.7s ease-out forwards;
+          animation: floatUp 3.8s ease-in-out infinite;
         }
-        
         .animate-float-down {
-          animation: floatDown 5s ease-in-out infinite, fadeInDown 0.7s ease-out forwards;
+          animation: floatDown 3.8s ease-in-out infinite;
         }
         `}
       </style>
-    </section>;
+    </section>
+  );
 };
 
 export default HeroSection;
