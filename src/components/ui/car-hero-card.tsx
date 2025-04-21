@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Car, Calendar, Key, DollarSign } from "lucide-react";
+import { Car, Calendar, Key, DollarSign, ArrowUp, ArrowDown, Percent } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CarHeroCardProps {
@@ -23,7 +23,7 @@ const CarHeroCard = ({
   return (
     <div
       className={cn(
-        "bg-white dark:bg-gray-900 rounded-xl shadow-lg flex flex-col px-6 py-4 items-start min-w-[220px] max-w-[260px] border car-card-hover",
+        "bg-white dark:bg-gray-900 rounded-xl shadow-lg flex flex-col px-6 py-4 items-start min-w-[220px] max-w-[260px] border car-card-hover transition-all duration-300 hover:-translate-y-1 hover:shadow-xl",
         animationClass
       )}
       style={{ borderRadius: "20px" }}

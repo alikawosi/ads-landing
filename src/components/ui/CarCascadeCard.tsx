@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Car, Tag, TrendingUp, TrendingDown } from "lucide-react";
+import { Car, Tag, TrendingUp, TrendingDown, ArrowUp, ArrowDown, Percent } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type PriceTagType = "good" | "fair" | "high";
@@ -40,6 +40,14 @@ const getBadge = (tag: PriceTagType) => {
   }
 };
 
+const calculatePriceDifference = (price: number, estimatedPrice: number): { percent: number; isLower: boolean } => {
+  const difference = ((price - estimatedPrice) / estimatedPrice) * 100;
+  return {
+    percent: Math.abs(difference).toFixed(1) as unknown as number,
+    isLower: difference < 0
+  };
+};
+
 const CarCascadeCard: React.FC<CarCascadeCardProps> = ({
   model,
   year,
@@ -48,29 +56,43 @@ const CarCascadeCard: React.FC<CarCascadeCardProps> = ({
   estimatedPrice,
   priceTag,
   animationClass,
-}) => (
-  <div
-    className={cn(
-      "bg-white dark:bg-gray-900 rounded-xl shadow-xl px-5 py-4 border car-card-hover w-56 relative",
-      animationClass
-    )}
-    style={{ borderRadius: "18px" }}
-  >
-    <div className="flex items-center gap-2 mb-2">
-      <Car size={22} className="text-saas-blue" />
-      <span className="font-semibold text-base">{year} {model}</span>
+}) => {
+  const { percent, isLower } = calculatePriceDifference(price, estimatedPrice);
+  
+  return (
+    <div
+      className={cn(
+        "bg-white dark:bg-gray-900 rounded-xl shadow-xl px-5 py-4 border car-card-hover w-56 relative transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl",
+        animationClass
+      )}
+      style={{ borderRadius: "18px" }}
+    >
+      <div className="flex items-center gap-2 mb-2">
+        <Car size={22} className="text-saas-blue" />
+        <span className="font-semibold text-base">{year} {model}</span>
+      </div>
+      <div className="text-sm text-muted-foreground mb-2">
+        Mileage: <strong>{mileage.toLocaleString()} mi</strong>
+      </div>
+      <div className="mb-1 text-lg font-bold text-saas-blue">
+        ${price.toLocaleString()}
+      </div>
+      <div className="mb-2 text-xs text-gray-500">
+        Est. Value: <span className="font-semibold">${estimatedPrice.toLocaleString()}</span>
+      </div>
+      <div className="flex justify-between items-center">
+        <div>{getBadge(priceTag)}</div>
+        <div className={cn(
+          "flex items-center font-bold text-sm",
+          isLower ? "text-green-600" : "text-red-600"
+        )}>
+          {isLower ? <ArrowDown size={14} /> : <ArrowUp size={14} />}
+          {percent}
+          <Percent size={12} />
+        </div>
+      </div>
     </div>
-    <div className="text-sm text-muted-foreground mb-2">
-      Mileage: <strong>{mileage.toLocaleString()} mi</strong>
-    </div>
-    <div className="mb-1 text-lg font-bold text-saas-blue">
-      ${price.toLocaleString()}
-    </div>
-    <div className="mb-2 text-xs text-gray-500">
-      Est. Value: <span className="font-semibold">${estimatedPrice.toLocaleString()}</span>
-    </div>
-    <div>{getBadge(priceTag)}</div>
-  </div>
-);
+  );
+};
 
 export default CarCascadeCard;

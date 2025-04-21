@@ -21,7 +21,7 @@ const carHeroData = [
     price: 27800,
     estimatedPrice: 29300,
     priceTag: "good" as const,
-    animationClass: "animate-float z-30"
+    animationClass: "animate-fade-in z-30"
   },
   {
     model: "Accord EX",
@@ -30,7 +30,7 @@ const carHeroData = [
     price: 23950,
     estimatedPrice: 24650,
     priceTag: "fair" as const,
-    animationClass: "ml-8 -mt-4 z-20 animate-slide-in-right"
+    animationClass: "animate-slide-in-right z-20"
   },
   {
     model: "3 Series",
@@ -39,7 +39,7 @@ const carHeroData = [
     price: 41200,
     estimatedPrice: 37800,
     priceTag: "high" as const,
-    animationClass: "ml-16 -mt-7 z-10 animate-slide-in-right"
+    animationClass: "animate-slide-in z-10"
   },
 ];
 
@@ -58,7 +58,7 @@ const HeroSection = ({
   // We'll round to 0.707 for simplicity
 
   return (
-    <section className="py-20 md:py-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
+    <section className="pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="flex flex-col space-y-6 animate-slide-in-left">
@@ -88,17 +88,22 @@ const HeroSection = ({
               )}
             </div>
           </div>
-          <div className="relative flex items-center justify-center h-72 md:h-80 animate-slide-in-right">
-            <div className="relative w-[400px] h-full flex">
+          <div className="relative flex items-center justify-center h-96 animate-slide-in-right">
+            <div className="relative w-full h-full">
               {carHeroData.map((car, idx) => {
-                const translateAmount = CARD_OFFSET * idx * 0.707; // cos(45deg) ~ 0.707
+                const translateX = CARD_OFFSET * idx * 0.707; // cos(45deg) ~ 0.707
+                const translateY = -CARD_OFFSET * idx * 0.707; // -sin(45deg) ~ -0.707
                 return (
                   <div
                     key={car.model}
-                    className={`absolute left-0 top-0 ${car.animationClass}`}
+                    className={`absolute ${car.animationClass}`}
                     style={{
+                      top: `${100 + idx * 20}px`,
+                      left: `${idx * 40}px`,
                       zIndex: 30 - idx,
-                      transform: `translateX(${translateAmount}px) translateY(-${translateAmount}px)`,
+                      transform: `translateX(${translateX}px) translateY(${translateY}px)`,
+                      transition: 'all 0.5s ease-out',
+                      animationDelay: `${idx * 0.2}s`
                     }}
                   >
                     <CarCascadeCard {...car} />
