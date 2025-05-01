@@ -5,19 +5,19 @@ import { Card, CardContent } from "@/components/ui/card";
 const TESTIMONIALS = [
   {
     content:
-      '"Since implementing this platform, our inventory turnover has increased by 35%. The AI recommendations for which vehicles to stock have been spot on."',
+      "\"Since implementing this platform, our inventory turnover has increased by 35%. The AI recommendations for which vehicles to stock have been spot on.\"",
     author: "Michael Rodriguez",
     company: "California Motors"
   },
   {
     content:
-      '"The customer matching feature has completely transformed our sales approach. We're closing deals faster and customers are happier with their purchases."',
+      "\"The customer matching feature has completely transformed our sales approach. We're closing deals faster and customers are happier with their purchases.\"",
     author: "Sarah Johnson",
     company: "Prestige Auto Group"
   },
   {
     content:
-      '"The predictive analytics have given us a competitive edge in our market. We know what vehicles to stock before our competition does."',
+      "\"The predictive analytics have given us a competitive edge in our market. We know what vehicles to stock before our competition does.\"",
     author: "David Thompson",
     company: "Elite Motors"
   }
