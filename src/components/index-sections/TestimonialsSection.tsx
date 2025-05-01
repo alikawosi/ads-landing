@@ -33,7 +33,7 @@ class TestimonialsColumn extends React.Component<TestimonialsColumnProps> {
             ease: "linear",
           }}
         >
-          {[...Array(2)].fill(0).map((_, index) => (
+          {[...Array(2)].map((_, index) => (
             <React.Fragment key={index}>
               {testimonials.map((testimonial, i) => (
                 <div
@@ -45,7 +45,7 @@ class TestimonialsColumn extends React.Component<TestimonialsColumnProps> {
                   </div>
                   <div className="flex items-center gap-3 mt-4">
                     <img
-                      src={testimonial.imageSrc}
+                      src={`/src/assets/${testimonial.imageSrc}`}
                       alt={testimonial.name}
                       width={40}
                       height={40}
@@ -111,4 +111,3 @@ export class TestimonialsSection extends React.Component {
     );
   }
 }
-

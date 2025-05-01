@@ -18,4 +18,3 @@ class HeroLandingSection extends React.Component {
 }
 
 export default HeroLandingSection;
-
