@@ -1,7 +1,14 @@
-
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BarChart, Target, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart,
+  Bot,
+  Contact,
+  PhoneCall,
+  Target,
+  Zap,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -13,10 +20,13 @@ const WhatWeOfferSection = () => (
           <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
           What we offer
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold mb-4">One platform to optimize your entire dealership</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          AI-powered tools to supercharge your car dealership
+        </h2>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
-          Our comprehensive platform provides all the tools you need to make data-driven decisions
-          and stay ahead of the competition.
+          Our intelligent platform uses AI to streamline your workflow — from
+          sourcing cars to evaluating them and connecting with sellers
+          instantly.
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -26,9 +36,10 @@ const WhatWeOfferSection = () => (
             <div className="w-12 h-12 rounded-full bg-saas-blue/10 flex items-center justify-center mb-4">
               <BarChart className="h-6 w-6 text-saas-blue" />
             </div>
-            <h3 className="text-xl font-bold mb-2">Inventory Analytics</h3>
+            <h3 className="text-xl font-bold mb-2">AI Valuation</h3>
             <p className="text-gray-600 dark:text-gray-300">
-              Make smarter purchasing decisions based on market demand and historical sales data.
+              Instantly get smart, market-aware car valuations powered by
+              machine learning.
             </p>
           </CardContent>
         </Card>
@@ -36,11 +47,12 @@ const WhatWeOfferSection = () => (
           <div className="h-2 bg-saas-blue w-full"></div>
           <CardContent className="p-6">
             <div className="w-12 h-12 rounded-full bg-saas-blue/10 flex items-center justify-center mb-4">
-              <Target className="h-6 w-6 text-saas-blue" />
+              <Bot className="h-6 w-6 text-saas-blue" />
             </div>
-            <h3 className="text-xl font-bold mb-2">Customer Matching</h3>
+            <h3 className="text-xl font-bold mb-2">Smart Car Search</h3>
             <p className="text-gray-600 dark:text-gray-300">
-              Connect the right customers to the right vehicles to increase closing rates.
+              Use AI to search listings from multiple sources and find the best
+              matches based on your preferences.
             </p>
           </CardContent>
         </Card>
@@ -48,11 +60,12 @@ const WhatWeOfferSection = () => (
           <div className="h-2 bg-saas-blue w-full"></div>
           <CardContent className="p-6">
             <div className="w-12 h-12 rounded-full bg-saas-blue/10 flex items-center justify-center mb-4">
-              <Zap className="h-6 w-6 text-saas-blue" />
+              <PhoneCall className="h-6 w-6 text-saas-blue" />
             </div>
-            <h3 className="text-xl font-bold mb-2">Automated Follow-ups</h3>
+            <h3 className="text-xl font-bold mb-2">Direct Contact</h3>
             <p className="text-gray-600 dark:text-gray-300">
-              Never miss an opportunity with intelligent follow-up reminders and templates.
+              Get connected faster with intelligent lead handling and direct
+              outreach to car owners.
             </p>
           </CardContent>
         </Card>
@@ -61,7 +74,10 @@ const WhatWeOfferSection = () => (
         <Button variant="outline" className="rounded-md group" asChild>
           <Link to="/about" className="flex items-center justify-center">
             <span>View all features</span>
-            <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight
+              size={16}
+              className="ml-2 group-hover:translate-x-1 transition-transform"
+            />
           </Link>
         </Button>
       </div>

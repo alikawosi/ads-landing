@@ -5,10 +5,10 @@ const HeroLandingSection = () => (
   <HeroSection
     title="Save Time, Cut Costs, Drive Success!"
     subtitle="Find undermarket valued cars in minutes and increase your profits."
-    ctaText="Book a Demo"
-    ctaLink="/demo"
-    secondaryCtaText="Learn more"
-    secondaryCtaLink="/about"
+    ctaText="Start Free Trial"
+    ctaLink="/signup"
+    secondaryCtaText="Book a Demo"
+    secondaryCtaLink="/demo"
   />
 );
 
