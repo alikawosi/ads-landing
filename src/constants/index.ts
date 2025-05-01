@@ -1,3 +1,4 @@
+
 export const COMPANY_NAME = "autodealersolution";
 
 export const NAVIGATION = [
@@ -98,3 +99,126 @@ export const PRICING_PLANS = [
     popular: false,
   },
 ];
+
+export const PRICING_TIERS = [
+  {
+    title: "Free",
+    monthlyPrice: 0,
+    buttonText: "Get started for free",
+    popular: false,
+    inverse: false,
+    features: [
+      "Up to 5 project members",
+      "unlimited tasks and projects",
+      "2GB storage",
+      "Integrations",
+      "Basic support",
+    ],
+  },
+  {
+    title: "Pro",
+    monthlyPrice: 9,
+    buttonText: "Sign up now",
+    popular: true,
+    inverse: true,
+    features: [
+      "Up to 50 project members",
+      "unlimited tasks and projects",
+      "50GB storage",
+      "Integrations",
+      "Priority Support",
+      "Custom fields",
+      "Advanced analytics",
+      "Export capabilities",
+    ],
+  },
+  {
+    title: "Business",
+    monthlyPrice: 19,
+    buttonText: "Sign up now",
+    popular: false,
+    inverse: false,
+    features: [
+      "Up to 5 project members",
+      "unlimited tasks and projects",
+      "200GB storage",
+      "Integrations",
+      "Dedicated account manager",
+      "Custom fields",
+      "Advanced analytics",
+      "Export capabilities",
+      "API access",
+      "Advanced security features",
+    ],
+  },
+];
+
+export const TESTIMONIALS = [
+  {
+    text: "Since using this platform, our stock turnover increased by 35%. The AI suggestions on what to buy have been incredibly accurate.",
+    imageSrc: "/assets/avatar-1.png",
+    name: "Michael Rodriguez",
+    username: "California Motors",
+  },
+  {
+    text: "We're closing deals faster thanks to the customer-matching features. Our team is more efficient and customers are more satisfied.",
+    imageSrc: "/assets/avatar-2.png",
+    name: "Sarah Johnson",
+    username: "Prestige Auto Group",
+  },
+  {
+    text: "Predictive analytics gave us a market edge. We stock the right cars before competitors even react.",
+    imageSrc: "/assets/avatar-3.png",
+    name: "David Thompson",
+    username: "Elite Motors",
+  },
+  {
+    text: "Love the experience. Smooth interface and smart recommendations.",
+    imageSrc: "/assets/avatar-9.png",
+    name: "Casey Harper",
+    username: "Elite Auto Source",
+  },
+  {
+    text: "This app streamlined how we find, price, and reach out to owners. Game changer for our workflow.",
+    imageSrc: "/assets/avatar-4.png",
+    name: "Casey Jordan",
+    username: "AutoSmart Ltd",
+  },
+  {
+    text: "Our sourcing team now spends half the time researching. AI does the hard work for us.",
+    imageSrc: "/assets/avatar-5.png",
+    name: "Taylor Kim",
+    username: "MotorLink Solutions",
+  },
+  {
+    text: "Love the experience. Smooth interface and smart recommendations.",
+    imageSrc: "/assets/avatar-9.png",
+    name: "Casey Harper",
+    username: "Elite Auto Source",
+  },
+  {
+    text: "We integrated it in days, and it's now core to our dealership operations.",
+    imageSrc: "/assets/avatar-6.png",
+    name: "Riley Smith",
+    username: "DriveNow Auto",
+  },
+  {
+    text: "Efficient, intuitive, and packed with features that matter. Highly recommended.",
+    imageSrc: "/assets/avatar-7.png",
+    name: "Jordan Patels",
+    username: "Prime Auto Group",
+  },
+  {
+    text: "Everything in one place—valuation, search, and outreach. This is what digital dealerships should be.",
+    imageSrc: "/assets/avatar-8.png",
+    name: "Sam Dawson",
+    username: "CarDirect HQ",
+  },
+  {
+    text: "Love the experience. Smooth interface and smart recommendations.",
+    imageSrc: "/assets/avatar-9.png",
+    name: "Casey Harper",
+    username: "Elite Auto Source",
+  },
+];
+
