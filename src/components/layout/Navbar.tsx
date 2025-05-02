@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -62,10 +63,10 @@ const Navbar = () => {
 
   const solutions = [
     {
-      title: "ADS Searching Tool",
+      title: "ADS Search",
       description:
         "Find the most relevant and high-converting ads for your business",
-      href: "/solutions/ads-search-tool",
+      href: "/solutions/ads-search",
       icon: <Car className="h-6 w-6 text-blue-500" />,
       badge: null,
     },

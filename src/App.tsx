@@ -12,7 +12,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import Demo from "./pages/Demo";
-import AdsSearchTool from "./pages/AdsSearchTool";
+import AdsSearch from "./pages/AdsSearch";
 import MarketingTool from "./pages/MarketingTool";
 import AutomatedSearch from "./pages/AutomatedSearch";
 import StockManagement from "./pages/StockManagement";
@@ -35,7 +35,7 @@ const App = () => (
           <Route path="/terms" element={<Terms />} />
           <Route path="/demo" element={<Demo />} />
           <Route path="/community" element={<Community />} />
-          <Route path="/solutions/ads-search-tool" element={<AdsSearchTool />} />
+          <Route path="/solutions/ads-search" element={<AdsSearch />} />
           <Route path="/solutions/marketing-tool" element={<MarketingTool />} />
           <Route path="/solutions/automated-search" element={<AutomatedSearch />} />
           <Route path="/solutions/stock-management" element={<StockManagement />} />
