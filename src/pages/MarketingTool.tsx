@@ -13,7 +13,7 @@ const MarketingTool = () => {
         <section className="container mx-auto px-4 md:px-6 mb-20">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              All-in-One Marketing Tool
+              Marketing Solution
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
               Streamline your marketing operations with our comprehensive platform designed for growth
@@ -34,7 +34,7 @@ const MarketingTool = () => {
           <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-3xl font-bold text-center mb-12">Key Features</h2>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-[12px] shadow-md">
                 <div className="bg-indigo-100 dark:bg-indigo-900 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                   <Target className="text-indigo-600 dark:text-indigo-300" />
                 </div>
@@ -43,7 +43,7 @@ const MarketingTool = () => {
                   Plan, execute, and track your marketing campaigns from a single dashboard.
                 </p>
               </div>
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-[12px] shadow-md">
                 <div className="bg-pink-100 dark:bg-pink-900 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                   <Zap className="text-pink-600 dark:text-pink-300" />
                 </div>
@@ -52,7 +52,7 @@ const MarketingTool = () => {
                   Automate repetitive tasks and focus on strategic initiatives that drive growth.
                 </p>
               </div>
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-[12px] shadow-md">
                 <div className="bg-orange-100 dark:bg-orange-900 p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4">
                   <BarChart2 className="text-orange-600 dark:text-orange-300" />
                 </div>
@@ -67,7 +67,7 @@ const MarketingTool = () => {
 
         {/* CTA Section */}
         <section className="container mx-auto px-4 md:px-6 py-16">
-          <div className="bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-xl p-8 md:p-12">
+          <div className="bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-[12px] p-8 md:p-12">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Transform your marketing strategy</h2>
               <p className="text-xl mb-8">
