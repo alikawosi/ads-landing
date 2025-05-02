@@ -79,75 +79,52 @@ const AutomatedSearch = () => {
   };
 
   const getPriceTagBadge = (tag) => {
-    let variant = "default";
-    let className = "";
-    
     switch (tag) {
       case "good":
-        variant = "default";
-        break;
+        return <Badge variant="default" className="capitalize">good price</Badge>;
       case "fair":
-        variant = "secondary"; // Using secondary for amber-200
-        className = "bg-amber-200 hover:bg-amber-300 text-amber-900";
-        break;
+        return <Badge variant="secondary" className="bg-amber-200 hover:bg-amber-300 text-amber-900 capitalize">fair price</Badge>;
       case "high":
-        variant = "destructive";
-        break;
+        return <Badge variant="destructive" className="capitalize">high price</Badge>;
       default:
-        variant = "outline";
+        return <Badge variant="outline" className="capitalize">{tag} price</Badge>;
     }
-    
-    return (
-      <Badge variant={variant} className={`capitalize ${className}`}>
-        {tag} price
-      </Badge>
-    );
   };
 
   return (
     <Layout>
-      <div className="py-20 md:py-28">
-        {/* Updated Hero Section with table layout */}
-        <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
+      <div className="py-12 md:py-16">
+        {/* Updated Hero Section with more compact table layout */}
+        <section className="py-12 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-              <div className="lg:col-span-4 space-y-6 z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              <div className="lg:col-span-4 space-y-4 z-10">
                 <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
                   <span className="w-2 h-2 rounded-full bg-primary mr-2"></span>
-                  AI-Powered Vehicle Analysis
+                  AI-Powered Analysis
                 </div>
-                <h1 className="text-4xl md:text-6xl font-bold">
-                  Advanced Vehicle Data Analysis
+                <h1 className="text-3xl md:text-4xl font-bold">
+                  Vehicle Data Analysis
                 </h1>
-                <p className="text-xl text-muted-foreground">
-                  Transform your automotive data processing with intelligent automation and real-time insights
+                <p className="text-lg text-muted-foreground">
+                  Intelligent automation and real-time insights for your automotive needs
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="group" asChild>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button size="sm" className="group" asChild>
                     <Link to="/signup">
                       Start Driving
-                      <Car className="ml-2 h-5 w-5" />
+                      <Car className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
-                  <Button size="lg" variant="outline" asChild>
-                    <Link to="/demo">Book Test Drive!</Link>
+                  <Button size="sm" variant="outline" asChild>
+                    <Link to="/demo">Book Test Drive</Link>
                   </Button>
                 </div>
               </div>
               
-              <div className="lg:col-span-8 mt-10 lg:mt-0">
+              <div className="lg:col-span-8 mt-8 lg:mt-0">
                 <Card className="w-full border-0 shadow-sm">
-                  <CardHeader>
-                    <div className="flex items-center">
-                      <div className="space-y-1">
-                        <CardTitle>Valuation Results</CardTitle>
-                        <CardDescription>
-                          Compare listed prices with estimated values
-                        </CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
+                  <CardContent className="p-0">
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -173,11 +150,11 @@ const AutomatedSearch = () => {
                                     <img
                                       src={car.image_url}
                                       alt={car.name || "Car"}
-                                      className="w-12 h-12 object-cover rounded-md"
+                                      className="w-10 h-10 object-cover rounded-md"
                                     />
                                   )}
                                   <div>
-                                    <p className="font-medium">
+                                    <p className="font-medium text-sm">
                                       {car.name || "Unknown"}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
@@ -188,8 +165,8 @@ const AutomatedSearch = () => {
                                   </div>
                                 </div>
                               </TableCell>
-                              <TableCell>{formatPrice(car.price)}</TableCell>
-                              <TableCell>
+                              <TableCell className="text-sm">{formatPrice(car.price)}</TableCell>
+                              <TableCell className="text-sm">
                                 {car.estimated_value ? (
                                   formatPrice(car.estimated_value)
                                 ) : (
@@ -198,7 +175,7 @@ const AutomatedSearch = () => {
                                   </span>
                                 )}
                               </TableCell>
-                              <TableCell>
+                              <TableCell className="text-sm">
                                 {difference ? (
                                   <div className="flex items-center gap-2">
                                     <Badge
@@ -239,7 +216,7 @@ const AutomatedSearch = () => {
                                   <span className="text-muted-foreground">N/A</span>
                                 )}
                               </TableCell>
-                              <TableCell>{getPriceTagBadge(car.price_tag)}</TableCell>
+                              <TableCell className="text-sm">{getPriceTagBadge(car.price_tag)}</TableCell>
                               <TableCell className="text-right">
                                 <div className="flex justify-end">
                                   {car.link && (
