@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '../components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -85,7 +86,7 @@ const AutomatedSearch = () => {
   };
 
   const getPriceTagBadge = (tag) => {
-    let variant = "default";
+    let variant: "default" | "secondary" | "destructive" | "outline" = "default";
     let className = "";
     
     switch (tag) {
