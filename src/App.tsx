@@ -14,7 +14,7 @@ import NotFound from "./pages/NotFound";
 import Demo from "./pages/Demo";
 import AdsSearchTool from "./pages/AdsSearchTool";
 import MarketingTool from "./pages/MarketingTool";
-import Gear1SearchingAgent from "./pages/Gear1SearchingAgent";
+import AutomatedSearch from "./pages/AutomatedSearch";
 import StockManagement from "./pages/StockManagement";
 import Community from "./pages/Community";
 
@@ -37,7 +37,7 @@ const App = () => (
           <Route path="/community" element={<Community />} />
           <Route path="/solutions/ads-search-tool" element={<AdsSearchTool />} />
           <Route path="/solutions/marketing-tool" element={<MarketingTool />} />
-          <Route path="/solutions/gear1-searching-agent" element={<Gear1SearchingAgent />} />
+          <Route path="/solutions/automated-search" element={<AutomatedSearch />} />
           <Route path="/solutions/stock-management" element={<StockManagement />} />
           <Route path="/signup" element={<Contact />} /> {/* Using Contact page as signup for now */}
           <Route path="/login" element={<Contact />} /> {/* Using Contact page as login for now */}

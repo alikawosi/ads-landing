@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -82,7 +81,7 @@ const Navbar = () => {
       title: "Automated Search",
       description:
         "AI agent searches based on user preferences and finds cars at the best prices",
-      href: "/solutions/gear1-searching-agent",
+      href: "/solutions/automated-search",
       icon: <Key className="h-6 w-6 text-green-500" />,
       badge: <Badge className="ml-2 bg-amber-500">Beta</Badge>,
     },
