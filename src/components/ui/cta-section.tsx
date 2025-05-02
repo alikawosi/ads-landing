@@ -2,7 +2,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Car } from 'lucide-react';
+import { SteeringWheel } from 'lucide-react';
 
 interface CTASectionProps {
   title: string;
@@ -38,7 +38,7 @@ const CTASection = ({
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Button size="lg" radius="lg" variant="default" className="bg-white text-saas-blue hover:bg-gray-100" asChild>
               <Link to={ctaLink} className="flex items-center gap-2">
-                {ctaText} <Car size={16} />
+                {ctaText} <SteeringWheel size={16} />
               </Link>
             </Button>
             {secondaryCtaText && (

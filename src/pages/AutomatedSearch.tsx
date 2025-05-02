@@ -1,9 +1,8 @@
-
 import React from 'react';
 import Layout from '../components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Bot, Car, Check, Search, Database, BarChart } from 'lucide-react';
+import { ArrowRight, Bot, Car, Check, Search, Database, BarChart, SteeringWheel } from 'lucide-react';
 import CTASection from '@/components/ui/cta-section';
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -78,41 +77,42 @@ const AutomatedSearch = () => {
   return (
     <Layout>
       <div className="py-20 md:py-28">
-        {/* Hero Section with Card Stack */}
-        <section className="py-20 relative overflow-hidden">
+        {/* Updated Hero Section with ads search layout */}
+        <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="flex-col text-center">
-              <div className="relative">
-                <div className="flex justify-center items-center relative top-32">
-                  {carCards.map((car, index) => (
-                    <Card
-                      key={index}
-                      className={`absolute w-full max-w-sm shadow-lg`}
-                      style={{
-                        transform: `translateX(${
-                          index > carCards.length / 2
-                            ? (index - Math.floor(carCards.length / 2)) * 100
-                            : -index * 100
-                        }px) rotate(${
-                          index > carCards.length / 2
-                            ? (index - Math.floor(carCards.length / 2)) * 8
-                            : -index * 8
-                        }deg)
-                        translateY(${
-                          index > carCards.length / 2
-                            ? (index - Math.floor(carCards.length / 2)) * 48
-                            : index * 48
-                        }px)`,
-                        zIndex: carCards.length - index,
-                        animationDelay: `${
-                          Math.abs(index - Math.floor(carCards.length / 2)) * 0.2
-                        }s`,
-                      }}
-                    >
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6 z-10">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                  <span className="w-2 h-2 rounded-full bg-primary mr-2"></span>
+                  AI-Powered Vehicle Analysis
+                </div>
+                <h1 className="text-4xl md:text-6xl font-bold">
+                  Advanced Vehicle Data Analysis
+                </h1>
+                <p className="text-xl text-muted-foreground">
+                  Transform your automotive data processing with intelligent automation and real-time insights
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button size="lg" className="group" asChild>
+                    <Link to="/signup">
+                      Start Driving
+                      <SteeringWheel className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="outline" asChild>
+                    <Link to="/demo">Book Test Drive!</Link>
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="relative mt-10 lg:mt-0">
+                <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {carCards.slice(0, 4).map((car, index) => (
+                    <Card key={index} className={`transition-all duration-300 hover:-translate-y-2 animate-fade-in`} style={{ animationDelay: `${index * 150}ms` }}>
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div className="space-y-1 text-left">
-                            <CardTitle className="text-2xl font-bold">
+                            <CardTitle className="text-xl font-bold">
                               {car.model}
                             </CardTitle>
                             <p className="text-muted-foreground text-sm">
@@ -126,7 +126,7 @@ const AutomatedSearch = () => {
                           </div>
                           <Badge
                             variant={getPriceTagVariant(car.priceTag)}
-                            className="capitalize"
+                            className={`capitalize ${car.priceTag === 'fair' ? 'bg-amber-200 hover:bg-amber-300 text-amber-900' : ''}`}
                           >
                             {car.priceTag} Price
                           </Badge>
@@ -169,23 +169,10 @@ const AutomatedSearch = () => {
                     </Card>
                   ))}
                 </div>
-              </div>
-              <div className="relative mt-8 inset-0 pointer-events-none z-10 pt-60 bg-gradient-to-b from-transparent via-background/75 to-background">
-                <h1 className="text-4xl md:text-6xl font-bold mb-6 z-10 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                  Advanced Vehicle Data Analysis
-                </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10">
-                  Transform your automotive data processing with intelligent
-                  automation and real-time insights
-                </p>
-                <div className="flex gap-4 justify-center">
-                  <Link to="/signup">
-                    <Button size="lg" className="group">
-                      Start Free Trial
-                      <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
-                </div>
+                
+                {/* Decorative elements */}
+                <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+                <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
               </div>
             </div>
           </div>
