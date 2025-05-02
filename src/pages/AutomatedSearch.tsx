@@ -10,7 +10,7 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@
 
 const AutomatedSearch = () => {
   // Updated sample car data with more fields to match the table design
-  const carData = [
+  const rawCarData = [
     {
       id: 1,
       name: "BMW M3 Competition",
@@ -57,6 +57,12 @@ const AutomatedSearch = () => {
     },
   ];
 
+  // Sort car data: good first, then fair, then high
+  const carData = [...rawCarData].sort((a, b) => {
+    const priceTagOrder = { good: 0, fair: 1, high: 2 };
+    return priceTagOrder[a.price_tag] - priceTagOrder[b.price_tag];
+  });
+
   // Helper functions for the table
   const formatPrice = (price) => {
     return `£${price.toLocaleString()}`;
@@ -85,9 +91,10 @@ const AutomatedSearch = () => {
     switch (tag) {
       case "good":
         variant = "default";
+        className = "bg-green-500 hover:bg-green-600 text-white";
         break;
       case "fair":
-        variant = "secondary"; // Using secondary for amber-200
+        variant = "secondary"; 
         className = "bg-amber-200 hover:bg-amber-300 text-amber-900";
         break;
       case "high":
@@ -137,28 +144,8 @@ const AutomatedSearch = () => {
               
               <div className="lg:col-span-8 mt-10 lg:mt-0">
                 <Card className="w-full border-0 shadow-sm">
-                  <CardHeader>
-                    <div className="flex items-center">
-                      <div className="space-y-1">
-                        <CardTitle>Valuation Results</CardTitle>
-                        <CardDescription>
-                          Compare listed prices with estimated values
-                        </CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
+                  <CardContent className="pt-4">
                     <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Car</TableHead>
-                          <TableHead>Listed Price</TableHead>
-                          <TableHead>Estimated Value</TableHead>
-                          <TableHead>Difference</TableHead>
-                          <TableHead>Price Tag</TableHead>
-                          <TableHead className="text-right">Actions</TableHead>
-                        </TableRow>
-                      </TableHeader>
                       <TableBody>
                         {carData.map((car) => {
                           const difference = calculateDifference(
@@ -173,11 +160,11 @@ const AutomatedSearch = () => {
                                     <img
                                       src={car.image_url}
                                       alt={car.name || "Car"}
-                                      className="w-12 h-12 object-cover rounded-md"
+                                      className="w-10 h-10 object-cover rounded-md"
                                     />
                                   )}
                                   <div>
-                                    <p className="font-medium">
+                                    <p className="font-medium text-sm">
                                       {car.name || "Unknown"}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
@@ -188,8 +175,8 @@ const AutomatedSearch = () => {
                                   </div>
                                 </div>
                               </TableCell>
-                              <TableCell>{formatPrice(car.price)}</TableCell>
-                              <TableCell>
+                              <TableCell className="text-sm">{formatPrice(car.price)}</TableCell>
+                              <TableCell className="text-sm">
                                 {car.estimated_value ? (
                                   formatPrice(car.estimated_value)
                                 ) : (
