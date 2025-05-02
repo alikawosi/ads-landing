@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import CarCascadeCard from "./CarCascadeCard";
-import { SteeringWheel } from "lucide-react";
+import { Car } from "lucide-react";
 
 interface HeroSectionProps {
   title: string;
@@ -118,7 +118,7 @@ const HeroSection = ({
               <Button size="lg" className="rounded-[16px] px-8" asChild>
                 <Link to={ctaLink} className="flex items-center gap-2">
                   {ctaText}
-                  <SteeringWheel className="h-4 w-4" />
+                  <Car className="h-4 w-4" />
                 </Link>
               </Button>
               {secondaryCtaText && (

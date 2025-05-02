@@ -1,8 +1,9 @@
+
 import React from 'react';
 import Layout from '../components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Bot, Car, Check, Search, Database, BarChart, SteeringWheel } from 'lucide-react';
+import { ArrowRight, Bot, Car, Check, Search, Database, BarChart } from 'lucide-react';
 import CTASection from '@/components/ui/cta-section';
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -96,7 +97,7 @@ const AutomatedSearch = () => {
                   <Button size="lg" className="group" asChild>
                     <Link to="/signup">
                       Start Driving
-                      <SteeringWheel className="ml-2 h-5 w-5" />
+                      <Car className="ml-2 h-5 w-5" />
                     </Link>
                   </Button>
                   <Button size="lg" variant="outline" asChild>

@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { SteeringWheel } from "lucide-react";
+import { Car } from "lucide-react";
 
 const FinalCtaSection = () => (
   <section className="py-20 bg-saas-blue text-white">
@@ -23,7 +23,7 @@ const FinalCtaSection = () => (
           >
             <Link to="/signup">
               Start Driving
-              <SteeringWheel className="h-4 w-4" />
+              <Car className="h-4 w-4" />
             </Link>
           </Button>
           <Button
