@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { ArrowRight, Search, Database, Globe, ChevronRight } from 'lucide-react'
 import CTASection from '@/components/ui/cta-section';
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CarCascadeCard from "@/components/ui/CarCascadeCard";
 
 const AdsSearch = () => {
   const adListings = [
@@ -67,6 +68,21 @@ const AdsSearch = () => {
     },
   ];
 
+  const [activeCardIndex, setActiveCardIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setActiveCardIndex((prev) => (prev + 1) % adListings.length);
+        setIsAnimating(false);
+      }, 500);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [adListings.length]);
+
   const getPriceTagVariant = (tag: string) => {
     switch (tag) {
       case "good":
@@ -83,115 +99,158 @@ const AdsSearch = () => {
   return (
     <Layout>
       <div className="py-20 md:py-28">
-        {/* Hero Section with Card Stack */}
+        {/* Hero Section with Interactive Cards */}
         <section className="py-20 relative overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="flex-col text-center">
-              <div className="relative">
-                <div className="flex justify-center items-center relative top-32">
-                  {adListings.map((listing, index) => (
-                    <Card
-                      key={index}
-                      className={`absolute w-full max-w-sm shadow-lg`}
-                      style={{
-                        transform: `translateX(${
-                          index > adListings.length / 2
-                            ? (index - Math.floor(adListings.length / 2)) * 100
-                            : -index * 100
-                        }px) rotate(${
-                          index > adListings.length / 2
-                            ? (index - Math.floor(adListings.length / 2)) * 8
-                            : -index * 8
-                        }deg)
-                        translateY(${
-                          index > adListings.length / 2
-                            ? (index - Math.floor(adListings.length / 2)) * 48
-                            : index * 48
-                        }px)`,
-                        zIndex: adListings.length - index,
-                        animationDelay: `${
-                          Math.abs(index - Math.floor(adListings.length / 2)) * 0.2
-                        }s`,
-                      }}
-                    >
-                      <CardHeader className="pb-2">
-                        <div className="flex justify-between items-start">
-                          <div className="space-y-1 text-left">
-                            <CardTitle className="text-2xl font-bold">
-                              {listing.model}
-                            </CardTitle>
-                            <p className="text-muted-foreground text-sm">
-                              {listing.make}
-                            </p>
-                            <div className="text-muted-foreground text-sm mt-2">
-                              <p>
-                                {listing.year} • {listing.source}
-                              </p>
-                            </div>
-                          </div>
-                          <Badge
-                            variant={getPriceTagVariant(listing.priceTag)}
-                            className="capitalize"
-                          >
-                            {listing.priceTag} Deal
-                          </Badge>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="pt-4">
-                        <div className="border-t pt-3 mt-3 space-y-2">
-                          <div className="flex justify-between items-center">
-                            <span className="text-muted-foreground text-sm">
-                              Price
-                            </span>
-                            <span className="font-semibold">
-                              £{listing.price.toLocaleString()}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-muted-foreground text-sm">
-                              Location
-                            </span>
-                            <span className="font-semibold">
-                              {listing.location}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center pt-2 border-t">
-                            <span className="text-muted-foreground text-sm">
-                              Seller
-                            </span>
-                            <span className="font-bold">
-                              {listing.sellerType}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center pt-1">
-                            <span className="text-muted-foreground text-sm">
-                              Posted
-                            </span>
-                            <span className="text-sm text-blue-500">
-                              {listing.posting}
-                            </span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-              <div className="relative mt-8 inset-0 pointer-events-none z-10 pt-60 bg-gradient-to-b from-transparent via-background/75 to-background">
-                <h1 className="text-4xl md:text-6xl font-bold mb-6 z-10 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                  Comprehensive Vehicle Listing Search
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+              <div className="lg:w-1/2 text-center lg:text-left">
+                <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                  Find Your Perfect Car Across Every Platform
                 </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10">
-                  Access all major automotive marketplaces in one powerful search interface
+                <p className="text-xl md:text-2xl text-muted-foreground mb-10">
+                  One search to rule them all - access AutoTrader, Gumtree, eBay Motors and more with a single click
                 </p>
-                <div className="flex gap-4 justify-center">
+                <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                   <Link to="/signup">
-                    <Button size="lg" className="group">
+                    <Button size="lg" className="group animate-pulse-slow">
                       Start Free Trial
                       <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </Link>
+                  <Link to="/demo">
+                    <Button size="lg" variant="outline">
+                      Watch Demo
+                    </Button>
+                  </Link>
                 </div>
+                
+                <div className="mt-8 flex items-center gap-4 justify-center lg:justify-start">
+                  <div className="flex -space-x-4">
+                    {[1, 2, 3].map((i) => (
+                      <div 
+                        key={i} 
+                        className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border-2 border-white"
+                      >
+                        <span className="text-xs text-primary font-bold">{i}+</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    <span className="font-bold">5,000+</span> cars found today
+                  </p>
+                </div>
+              </div>
+              
+              <div className="lg:w-1/2 relative h-[500px]">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-3xl" />
+                
+                <div className="relative w-full h-full flex items-center justify-center">
+                  {adListings.map((listing, index) => (
+                    <div
+                      key={index}
+                      className={`absolute transition-all duration-700 ease-in-out ${
+                        index === activeCardIndex
+                          ? "opacity-100 z-30 scale-100 translate-y-0"
+                          : index === (activeCardIndex + 1) % adListings.length
+                          ? "opacity-70 z-20 scale-95 translate-y-8 translate-x-8"
+                          : index === (activeCardIndex + 2) % adListings.length
+                          ? "opacity-40 z-10 scale-90 translate-y-16 translate-x-16"
+                          : "opacity-0 scale-85 -translate-y-8 -translate-x-8"
+                      } ${isAnimating ? "blur-sm" : ""}`}
+                    >
+                      <Card className="w-full max-w-md shadow-xl hover:shadow-2xl transition-all bg-white/90 backdrop-blur">
+                        <CardHeader className="pb-2">
+                          <div className="flex justify-between items-start">
+                            <div className="space-y-1 text-left">
+                              <CardTitle className="text-2xl font-bold">
+                                {listing.model}
+                              </CardTitle>
+                              <p className="text-muted-foreground text-sm">
+                                {listing.make}
+                              </p>
+                              <div className="text-muted-foreground text-sm mt-2">
+                                <p>
+                                  {listing.year} • {listing.source}
+                                </p>
+                              </div>
+                            </div>
+                            <Badge
+                              variant={getPriceTagVariant(listing.priceTag)}
+                              className={`capitalize animate-pulse-slow ${
+                                isAnimating ? "animate-bounce" : ""
+                              }`}
+                            >
+                              {listing.priceTag} Deal
+                            </Badge>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-4">
+                          <div className="border-t pt-3 mt-3 space-y-2">
+                            <div className="flex justify-between items-center">
+                              <span className="text-muted-foreground text-sm">
+                                Price
+                              </span>
+                              <span className="font-semibold">
+                                £{listing.price.toLocaleString()}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                              <span className="text-muted-foreground text-sm">
+                                Location
+                              </span>
+                              <span className="font-semibold">
+                                {listing.location}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center pt-2 border-t">
+                              <span className="text-muted-foreground text-sm">
+                                Seller
+                              </span>
+                              <span className="font-bold">
+                                {listing.sellerType}
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center pt-1">
+                              <span className="text-muted-foreground text-sm">
+                                Posted
+                              </span>
+                              <span className="text-sm text-blue-500">
+                                {listing.posting}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="mt-4 pt-2 border-t">
+                            <Button className="w-full group">
+                              View Listing
+                              <ArrowRight className="ml-1 group-hover:translate-x-1 transition-transform" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  ))}
+                  
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    {adListings.map((_, index) => (
+                      <button
+                        key={index}
+                        className={`w-3 h-3 rounded-full transition-all ${
+                          index === activeCardIndex ? "bg-primary scale-125" : "bg-gray-300 hover:bg-gray-400"
+                        }`}
+                        onClick={() => {
+                          setIsAnimating(true);
+                          setTimeout(() => {
+                            setActiveCardIndex(index);
+                            setIsAnimating(false);
+                          }, 300);
+                        }}
+                      />
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
+                <div className="absolute -top-10 -left-10 w-60 h-60 bg-secondary/10 rounded-full blur-3xl" />
               </div>
             </div>
           </div>
