@@ -1,88 +1,117 @@
-
 import React from 'react';
 import Layout from '../components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Bot, Car, Check, Search, Database, BarChart } from 'lucide-react';
+import { ArrowRight, Bot, Car, Check, Search, Database, BarChart, TrendingUp, CheckCircle, AlertTriangle, ExternalLink } from 'lucide-react';
 import CTASection from '@/components/ui/cta-section';
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 
 const AutomatedSearch = () => {
-  const carCards = [
+  // Updated sample car data with more fields to match the table design
+  const carData = [
     {
-      make: "BMW",
-      model: "M3 Competition",
+      id: 1,
+      name: "BMW M3 Competition",
       year: 2023,
-      mileage: "15,000",
+      mileage: 15000,
       price: 72000,
-      estimatedPrice: 69000,
-      priceTag: "high",
-      difference: "+£3,000",
+      estimated_value: 69000,
+      price_tag: "high",
+      image_url: "/placeholder.svg",
+      link: "https://example.com/bmw-m3"
     },
     {
-      make: "Mercedes-Benz",
-      model: "C-Class",
+      id: 2,
+      name: "Mercedes-Benz C-Class",
       year: 2022,
-      mileage: "25,000",
+      mileage: 25000,
       price: 35000,
-      estimatedPrice: 34500,
-      priceTag: "fair",
-      difference: "+£500",
+      estimated_value: 34500,
+      price_tag: "fair",
+      image_url: "/placeholder.svg",
+      link: "https://example.com/mercedes-c"
     },
     {
-      make: "Audi",
-      model: "A4",
+      id: 3,
+      name: "Audi A4",
       year: 2021,
-      mileage: "45,000",
+      mileage: 45000,
       price: 22000,
-      estimatedPrice: 24000,
-      priceTag: "good",
-      difference: "-£2,000",
+      estimated_value: 24000,
+      price_tag: "good",
+      image_url: "/placeholder.svg",
+      link: "https://example.com/audi-a4"
     },
     {
-      make: "Porsche",
-      model: "911 Carrera",
+      id: 4,
+      name: "Porsche 911 Carrera",
       year: 2023,
-      mileage: "5,000",
+      mileage: 5000,
       price: 72000,
-      estimatedPrice: 86000,
-      priceTag: "good",
-      difference: "+£14,000",
-    },
-    {
-      make: "Tesla",
-      model: "Model 3",
-      year: 2022,
-      mileage: "18,000",
-      price: 42000,
-      estimatedPrice: 41000,
-      priceTag: "fair",
-      difference: "+£1,000",
+      estimated_value: 86000,
+      price_tag: "good",
+      image_url: "/placeholder.svg",
+      link: "https://example.com/porsche-911"
     },
   ];
 
-  const getPriceTagVariant = (tag: string) => {
+  // Helper functions for the table
+  const formatPrice = (price) => {
+    return `£${price.toLocaleString()}`;
+  };
+
+  const calculateDifference = (listedPrice, estimatedValue) => {
+    if (!listedPrice || !estimatedValue) return null;
+    
+    const diff = estimatedValue - listedPrice;
+    const percentage = (Math.abs(diff) / estimatedValue) * 100;
+    const isGoodDeal = diff > 0;
+    const isFairDeal = Math.abs(percentage) < 5;
+    
+    return {
+      diff,
+      percentage,
+      isGoodDeal,
+      isFairDeal
+    };
+  };
+
+  const getPriceTagBadge = (tag) => {
+    let variant = "default";
+    let className = "";
+    
     switch (tag) {
       case "good":
-        return "default"; // Using default badge variant for "good"
+        variant = "default";
+        break;
       case "fair":
-        return "secondary"; // Using secondary badge variant for "fair"
+        variant = "secondary"; // Using secondary for amber-200
+        className = "bg-amber-200 hover:bg-amber-300 text-amber-900";
+        break;
       case "high":
-        return "destructive"; // Using destructive badge variant for "high"
+        variant = "destructive";
+        break;
       default:
-        return "default";
+        variant = "outline";
     }
+    
+    return (
+      <Badge variant={variant} className={`capitalize ${className}`}>
+        {tag} price
+      </Badge>
+    );
   };
 
   return (
     <Layout>
       <div className="py-20 md:py-28">
-        {/* Updated Hero Section with ads search layout */}
+        {/* Updated Hero Section with table layout */}
         <section className="py-20 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6 z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+              <div className="lg:col-span-4 space-y-6 z-10">
                 <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
                   <span className="w-2 h-2 rounded-full bg-primary mr-2"></span>
                   AI-Powered Vehicle Analysis
@@ -106,70 +135,138 @@ const AutomatedSearch = () => {
                 </div>
               </div>
               
-              <div className="relative mt-10 lg:mt-0">
-                <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {carCards.slice(0, 4).map((car, index) => (
-                    <Card key={index} className={`transition-all duration-300 hover:-translate-y-2 animate-fade-in`} style={{ animationDelay: `${index * 150}ms` }}>
-                      <CardHeader className="pb-2">
-                        <div className="flex justify-between items-start">
-                          <div className="space-y-1 text-left">
-                            <CardTitle className="text-xl font-bold">
-                              {car.model}
-                            </CardTitle>
-                            <p className="text-muted-foreground text-sm">
-                              {car.make}
-                            </p>
-                            <div className="text-muted-foreground text-sm mt-2">
-                              <p>
-                                {car.year} • {car.mileage} miles
-                              </p>
-                            </div>
-                          </div>
-                          <Badge
-                            variant={getPriceTagVariant(car.priceTag)}
-                            className={`capitalize ${car.priceTag === 'fair' ? 'bg-amber-200 hover:bg-amber-300 text-amber-900' : ''}`}
-                          >
-                            {car.priceTag} Price
-                          </Badge>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="pt-4">
-                        <div className="border-t pt-3 mt-3 space-y-2">
-                          <div className="flex justify-between items-center">
-                            <span className="text-muted-foreground text-sm">
-                              Listed Price
-                            </span>
-                            <span className="font-semibold">
-                              £{car.price.toLocaleString()}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-muted-foreground text-sm">
-                              Est. Value
-                            </span>
-                            <span className="font-semibold">
-                              £{car.estimatedPrice.toLocaleString()}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center pt-2 border-t">
-                            <span className="text-muted-foreground text-sm">
-                              Difference
-                            </span>
-                            <span
-                              className={`font-bold ${
-                                car.difference.startsWith("+")
-                                  ? "text-red-500"
-                                  : "text-green-500"
-                              }`}
-                            >
-                              {car.difference}
-                            </span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+              <div className="lg:col-span-8 mt-10 lg:mt-0">
+                <Card className="w-full border-0 shadow-sm">
+                  <CardHeader>
+                    <div className="flex items-center">
+                      <div className="space-y-1">
+                        <CardTitle>Valuation Results</CardTitle>
+                        <CardDescription>
+                          Compare listed prices with estimated values
+                        </CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Car</TableHead>
+                          <TableHead>Listed Price</TableHead>
+                          <TableHead>Estimated Value</TableHead>
+                          <TableHead>Difference</TableHead>
+                          <TableHead>Price Tag</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {carData.map((car) => {
+                          const difference = calculateDifference(
+                            car.price,
+                            car.estimated_value
+                          );
+                          return (
+                            <TableRow key={car.id}>
+                              <TableCell>
+                                <div className="flex items-center gap-3">
+                                  {car.image_url && (
+                                    <img
+                                      src={car.image_url}
+                                      alt={car.name || "Car"}
+                                      className="w-12 h-12 object-cover rounded-md"
+                                    />
+                                  )}
+                                  <div>
+                                    <p className="font-medium">
+                                      {car.name || "Unknown"}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">
+                                      {car.year && `${car.year} • `}
+                                      {car.mileage &&
+                                        `${car.mileage.toLocaleString()} miles`}
+                                    </p>
+                                  </div>
+                                </div>
+                              </TableCell>
+                              <TableCell>{formatPrice(car.price)}</TableCell>
+                              <TableCell>
+                                {car.estimated_value ? (
+                                  formatPrice(car.estimated_value)
+                                ) : (
+                                  <span className="text-muted-foreground">
+                                    Not processed
+                                  </span>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                {difference ? (
+                                  <div className="flex items-center gap-2">
+                                    <Badge
+                                      variant={
+                                        difference.isGoodDeal
+                                          ? "default"
+                                          : difference.isFairDeal
+                                          ? "secondary"
+                                          : "destructive"
+                                      }
+                                      className={
+                                        difference.isFairDeal
+                                          ? "bg-amber-200 text-amber-900 hover:bg-amber-300"
+                                          : ""
+                                      }
+                                    >
+                                      {difference.isGoodDeal ? (
+                                        <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                                      ) : (
+                                        <AlertTriangle className="h-3.5 w-3.5 mr-1" />
+                                      )}
+                                      {difference.percentage.toFixed(1)}%
+                                    </Badge>
+                                    <span
+                                      className={
+                                        difference.isGoodDeal
+                                          ? "text-green-600"
+                                          : difference.isFairDeal
+                                          ? "text-amber-600"
+                                          : "text-red-600"
+                                      }
+                                    >
+                                      {difference.diff > 0 ? "+" : ""}£
+                                      {Math.abs(difference.diff).toLocaleString()}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <span className="text-muted-foreground">N/A</span>
+                                )}
+                              </TableCell>
+                              <TableCell>{getPriceTagBadge(car.price_tag)}</TableCell>
+                              <TableCell className="text-right">
+                                <div className="flex justify-end gap-2">
+                                  <Button variant="outline" size="sm" className="flex items-center">
+                                    <TrendingUp className="h-4 w-4 mr-1" />
+                                    Check Valuation
+                                  </Button>
+                                  {car.link && (
+                                    <Button variant="ghost" size="sm" asChild>
+                                      <a
+                                        href={car.link}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <ExternalLink className="h-4 w-4 mr-1" />
+                                        View
+                                      </a>
+                                    </Button>
+                                  )}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
                 
                 {/* Decorative elements */}
                 <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
