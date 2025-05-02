@@ -18,7 +18,7 @@ const AutomatedSearch = () => {
       mileage: 15000,
       price: 72000,
       estimated_value: 69000,
-      price_tag: "high",
+      price_tag: "high" as const,
       image_url: "/placeholder.svg",
       link: "https://example.com/bmw-m3"
     },
@@ -29,7 +29,7 @@ const AutomatedSearch = () => {
       mileage: 25000,
       price: 35000,
       estimated_value: 34500,
-      price_tag: "fair",
+      price_tag: "fair" as const,
       image_url: "/placeholder.svg",
       link: "https://example.com/mercedes-c"
     },
@@ -40,7 +40,7 @@ const AutomatedSearch = () => {
       mileage: 45000,
       price: 22000,
       estimated_value: 24000,
-      price_tag: "good",
+      price_tag: "good" as const,
       image_url: "/placeholder.svg",
       link: "https://example.com/audi-a4"
     },
@@ -51,7 +51,7 @@ const AutomatedSearch = () => {
       mileage: 5000,
       price: 72000,
       estimated_value: 86000,
-      price_tag: "good",
+      price_tag: "good" as const,
       image_url: "/placeholder.svg",
       link: "https://example.com/porsche-911"
     },
@@ -241,11 +241,7 @@ const AutomatedSearch = () => {
                               </TableCell>
                               <TableCell>{getPriceTagBadge(car.price_tag)}</TableCell>
                               <TableCell className="text-right">
-                                <div className="flex justify-end gap-2">
-                                  <Button variant="outline" size="sm" className="flex items-center">
-                                    <TrendingUp className="h-4 w-4 mr-1" />
-                                    Check Valuation
-                                  </Button>
+                                <div className="flex justify-end">
                                   {car.link && (
                                     <Button variant="ghost" size="sm" asChild>
                                       <a
