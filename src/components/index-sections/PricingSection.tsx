@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { PRICING_TIERS } from "@/constants";
+import BillingToggle from '@/components/pricing/BillingToggle';
 
 interface PricingTier {
   title: string;
@@ -19,9 +20,14 @@ interface PricingCardProps {
   tier: PricingTier;
 }
 
+interface PricingSectionState {
+  billingType: string;
+}
+
 class PricingCard extends React.Component<PricingCardProps> {
   render() {
     const { title, monthlyPrice, buttonText, popular, inverse, features } = this.props.tier;
+    const monthlyOrAnnualPrice = this.props.tier.monthlyPrice;
     
     return (
       <div
@@ -59,7 +65,7 @@ class PricingCard extends React.Component<PricingCardProps> {
         <div>
           <div className="flex items-baseline gap-1 mt-[30px]">
             <span className="text-4xl font-bold tracking-tighter leading-none">
-              £{monthlyPrice}
+              £{monthlyOrAnnualPrice}
             </span>
             <span className="tracking-tight font-bold text-black/50">
               /month
@@ -86,7 +92,18 @@ class PricingCard extends React.Component<PricingCardProps> {
   }
 }
 
-export class PricingSection extends React.Component {
+export class PricingSection extends React.Component<{}, PricingSectionState> {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      billingType: 'monthly'
+    };
+  }
+  
+  handleBillingTypeChange = (value: string) => {
+    this.setState({ billingType: value });
+  };
+  
   render() {
     return (
       <motion.section
@@ -102,6 +119,12 @@ export class PricingSection extends React.Component {
               Free forever. Upgrade for unlimited tasks, better security, and
               exclusive features.
             </p>
+            <div className="mt-8">
+              <BillingToggle 
+                value={this.state.billingType} 
+                onValueChange={this.handleBillingTypeChange} 
+              />
+            </div>
           </div>
           <div className="flex flex-col gap-6 items-center mt-10 lg:flex-row lg:items-end lg:justify-center">
             {PRICING_TIERS.map((tier, index) => (
@@ -113,4 +136,3 @@ export class PricingSection extends React.Component {
     );
   }
 }
-

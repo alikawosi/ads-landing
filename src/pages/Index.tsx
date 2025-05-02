@@ -1,3 +1,4 @@
+
 import React from "react";
 import Layout from "@/components/layout/Layout";
 import HeroLandingSection from "@/components/index-sections/HeroLandingSection";
@@ -7,7 +8,6 @@ import FeatureSection from "@/components/ui/feature-section";
 import { TestimonialsSection } from "@/components/index-sections/TestimonialsSection";
 import StatsSection from "@/components/index-sections/StatsSection";
 import FinalCtaSection from "@/components/index-sections/FinalCtaSection";
-import Pricing from "./Pricing";
 import { PricingSection } from "@/components/index-sections/PricingSection";
 
 const features = [

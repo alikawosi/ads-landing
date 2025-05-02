@@ -1,4 +1,3 @@
-
 export const COMPANY_NAME = "autodealersolution";
 
 export const NAVIGATION = [
@@ -41,6 +40,7 @@ export const TEAM_MEMBERS = [
   },
 ];
 
+// Keep these for reference if needed, but we're using PRICING_TIERS for both pages now
 export const PRICING_PLANS = [
   {
     name: "Starter",
@@ -99,6 +99,7 @@ export const PRICING_PLANS = [
   },
 ];
 
+// We're using this for the unified pricing display on both pages
 export const PRICING_TIERS = [
   {
     title: "Free",
