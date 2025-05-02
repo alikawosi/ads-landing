@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -78,26 +79,12 @@ const Navbar = () => {
       badge: null,
     },
     {
-      title: "Gear 1: Searching Agent",
+      title: "Automated Search",
       description:
         "AI agent searches based on user preferences and finds cars at the best prices",
       href: "/solutions/gear1-searching-agent",
       icon: <Key className="h-6 w-6 text-green-500" />,
       badge: <Badge className="ml-2 bg-amber-500">Beta</Badge>,
-    },
-    {
-      title: "Stock Management",
-      description: "Smart inventory tracking system for dealerships",
-      href: "/solutions/stock-management",
-      icon: <Layers className="h-6 w-6 text-orange-500" />,
-      badge: <Badge className="ml-2 bg-blue-500">Coming Soon</Badge>,
-    },
-    {
-      title: "Community",
-      description: "Join the community of smart dealerships",
-      href: "/community",
-      icon: <Users className="h-6 w-6 text-pink-500" />,
-      badge: <Badge className="ml-2 bg-blue-500">Coming Soon</Badge>,
     },
   ];
 
@@ -162,13 +149,15 @@ const Navbar = () => {
             </NavigationMenu>
 
             {NAVIGATION.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
-              >
-                {item.name}
-              </Link>
+              item.href !== "/community" && (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
           </div>
 
@@ -238,14 +227,16 @@ const Navbar = () => {
               </div>
 
               {NAVIGATION.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
+                item.href !== "/community" && (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )
               ))}
 
               <div className="flex flex-col space-y-2 pt-2 border-t">

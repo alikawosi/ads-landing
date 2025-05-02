@@ -1,8 +1,8 @@
+
 export const COMPANY_NAME = "autodealersolution";
 
 export const NAVIGATION = [
   { name: "Pricing", href: "/pricing" },
-  { name: "Community", href: "/community" },
   { name: "Contact", href: "/contact" },
   { name: "About Us", href: "/about" },
 ];
