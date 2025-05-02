@@ -33,7 +33,7 @@
     --input: 0 0% 92%;
     --ring: 210 100% 36%; /* saas.blue */
 
-    --radius: 0.5rem;
+    --radius: 12px;
   }
 
   .dark {
