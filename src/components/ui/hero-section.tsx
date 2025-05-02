@@ -1,7 +1,9 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import CarCascadeCard from "./CarCascadeCard";
+import { Car } from "lucide-react";
 
 interface HeroSectionProps {
   title: string;
@@ -92,7 +94,7 @@ const getFloatAnimationClass = (animationType: AnimationType) => {
 const HeroSection = ({
   title,
   subtitle,
-  ctaText = "Get Started",
+  ctaText = "Start Driving",
   ctaLink = "/signup",
   secondaryCtaText,
   secondaryCtaLink,
@@ -116,6 +118,7 @@ const HeroSection = ({
               <Button size="lg" className="rounded-[16px] px-8" asChild>
                 <Link to={ctaLink} className="flex items-center gap-2">
                   {ctaText}
+                  <Car className="h-4 w-4" />
                 </Link>
               </Button>
               {secondaryCtaText && (

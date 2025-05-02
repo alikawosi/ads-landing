@@ -169,8 +169,11 @@ const Navbar = () => {
             >
               <Link to="/login">Log in</Link>
             </Button>
-            <Button className="rounded-[16px] px-6 py-2" asChild>
-              <Link to="/signup">Sign up</Link>
+            <Button className="rounded-[16px] px-6 py-2 flex items-center gap-2" asChild>
+              <Link to="/signup">
+                Sign up
+                <Car className="h-4 w-4" />
+              </Link>
             </Button>
           </div>
 
@@ -247,8 +250,11 @@ const Navbar = () => {
                 >
                   <Link to="/login">Log in</Link>
                 </Button>
-                <Button className="w-full rounded-[16px] px-6 py-2" asChild>
-                  <Link to="/signup">Sign up</Link>
+                <Button className="w-full rounded-[16px] px-6 py-2 flex items-center justify-center gap-2" asChild>
+                  <Link to="/signup">
+                    Sign up
+                    <Car className="h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
             </div>

@@ -1,6 +1,8 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Car } from "lucide-react";
 
 const FinalCtaSection = () => (
   <section className="py-20 bg-saas-blue text-white">
@@ -16,18 +18,21 @@ const FinalCtaSection = () => (
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button
             size="lg"
-            className="bg-white text-saas-blue hover:bg-gray-100"
+            className="bg-white text-saas-blue hover:bg-gray-100 flex items-center gap-2"
             asChild
           >
-            <Link to="/signup">Start Free Trial</Link>
+            <Link to="/signup">
+              Start Driving
+              <Car className="h-4 w-4" />
+            </Link>
           </Button>
           <Button
             size="lg"
             variant="outline"
-            className=" text-white bg-saas-blue"
+            className="text-white bg-saas-blue"
             asChild
           >
-            <Link to="/demo">Schedule Demo</Link>
+            <Link to="/demo">Book Test Drive!</Link>
           </Button>
         </div>
       </div>

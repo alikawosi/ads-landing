@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Search, Database, Globe, ChevronRight } from 'lucide-react';
+import { ArrowRight, Search, Database, Globe, ChevronRight, Car } from 'lucide-react';
 import CTASection from '@/components/ui/cta-section';
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,7 +37,7 @@ const AdsSearch = () => {
       make: "Mercedes-Benz",
       model: "GLE",
       year: 2021,
-      source: "eBay Motors",
+      source: "Motors.co.uk",
       price: 45000,
       location: "Birmingham",
       sellerType: "Dealer",
@@ -108,18 +108,18 @@ const AdsSearch = () => {
                   Find Your Perfect Car Across Every Platform
                 </h1>
                 <p className="text-xl md:text-2xl text-muted-foreground mb-10">
-                  One search to rule them all - access AutoTrader, Gumtree, eBay Motors and more with a single click
+                  One search to rule them all - access AutoTrader, Gumtree, Motors.co.uk and more with a single click
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                   <Link to="/signup">
                     <Button size="lg" className="group animate-pulse-slow">
-                      Start Free Trial
-                      <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                      Start Driving
+                      <Car className="ml-2" />
                     </Button>
                   </Link>
                   <Link to="/demo">
                     <Button size="lg" variant="outline">
-                      Watch Demo
+                      Book Test Drive!
                     </Button>
                   </Link>
                 </div>
@@ -156,9 +156,9 @@ const AdsSearch = () => {
                           : index === (activeCardIndex + 2) % adListings.length
                           ? "opacity-40 z-10 scale-90 translate-y-16 translate-x-16"
                           : "opacity-0 scale-85 -translate-y-8 -translate-x-8"
-                      } ${isAnimating ? "blur-sm" : ""}`}
+                      }`}
                     >
-                      <Card className="w-full max-w-md shadow-xl hover:shadow-2xl transition-all bg-white/90 backdrop-blur">
+                      <Card className="w-full max-w-md shadow-xl hover:shadow-2xl transition-all bg-white/90">
                         <CardHeader className="pb-2">
                           <div className="flex justify-between items-start">
                             <div className="space-y-1 text-left">
@@ -176,7 +176,7 @@ const AdsSearch = () => {
                             </div>
                             <Badge
                               variant={getPriceTagVariant(listing.priceTag)}
-                              className={`capitalize animate-pulse-slow ${
+                              className={`capitalize ${
                                 isAnimating ? "animate-bounce" : ""
                               }`}
                             >
@@ -248,9 +248,6 @@ const AdsSearch = () => {
                     ))}
                   </div>
                 </div>
-                
-                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl" />
-                <div className="absolute -top-10 -left-10 w-60 h-60 bg-secondary/10 rounded-full blur-3xl" />
               </div>
             </div>
           </div>
@@ -283,7 +280,7 @@ const AdsSearch = () => {
                 </div>
                 <h3 className="text-xl font-semibold mb-3">2. We Search Everything</h3>
                 <p className="text-gray-600 dark:text-gray-300">
-                  Our system instantly queries multiple platforms including AutoTrader, Gumtree, eBay Motors, and more
+                  Our system instantly queries multiple platforms including AutoTrader, Gumtree, Motors.co.uk, and more
                 </p>
               </div>
 
@@ -320,7 +317,7 @@ const AdsSearch = () => {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Multi-Platform Search</h3>
                     <p className="text-gray-600 dark:text-gray-300">
-                      Search across AutoTrader, Gumtree, eBay Motors, Motors.co.uk, and other marketplaces simultaneously
+                      Search across AutoTrader, Gumtree, Motors.co.uk, and other marketplaces simultaneously
                     </p>
                   </div>
                 </div>
@@ -399,7 +396,7 @@ const AdsSearch = () => {
         <CTASection
           title="Ready to revolutionize your vehicle search?"
           subtitle="Access every major automotive marketplace with one powerful tool"
-          ctaText="Start Searching Now"
+          ctaText="Start Driving Now"
           ctaLink="/demo"
           backgroundClass="bg-gradient-to-r from-blue-500 to-purple-600"
         />
