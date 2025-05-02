@@ -1,4 +1,3 @@
-
 import React from "react";
 import Layout from "@/components/layout/Layout";
 import HeroLandingSection from "@/components/index-sections/HeroLandingSection";
@@ -8,7 +7,6 @@ import FeatureSection from "@/components/ui/feature-section";
 import { TestimonialsSection } from "@/components/index-sections/TestimonialsSection";
 import StatsSection from "@/components/index-sections/StatsSection";
 import FinalCtaSection from "@/components/index-sections/FinalCtaSection";
-import { PricingSection } from "@/components/index-sections/PricingSection";
 
 const features = [
   {
@@ -54,7 +52,6 @@ const Index = () => (
     <StatsSection />
     <WhatWeOfferSection />
     <HowItWorksSection />
-    <PricingSection />
     {/* <FeatureSection 
       title="AI-Powered Features Designed for Car Dealerships" 
       subtitle="Everything you need to optimize your operation and drive more sales"
