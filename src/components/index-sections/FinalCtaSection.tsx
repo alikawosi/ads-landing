@@ -32,7 +32,7 @@ const FinalCtaSection = () => (
             className="text-white bg-saas-blue"
             asChild
           >
-            <Link to="/demo">Book Test Drive!</Link>
+            <Link to="/demo">Book Demo!</Link>
           </Button>
         </div>
       </div>

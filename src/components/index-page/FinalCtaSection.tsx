@@ -30,7 +30,7 @@ const FinalCtaSection = () => (
             asChild
           >
             <Link to="/demo">
-              Book Test Drive!
+              Book Demo!
             </Link>
           </Button>
         </div>
