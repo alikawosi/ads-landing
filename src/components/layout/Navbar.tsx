@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -12,7 +11,7 @@ import {
   Layers,
   Users,
 } from "lucide-react";
-import { NAVIGATION, COMPANY_NAME } from "../../constants";
+import { NAVIGATION, COMPANY_NAME, EXTERNAL_APP_URL } from "../../constants";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -84,11 +83,9 @@ const Navbar = () => {
         "AI agent searches based on user preferences and finds cars at the best prices",
       href: "/solutions/automated-search",
       icon: <Key className="h-6 w-6 text-green-500" />,
-      badge: <Badge className="ml-2 bg-amber-500">Beta</Badge>,
+      badge: null,
     },
   ];
-
-  const externalAppUrl = "https://www.app.autodealersolution.com";
 
   return (
     <nav
@@ -121,7 +118,7 @@ const Navbar = () => {
                     Solutions
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="w-[500px] p-4 bg-white dark:bg-gray-900 shadow-lg rounded-md">
+                    <div className="w-[750px] p-4 bg-white dark:bg-gray-900 shadow-lg rounded-md">
                       <div className="grid grid-cols-2 gap-4">
                         {solutions.map((solution) => (
                           <Link
@@ -150,17 +147,18 @@ const Navbar = () => {
               </NavigationMenuList>
             </NavigationMenu>
 
-            {NAVIGATION.map((item) => (
-              item.href !== "/community" && (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
-                >
-                  {item.name}
-                </Link>
-              )
-            ))}
+            {NAVIGATION.map(
+              (item) =>
+                item.href !== "/community" && (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
+                  >
+                    {item.name}
+                  </Link>
+                )
+            )}
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
@@ -169,10 +167,23 @@ const Navbar = () => {
               asChild
               className="rounded-[16px] px-6 py-2 border-2 border-saas-blue"
             >
-              <a href={externalAppUrl} target="_blank" rel="noopener noreferrer">Log in</a>
+              <a
+                href={EXTERNAL_APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Log in
+              </a>
             </Button>
-            <Button className="rounded-[16px] px-6 py-2 flex items-center gap-2" asChild>
-              <a href={externalAppUrl} target="_blank" rel="noopener noreferrer">
+            <Button
+              className="rounded-[16px] px-6 py-2 flex items-center gap-2"
+              asChild
+            >
+              <a
+                href={EXTERNAL_APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Sign up
                 <Car className="h-4 w-4" />
               </a>
@@ -231,18 +242,19 @@ const Navbar = () => {
                 )}
               </div>
 
-              {NAVIGATION.map((item) => (
-                item.href !== "/community" && (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                )
-              ))}
+              {NAVIGATION.map(
+                (item) =>
+                  item.href !== "/community" && (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className="px-3 py-2 text-gray-600 dark:text-gray-300 hover:text-saas-blue dark:hover:text-saas-blue"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  )
+              )}
 
               <div className="flex flex-col space-y-2 pt-2 border-t">
                 <Button
@@ -250,10 +262,23 @@ const Navbar = () => {
                   className="w-full rounded-[16px] px-6 py-2 border-2 border-saas-blue"
                   asChild
                 >
-                  <a href={externalAppUrl} target="_blank" rel="noopener noreferrer">Log in</a>
+                  <a
+                    href={EXTERNAL_APP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Log in
+                  </a>
                 </Button>
-                <Button className="w-full rounded-[16px] px-6 py-2 flex items-center justify-center gap-2" asChild>
-                  <a href={externalAppUrl} target="_blank" rel="noopener noreferrer">
+                <Button
+                  className="w-full rounded-[16px] px-6 py-2 flex items-center justify-center gap-2"
+                  asChild
+                >
+                  <a
+                    href={EXTERNAL_APP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Sign up
                     <Car className="h-4 w-4" />
                   </a>

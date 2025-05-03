@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,16 +16,14 @@ import MarketingTool from "./pages/MarketingTool";
 import AutomatedSearch from "./pages/AutomatedSearch";
 import StockManagement from "./pages/StockManagement";
 import Community from "./pages/Community";
+import { EXTERNAL_APP_URL } from "./constants";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  // External app URL for authentication
-  const externalAppUrl = "https://www.app.autodealersolution.com";
-  
   // Function to redirect to external app
   const redirectToExternalApp = () => {
-    window.location.href = externalAppUrl;
+    window.location.href = EXTERNAL_APP_URL;
     return null;
   };
 
@@ -46,11 +43,22 @@ const App = () => {
             <Route path="/demo" element={<Demo />} />
             <Route path="/community" element={<Community />} />
             <Route path="/solutions/ads-search" element={<AdsSearch />} />
-            <Route path="/solutions/marketing-tool" element={<MarketingTool />} />
-            <Route path="/solutions/automated-search" element={<AutomatedSearch />} />
-            <Route path="/solutions/stock-management" element={<StockManagement />} />
-            <Route path="/signup" element={<Contact />} /> {/* Keeping Contact as fallback */}
-            <Route path="/login" element={<Contact />} /> {/* Keeping Contact as fallback */}
+            <Route
+              path="/solutions/marketing-tool"
+              element={<MarketingTool />}
+            />
+            <Route
+              path="/solutions/automated-search"
+              element={<AutomatedSearch />}
+            />
+            <Route
+              path="/solutions/stock-management"
+              element={<StockManagement />}
+            />
+            <Route path="/signup" element={<Contact />} />{" "}
+            {/* Keeping Contact as fallback */}
+            <Route path="/login" element={<Contact />} />{" "}
+            {/* Keeping Contact as fallback */}
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

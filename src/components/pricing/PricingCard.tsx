@@ -1,10 +1,17 @@
-
-import React from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
-import PriceDisplay from './PriceDisplay';
-import FeaturesList from './FeaturesList';
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import PriceDisplay from "./PriceDisplay";
+import FeaturesList from "./FeaturesList";
+import { EXTERNAL_APP_URL } from "@/constants";
 
 interface PricingCardProps {
   name: string;
@@ -24,7 +31,7 @@ class PricingCard extends React.Component<PricingCardProps> {
   static defaultProps = {
     popular: false,
     cta: "Subscribe",
-    priceId: ""
+    priceId: "",
   };
 
   renderPopularBadge() {
@@ -41,20 +48,18 @@ class PricingCard extends React.Component<PricingCardProps> {
   }
 
   render() {
-    const { 
-      name, 
-      price, 
-      description, 
-      features, 
-      popular, 
-      cta, 
-      billingType 
-    } = this.props;
-    
-    const displayPrice = billingType === 'monthly' ? price.monthly : price.annually;
+    const { name, price, description, features, popular, cta, billingType } =
+      this.props;
+
+    const displayPrice =
+      billingType === "monthly" ? price.monthly : price.annually;
 
     return (
-      <Card className={`relative h-full flex flex-col ${popular ? 'border-saas-blue shadow-lg' : 'border-gray-200'}`}>
+      <Card
+        className={`relative h-full flex flex-col ${
+          popular ? "border-saas-blue shadow-lg" : "border-gray-200"
+        }`}
+      >
         {this.renderPopularBadge()}
         <CardHeader>
           <CardTitle>{name}</CardTitle>
@@ -65,9 +70,9 @@ class PricingCard extends React.Component<PricingCardProps> {
           <FeaturesList features={features} />
         </CardContent>
         <CardFooter>
-          <SubscribeButton 
-            popular={popular} 
-            cta={cta} 
+          <SubscribeButton
+            popular={popular}
+            cta={cta}
             name={name}
             priceId={`${name}-${billingType}`}
           />
@@ -84,17 +89,22 @@ interface SubscribeButtonProps {
   priceId: string;
 }
 
-const SubscribeButton: React.FC<SubscribeButtonProps> = ({ popular, cta, name, priceId }) => {
-  const externalAppUrl = "https://www.app.autodealersolution.com";
-  
+const SubscribeButton: React.FC<SubscribeButtonProps> = ({
+  popular,
+  cta,
+  name,
+  priceId,
+}) => {
   const handleSubscribe = () => {
-    window.open(externalAppUrl, '_blank', 'noopener,noreferrer');
+    window.open(EXTERNAL_APP_URL, "_blank", "noopener,noreferrer");
   };
-  
+
   return (
-    <Button 
-      className={`w-full ${popular ? 'bg-saas-blue hover:bg-saas-blue/90' : ''}`} 
-      variant={popular ? 'default' : 'outline'}
+    <Button
+      className={`w-full ${
+        popular ? "bg-saas-blue hover:bg-saas-blue/90" : ""
+      }`}
+      variant={popular ? "default" : "outline"}
       onClick={handleSubscribe}
     >
       {cta}

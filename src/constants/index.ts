@@ -1,21 +1,25 @@
-export const COMPANY_NAME = "autodealersolution";
+export const COMPANY_NAME = "Auto Dealer Solutions ";
 
 export const NAVIGATION = [
   { name: "Pricing", href: "/pricing" },
   { name: "Contact", href: "/contact" },
-  { name: "About Us", href: "/about" },
+  { name: "About", href: "/about" },
 ];
 
 export const COPYRIGHT = `© ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.`;
 
+export const EXTERNAL_APP_URL = "https://www.app.autodealersolution.com";
+export const CALENDAR_BOOKING_URL =
+  "https://calendar.app.google/XTHicyBh41FqEfX3A";
+
 export const CONTACT_INFO = {
-  email: "info@autodealersolution.com",
+  email: "support@autodealersolutions.co.uk",
   phone: "+1 (555) 123-4567",
-  address: "123 Auto Plaza, Suite 100, San Francisco, CA 94105",
+  address: "Aurora House 71-75 Uxbridge Road \nLondon, England \nW5 5SL",
   social: {
-    twitter: "https://twitter.com/autodealersolution",
-    linkedin: "https://linkedin.com/company/autodealersolution",
-    facebook: "https://facebook.com/autodealersolution",
+    twitter: "",
+    linkedin: "https://www.linkedin.com/company/auto-dealer-solutions-limited",
+    facebook: "",
   },
 };
 

@@ -70,17 +70,6 @@ const WhatWeOfferSection = () => (
           </CardContent>
         </Card>
       </div>
-      <div className="text-center mt-12">
-        <Button variant="outline" className="rounded-md group" asChild>
-          <Link to="/about" className="flex items-center justify-center">
-            <span>View all features</span>
-            <ArrowRight
-              size={16}
-              className="ml-2 group-hover:translate-x-1 transition-transform"
-            />
-          </Link>
-        </Button>
-      </div>
     </div>
   </section>
 );

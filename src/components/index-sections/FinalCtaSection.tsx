@@ -1,8 +1,8 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Car } from "lucide-react";
+import { EXTERNAL_APP_URL } from "@/constants";
 
 const FinalCtaSection = () => (
   <section className="py-20 bg-saas-blue text-white">
@@ -21,7 +21,11 @@ const FinalCtaSection = () => (
             className="bg-white text-saas-blue hover:bg-gray-100 flex items-center gap-2"
             asChild
           >
-            <a href="https://www.app.autodealersolution.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href={EXTERNAL_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Start Driving
               <Car className="h-4 w-4" />
             </a>
@@ -32,7 +36,7 @@ const FinalCtaSection = () => (
             className="text-white bg-saas-blue"
             asChild
           >
-            <Link to="/demo">Book Demo!</Link>
+            <Link to="/demo">Book Demo</Link>
           </Button>
         </div>
       </div>

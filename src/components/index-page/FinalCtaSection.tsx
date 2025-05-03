@@ -1,37 +1,42 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Car } from "lucide-react";
+import { EXTERNAL_APP_URL } from "@/constants";
 
 const FinalCtaSection = () => (
   <section className="py-20 bg-saas-blue text-white">
     <div className="container mx-auto px-4 md:px-6">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to transform your dealership?</h2>
+        <h2 className="text-3xl md:text-4xl font-bold mb-6">
+          Ready to transform your dealership?
+        </h2>
         <p className="text-xl mb-8 opacity-90">
-          Join thousands of dealerships already using our AI solutions to optimize inventory, match customers, and increase profits.
+          Join thousands of dealerships already using our AI solutions to
+          optimize inventory, match customers, and increase profits.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button 
-            size="lg" 
-            className="bg-white text-saas-blue hover:bg-gray-100 flex items-center gap-2" 
+          <Button
+            size="lg"
+            className="bg-white text-saas-blue hover:bg-gray-100 flex items-center gap-2"
             asChild
           >
-            <a href="https://www.app.autodealersolution.com" target="_blank" rel="noopener noreferrer">
+            <a
+              href={EXTERNAL_APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Start Driving
               <Car className="h-4 w-4" />
             </a>
           </Button>
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-white text-white hover:bg-white/20" 
+          <Button
+            size="lg"
+            variant="outline"
+            className="border-white text-white hover:bg-white/20"
             asChild
           >
-            <Link to="/demo">
-              Book Demo!
-            </Link>
+            <Link to="/demo">Book Demo!</Link>
           </Button>
         </div>
       </div>
