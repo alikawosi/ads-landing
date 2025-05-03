@@ -85,10 +85,10 @@ interface SubscribeButtonProps {
 }
 
 const SubscribeButton: React.FC<SubscribeButtonProps> = ({ popular, cta, name, priceId }) => {
-  const navigate = useNavigate();
+  const externalAppUrl = "https://www.app.autodealersolution.com";
   
   const handleSubscribe = () => {
-    navigate('/signup', { state: { plan: name, priceId } });
+    window.open(externalAppUrl, '_blank', 'noopener,noreferrer');
   };
   
   return (

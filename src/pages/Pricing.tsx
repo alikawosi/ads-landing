@@ -72,9 +72,9 @@ class Pricing extends React.Component {
         />
         <CTASection
           title="Ready to Transform Your Dealership?"
-          subtitle="Get started with a 14-day free trial. No credit card required."
-          ctaText="Start Free Trial"
-          ctaLink="/signup"
+          subtitle="Get started today. No credit card required."
+          ctaText="Start Driving"
+          ctaLink="https://www.app.autodealersolution.com"
           secondaryCtaText="Contact Sales"
           secondaryCtaLink="/contact"
         />

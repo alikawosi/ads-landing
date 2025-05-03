@@ -18,10 +18,10 @@ const FinalCtaSection = () => (
             className="bg-white text-saas-blue hover:bg-gray-100 flex items-center gap-2" 
             asChild
           >
-            <Link to="/signup">
+            <a href="https://www.app.autodealersolution.com" target="_blank" rel="noopener noreferrer">
               Start Driving
               <Car className="h-4 w-4" />
-            </Link>
+            </a>
           </Button>
           <Button 
             size="lg" 

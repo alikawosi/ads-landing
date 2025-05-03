@@ -20,33 +20,44 @@ import Community from "./pages/Community";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/demo" element={<Demo />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/solutions/ads-search" element={<AdsSearch />} />
-          <Route path="/solutions/marketing-tool" element={<MarketingTool />} />
-          <Route path="/solutions/automated-search" element={<AutomatedSearch />} />
-          <Route path="/solutions/stock-management" element={<StockManagement />} />
-          <Route path="/signup" element={<Contact />} /> {/* Using Contact page as signup for now */}
-          <Route path="/login" element={<Contact />} /> {/* Using Contact page as login for now */}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  // External app URL for authentication
+  const externalAppUrl = "https://www.app.autodealersolution.com";
+  
+  // Function to redirect to external app
+  const redirectToExternalApp = () => {
+    window.location.href = externalAppUrl;
+    return null;
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/demo" element={<Demo />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/solutions/ads-search" element={<AdsSearch />} />
+            <Route path="/solutions/marketing-tool" element={<MarketingTool />} />
+            <Route path="/solutions/automated-search" element={<AutomatedSearch />} />
+            <Route path="/solutions/stock-management" element={<StockManagement />} />
+            <Route path="/signup" element={<Contact />} /> {/* Keeping Contact as fallback */}
+            <Route path="/login" element={<Contact />} /> {/* Keeping Contact as fallback */}
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

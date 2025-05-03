@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -111,15 +110,15 @@ const AdsSearch = () => {
                   One search to rule them all - access AutoTrader, Gumtree, Motors.co.uk and more with a single click
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
-                  <Link to="/signup">
+                  <a href="https://www.app.autodealersolution.com" target="_blank" rel="noopener noreferrer">
                     <Button size="lg" className="group animate-pulse-slow">
                       Start Driving
                       <Car className="ml-2" />
                     </Button>
-                  </Link>
+                  </a>
                   <Link to="/demo">
                     <Button size="lg" variant="outline">
-                      Book Test Drive!
+                      Book Demo!
                     </Button>
                   </Link>
                 </div>
@@ -397,7 +396,7 @@ const AdsSearch = () => {
           title="Ready to revolutionize your vehicle search?"
           subtitle="Access every major automotive marketplace with one powerful tool"
           ctaText="Start Driving Now"
-          ctaLink="/demo"
+          ctaLink="https://www.app.autodealersolution.com"
           backgroundClass="bg-gradient-to-r from-blue-500 to-purple-600"
         />
       </div>

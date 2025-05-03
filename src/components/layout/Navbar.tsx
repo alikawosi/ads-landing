@@ -88,6 +88,8 @@ const Navbar = () => {
     },
   ];
 
+  const externalAppUrl = "https://www.app.autodealersolution.com";
+
   return (
     <nav
       className={cn(
@@ -167,13 +169,13 @@ const Navbar = () => {
               asChild
               className="rounded-[16px] px-6 py-2 border-2 border-saas-blue"
             >
-              <Link to="/login">Log in</Link>
+              <a href={externalAppUrl} target="_blank" rel="noopener noreferrer">Log in</a>
             </Button>
             <Button className="rounded-[16px] px-6 py-2 flex items-center gap-2" asChild>
-              <Link to="/signup">
+              <a href={externalAppUrl} target="_blank" rel="noopener noreferrer">
                 Sign up
                 <Car className="h-4 w-4" />
-              </Link>
+              </a>
             </Button>
           </div>
 
@@ -248,13 +250,13 @@ const Navbar = () => {
                   className="w-full rounded-[16px] px-6 py-2 border-2 border-saas-blue"
                   asChild
                 >
-                  <Link to="/login">Log in</Link>
+                  <a href={externalAppUrl} target="_blank" rel="noopener noreferrer">Log in</a>
                 </Button>
                 <Button className="w-full rounded-[16px] px-6 py-2 flex items-center justify-center gap-2" asChild>
-                  <Link to="/signup">
+                  <a href={externalAppUrl} target="_blank" rel="noopener noreferrer">
                     Sign up
                     <Car className="h-4 w-4" />
-                  </Link>
+                  </a>
                 </Button>
               </div>
             </div>

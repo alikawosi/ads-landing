@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/layout/Layout';
 import { Button } from '@/components/ui/button';
@@ -91,7 +92,8 @@ const MarketingTool = () => {
         <HeroSection 
           title="Boost Your Vehicle Marketing Reach" 
           subtitle="Seamlessly create and manage social media posts across all platforms to maximize your inventory visibility" 
-          ctaText="Start Marketing" 
+          ctaText="Start Driving" 
+          ctaLink="https://www.app.autodealersolution.com"
           secondaryCtaText="Schedule Demo"
           secondaryCtaLink="/demo"
         />
@@ -321,9 +323,9 @@ const MarketingTool = () => {
                 Join thousands of businesses that have improved their social media presence and increased sales with our marketing solution.
               </p>
               <Button size="lg" variant="secondary" className="bg-white text-purple-600 hover:bg-gray-100" asChild>
-                <Link to="/demo">
-                  Schedule a Demo <ChevronRight className="ml-2" />
-                </Link>
+                <a href="https://www.app.autodealersolution.com" target="_blank" rel="noopener noreferrer">
+                  Start Driving Now <ChevronRight className="ml-2" />
+                </a>
               </Button>
             </div>
           </div>
