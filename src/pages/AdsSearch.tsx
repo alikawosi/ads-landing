@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Layout from "../components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -13,7 +14,6 @@ import {
 import CTASection from "@/components/ui/cta-section";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CarCascadeCard from "@/components/ui/CarCascadeCard";
 import { EXTERNAL_APP_URL } from "@/constants";
 
 const AdsSearch = () => {

@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -5,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, CheckCircle2, Clock, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { CALENDAR_BOOKING_URL, COMPANY_NAME } from "@/constants";
-import CarCard from "@/components/ui/car-card";
 
 // Calendar booking URL
 
