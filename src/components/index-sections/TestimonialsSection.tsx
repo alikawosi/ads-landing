@@ -1,4 +1,3 @@
-
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
@@ -45,7 +44,7 @@ class TestimonialsColumn extends React.Component<TestimonialsColumnProps> {
                   </div>
                   <div className="flex items-center gap-3 mt-4">
                     <img
-                      src={`/src/assets/${testimonial.imageSrc}`}
+                      src={`/assets/${testimonial.imageSrc}`}
                       alt={testimonial.name}
                       width={40}
                       height={40}

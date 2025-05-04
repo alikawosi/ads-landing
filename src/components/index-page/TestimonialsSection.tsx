@@ -53,7 +53,7 @@ class TestimonialsSection extends React.Component {
                   <div className="flex items-center">
                     <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center overflow-hidden mr-3">
                       <img 
-                        src={`/src/assets/avatar-${idx + 1}.png`} 
+                        src={`/assets/avatar-${idx + 1}.png`} 
                         alt={testimonial.author}
                         className="w-full h-full object-cover"
                       />
