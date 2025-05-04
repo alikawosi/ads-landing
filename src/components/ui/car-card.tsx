@@ -39,7 +39,7 @@ const CarCard = ({
   }[priceTag] as "success" | "secondary" | "destructive" | "default";
 
   return (
-    <Card className={cn("overflow-hidden transition-all hover:shadow-lg", className)}>
+    <Card className={cn("overflow-hidden transition-all hover:shadow-lg w-full mx-auto max-w-xs", className)}>
       <div className="aspect-video w-full relative">
         <img
           src={image}

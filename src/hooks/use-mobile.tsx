@@ -1,6 +1,7 @@
 
 import * as React from "react"
 
+// Updated mobile breakpoint to match common mobile screen sizes
 const MOBILE_BREAKPOINT = 768
 
 export function useIsMobile() {
@@ -13,9 +14,13 @@ export function useIsMobile() {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
     }
     
-    window.addEventListener('resize', checkMobile)
+    // Initial check
     checkMobile()
     
+    // Add event listener
+    window.addEventListener('resize', checkMobile)
+    
+    // Cleanup
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 

@@ -62,20 +62,20 @@ const carHeroData = [
   },
 ];
 
-// Desktop card positions
+// Desktop card positions - adjusted for better centering
 const desktopCardPositions: CardPosition[] = [
-  { left: "-3%", top: "55%", animation: "down" },
-  { left: "4%", top: "5%", animation: "up" },
+  { left: "-2%", top: "55%", animation: "down" },
+  { left: "5%", top: "5%", animation: "up" },
   { left: "42%", top: "60%", animation: "down" },
   { left: "58%", top: "0%", animation: "up" },
 ];
 
-// Mobile card positions - more condensed
+// Mobile card positions - more centered
 const mobileCardPositions: CardPosition[] = [
-  { left: "0%", top: "50%", animation: "down" },
-  { left: "0%", top: "0%", animation: "up" },
-  { left: "40%", top: "55%", animation: "down" },
-  { left: "40%", top: "5%", animation: "up" },
+  { left: "5%", top: "50%", animation: "down" },
+  { left: "5%", top: "0%", animation: "up" },
+  { left: "45%", top: "55%", animation: "down" },
+  { left: "45%", top: "5%", animation: "up" },
 ];
 
 const getFloatAnimationClass = (animationType: AnimationType) => {
@@ -94,11 +94,12 @@ const HeroSection = ({
   const cardPositions = isMobile ? mobileCardPositions : desktopCardPositions;
   
   return (
-    <section className="pt-20 pb-16 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
+    <section className="pt-16 pb-16 md:pt-24 md:pb-24 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className="flex flex-col space-y-4 md:space-y-6 animate-slide-in-left text-center lg:text-left">
-            <div className="items-center px-3 py-1 rounded-full flex w-48 mx-auto lg:mx-0 bg-saas-blue/10 text-saas-blue text-sm font-medium ">
+        {/* Changed to flex-col to stack elements on mobile */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="flex flex-col space-y-4 md:space-y-6 animate-slide-in-left text-center order-2 lg:order-1 lg:text-left">
+            <div className="items-center px-3 py-1 rounded-full flex w-48 mx-auto lg:mx-0 bg-saas-blue/10 text-saas-blue text-sm font-medium">
               <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
               AI-Powered Solutions
             </div>
@@ -147,7 +148,7 @@ const HeroSection = ({
           </div>
           
           {/* Card "gallery" with responsive adjustments */}
-          <div className="relative h-[300px] md:h-[410px] w-full mt-8 lg:mt-0">
+          <div className="relative h-[280px] sm:h-[300px] md:h-[380px] w-full mt-8 lg:mt-0 order-1 lg:order-2">
             {carHeroData.map((car, idx) => {
               const pos = cardPositions[idx % cardPositions.length];
               return (
@@ -160,7 +161,7 @@ const HeroSection = ({
                     left: pos.left,
                     top: pos.top,
                     zIndex: 30 - idx,
-                    width: isMobile ? "200px" : "260px",
+                    width: isMobile ? "160px" : "260px",
                     animationDelay: `${idx * 0.23}s`,
                   }}
                 >
