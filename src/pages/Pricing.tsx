@@ -21,7 +21,7 @@ class Pricing extends React.Component {
       {
         question: "Do you offer refunds?",
         answer:
-          "We offer a 30-day money-back guarantee if you're not satisfied with our service.",
+          "We offer a 10-days money-back guarantee if you're not satisfied with our service.",
       },
     ];
   }
