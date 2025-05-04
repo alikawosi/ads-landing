@@ -1,7 +1,8 @@
+
 "use client";
 
 import { useEffect, useMemo, useRef } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useLocation } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -35,6 +36,7 @@ export default function TermlyCMP({
   }, [autoBlock, masterConsentsOrigin, websiteUUID]);
 
   const isScriptAdded = useRef(false);
+  const location = useLocation();
 
   useEffect(() => {
     if (isScriptAdded.current) return;
@@ -44,12 +46,9 @@ export default function TermlyCMP({
     isScriptAdded.current = true;
   }, [scriptSrc]);
 
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   useEffect(() => {
     window.Termly?.initialize();
-  }, [pathname, searchParams]);
+  }, [location]);
 
   return null;
 }
