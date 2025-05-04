@@ -26,3 +26,27 @@ export function useIsMobile() {
 
   return isMobile
 }
+
+// Add a new hook to detect extra small devices
+export function useIsExtraSmall() {
+  const [isExtraSmall, setIsExtraSmall] = React.useState<boolean>(
+    typeof window !== 'undefined' ? window.innerWidth < 480 : false
+  )
+
+  React.useEffect(() => {
+    const checkExtraSmall = () => {
+      setIsExtraSmall(window.innerWidth < 480)
+    }
+    
+    // Initial check
+    checkExtraSmall()
+    
+    // Add event listener
+    window.addEventListener('resize', checkExtraSmall)
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkExtraSmall)
+  }, [])
+
+  return isExtraSmall
+}

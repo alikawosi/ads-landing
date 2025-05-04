@@ -70,12 +70,12 @@ const desktopCardPositions: CardPosition[] = [
   { left: "58%", top: "0%", animation: "up" },
 ];
 
-// Mobile card positions - more centered
+// Mobile card positions - horizontal row layout
 const mobileCardPositions: CardPosition[] = [
-  { left: "5%", top: "50%", animation: "down" },
-  { left: "5%", top: "0%", animation: "up" },
-  { left: "45%", top: "55%", animation: "down" },
-  { left: "45%", top: "5%", animation: "up" },
+  { left: "5%", top: "0%", animation: "down" },
+  { left: "30%", top: "0%", animation: "up" },
+  { left: "55%", top: "0%", animation: "down" },
+  { left: "80%", top: "0%", animation: "up" },
 ];
 
 const getFloatAnimationClass = (animationType: AnimationType) => {
@@ -147,28 +147,31 @@ const HeroSection = ({
             </div>
           </div>
           
-          {/* Card "gallery" with responsive adjustments */}
-          <div className="relative h-[280px] sm:h-[300px] md:h-[380px] w-full mt-8 lg:mt-0 order-1 lg:order-2">
-            {carHeroData.map((car, idx) => {
-              const pos = cardPositions[idx % cardPositions.length];
-              return (
-                <div
-                  key={car.model}
-                  className={`absolute ${getFloatAnimationClass(
-                    pos.animation
-                  )} shadow-xl transition-all rounded-xl`}
-                  style={{
-                    left: pos.left,
-                    top: pos.top,
-                    zIndex: 30 - idx,
-                    width: isMobile ? "160px" : "260px",
-                    animationDelay: `${idx * 0.23}s`,
-                  }}
-                >
-                  <CarCascadeCard {...car} animationClass="" />
-                </div>
-              );
-            })}
+          {/* Card "gallery" with responsive adjustments - horizontal cascade on mobile */}
+          <div className="relative h-[180px] sm:h-[300px] md:h-[380px] w-full mt-8 lg:mt-0 order-1 lg:order-2 overflow-x-visible">
+            <div className={`flex ${isMobile ? "overflow-x-auto pb-4 -mx-4 px-4 w-[100vw] absolute left-1/2 transform -translate-x-1/2" : ""}`}>
+              {carHeroData.map((car, idx) => {
+                const pos = cardPositions[idx % cardPositions.length];
+                return (
+                  <div
+                    key={car.model}
+                    className={`${isMobile ? "relative mx-2 first:ml-auto last:mr-auto" : "absolute"} ${
+                      !isMobile ? getFloatAnimationClass(pos.animation) : ""
+                    } shadow-xl transition-all rounded-xl`}
+                    style={{
+                      left: isMobile ? "auto" : pos.left,
+                      top: isMobile ? "auto" : pos.top,
+                      zIndex: 30 - idx,
+                      width: isMobile ? "140px" : "260px",
+                      animationDelay: `${idx * 0.23}s`,
+                      transform: isMobile ? `translateX(${idx * -10}px)` : "none"
+                    }}
+                  >
+                    <CarCascadeCard {...car} animationClass="" />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

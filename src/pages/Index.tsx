@@ -10,12 +10,16 @@ import FinalCtaSection from "@/components/index-sections/FinalCtaSection";
 
 const Index = () => (
   <Layout fullWidth>
-    <HeroLandingSection />
-    <StatsSection />
-    <WhatWeOfferSection />
-    <HowItWorksSection />
-    <TestimonialsSection />
-    <FinalCtaSection />
+    <div className="overflow-x-hidden"> {/* Added to control horizontal overflow from cards */}
+      <HeroLandingSection />
+      <div className="mt-20 md:mt-0"> {/* Added top margin on mobile for content below hero */}
+        <StatsSection />
+        <WhatWeOfferSection />
+        <HowItWorksSection />
+        <TestimonialsSection />
+        <FinalCtaSection />
+      </div>
+    </div>
   </Layout>
 );
 
