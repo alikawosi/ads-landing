@@ -1,9 +1,10 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import CarCascadeCard from "./CarCascadeCard";
 import { Car } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile, useIsExtraSmall } from "@/hooks/use-mobile";
 
 interface HeroSectionProps {
   title: string;
@@ -61,30 +62,22 @@ const carHeroData = [
   },
 ];
 
-// --- Fix: correct type on array! Only use AnimationType
-const cardGalleryPositions: CardPosition[] = [
-  // (x, y, animationType)
-  {
-    left: "5%",
-    top: "60%",
-    animation: "down",
-  },
-  {
-    left: "0%",
-    top: "0%",
-    animation: "up",
-  },
-  {
-    left: "50%",
-    top: "55%",
-    animation: "down",
-  },
-  {
-    left: "45%",
-    top: "-2%",
-    animation: "up",
-  },
+// Desktop card positions
+const desktopCardPositions: CardPosition[] = [
+  { left: "5%", top: "60%", animation: "down" },
+  { left: "0%", top: "0%", animation: "up" },
+  { left: "50%", top: "55%", animation: "down" },
+  { left: "45%", top: "-2%", animation: "up" },
 ];
+
+// Mobile card positions - set for horizontal cascade
+const mobileCardPositions: CardPosition[] = [
+  { left: "0%", top: "0%", animation: "down" },
+  { left: "10%", top: "0%", animation: "up" },
+  { left: "20%", top: "0%", animation: "down" },
+  { left: "30%", top: "0%", animation: "up" },
+];
+
 // Only return float class, not fade.
 const getFloatAnimationClass = (animationType: AnimationType) => {
   return animationType === "up" ? "animate-float-up" : "animate-float-down";
@@ -99,12 +92,12 @@ const HeroSection = ({
   secondaryCtaLink,
 }: HeroSectionProps) => {
   const isMobile = useIsMobile();
+  const isExtraSmall = useIsExtraSmall();
   const cardPositions = isMobile ? mobileCardPositions : desktopCardPositions;
 
   return (
     <section className="pt-16 pb-16 md:pt-24 md:pb-24 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
-        {/* Changed to flex-col to stack elements on mobile */}
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
           <div className="flex flex-col space-y-4 md:space-y-6 animate-slide-in-left text-center order-2 lg:order-1 lg:text-left">
             <div className="items-center px-3 py-1 rounded-full flex w-48 mx-auto lg:mx-0 bg-saas-blue/10 text-saas-blue text-sm font-medium">
@@ -159,48 +152,59 @@ const HeroSection = ({
             </div>
           </div>
 
-          {/* Card "gallery" with responsive adjustments - horizontal cascade on mobile */}
-          <div className="relative h-[180px] sm:h-[300px] md:h-[380px] w-full mt-8 lg:mt-0 order-1 lg:order-2 overflow-x-visible">
-            <div
-              className={`flex ${
-                isMobile
-                  ? "overflow-x-auto pb-4 -mx-4 px-4 w-[100vw] absolute left-1/2 transform -translate-x-1/2"
-                  : ""
-              }`}
-            >
-              {carHeroData.map((car, idx) => {
-                const pos = cardPositions[idx % cardPositions.length];
-                return (
+          {/* Card "gallery" with improved mobile cascade layout */}
+          <div className="relative h-[220px] sm:h-[300px] md:h-[380px] w-full order-1 lg:order-2 overflow-visible">
+            {isMobile ? (
+              <div className="flex overflow-x-visible w-full relative h-full justify-center">
+                {carHeroData.map((car, idx) => (
                   <div
                     key={car.model}
-                    className={`${
-                      isMobile
-                        ? "relative mx-2 first:ml-auto last:mr-auto"
-                        : "absolute"
-                    } ${
-                      !isMobile ? getFloatAnimationClass(pos.animation) : ""
-                    } shadow-xl transition-all rounded-xl`}
+                    className="absolute transition-all rounded-xl shadow-xl"
                     style={{
-                      left: isMobile ? "auto" : pos.left,
-                      top: isMobile ? "auto" : pos.top,
-                      zIndex: 30 - idx,
-                      width: isMobile ? "140px" : "260px",
-                      animationDelay: `${idx * 0.23}s`,
-                      transform: isMobile
-                        ? `translateX(${idx * -10}px)`
-                        : "none",
+                      left: `calc(50% - ${120 - idx * 30}px)`,
+                      top: `${idx * 10}px`,
+                      zIndex: carHeroData.length - idx,
+                      width: isExtraSmall ? "120px" : "160px",
+                      transform: `rotate(${idx * 2 - 3}deg)`,
                     }}
                   >
                     <CarCascadeCard {...car} animationClass="" />
                   </div>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="relative h-full w-full">
+                {carHeroData.map((car, idx) => {
+                  const pos = cardPositions[idx % cardPositions.length];
+                  return (
+                    <div
+                      key={car.model}
+                      className={`absolute ${getFloatAnimationClass(
+                        pos.animation
+                      )} shadow-xl transition-all rounded-xl`}
+                      style={{
+                        left: pos.left,
+                        top: pos.top,
+                        zIndex: 30 - idx,
+                        width: "260px",
+                        animationDelay: `${idx * 0.23}s`,
+                      }}
+                    >
+                      <CarCascadeCard {...car} animationClass="" />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Background elements */}
       <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"></div>
+
+      {/* Animation styles */}
       <style>
         {`
         @keyframes floatUp {

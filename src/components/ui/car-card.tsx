@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile, useIsExtraSmall } from "@/hooks/use-mobile";
 
 interface CarCardProps {
   model: string;
@@ -31,6 +31,7 @@ const CarCard = ({
   className,
 }: CarCardProps) => {
   const isMobile = useIsMobile();
+  const isExtraSmall = useIsExtraSmall();
   
   const badgeVariant = {
     good: "success",
@@ -39,7 +40,7 @@ const CarCard = ({
   }[priceTag] as "success" | "secondary" | "destructive" | "default";
 
   return (
-    <Card className={cn("overflow-hidden transition-all hover:shadow-lg w-full mx-auto max-w-xs", className)}>
+    <Card className={cn("overflow-hidden transition-all hover:shadow-lg w-full sm:w-[320px] max-w-full mx-auto", className)}>
       <div className="aspect-video w-full relative">
         <img
           src={image}
@@ -48,7 +49,7 @@ const CarCard = ({
         />
         <Badge className="absolute top-3 right-3">{dealType}</Badge>
       </div>
-      <CardHeader className="p-4 md:p-6">
+      <CardHeader className={isExtraSmall ? "p-3" : "p-4 md:p-6"}>
         <div className="flex justify-between items-start">
           <div>
             <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
@@ -59,7 +60,7 @@ const CarCard = ({
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="p-4 md:p-6 pt-0">
+      <CardContent className={isExtraSmall ? "p-3 pt-0" : "p-4 md:p-6 pt-0"}>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4">
           <div className="text-xl md:text-2xl font-bold">£{price.toLocaleString()}</div>
           <div className="text-xs md:text-sm text-muted-foreground">
@@ -67,7 +68,7 @@ const CarCard = ({
           </div>
         </div>
       </CardContent>
-      <CardFooter className="p-4 md:p-6 pt-0">
+      <CardFooter className={isExtraSmall ? "p-3 pt-0" : "p-4 md:p-6 pt-0"}>
         <Button className="w-full group" size={isMobile ? "sm" : "default"}>
           View Details
           <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />

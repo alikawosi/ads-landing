@@ -10,9 +10,9 @@ import FinalCtaSection from "@/components/index-sections/FinalCtaSection";
 
 const Index = () => (
   <Layout fullWidth>
-    <div className="overflow-x-hidden"> {/* Added to control horizontal overflow from cards */}
+    <div className="overflow-x-hidden"> {/* Control horizontal overflow from cards */}
       <HeroLandingSection />
-      <div className="mt-20 md:mt-0"> {/* Added top margin on mobile for content below hero */}
+      <div className="mt-12 md:mt-0"> {/* Reduced top margin on mobile for better content flow */}
         <StatsSection />
         <WhatWeOfferSection />
         <HowItWorksSection />
