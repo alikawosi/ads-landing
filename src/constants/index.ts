@@ -14,7 +14,7 @@ export const CALENDAR_BOOKING_URL =
 
 export const CONTACT_INFO = {
   email: "support@autodealersolutions.co.uk",
-  phone: "+1 (555) 123-4567",
+  phone: "+44 7500 056007",
   address: "Aurora House 71-75 Uxbridge Road \nLondon, England \nW5 5SL",
   social: {
     twitter: "",

@@ -14,6 +14,13 @@ const Footer = () => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
+            <Link to="/" className="flex items-center space-x-2 mb-4">
+              <img
+                src="/src/assets/logo.svg"
+                alt="Logo"
+                className="h-8 w-auto"
+              />
+            </Link>
             <h2 className="text-xl font-bold text-saas-blue mb-4">
               {COMPANY_NAME}
             </h2>

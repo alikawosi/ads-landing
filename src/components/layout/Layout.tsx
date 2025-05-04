@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import TermlyCMP from "../termly/TermlyCMP";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ const Layout = ({ children, fullWidth = false }: LayoutProps) => {
           fullWidth ? "" : "container mx-auto px-4 md:px-6"
         }`}
       >
+        <TermlyCMP websiteUUID="c7b7d90a-ba00-4660-92c0-e69aede86132" />
         {children}
       </main>
       <Footer />

@@ -65,23 +65,23 @@ const carHeroData = [
 const cardGalleryPositions: CardPosition[] = [
   // (x, y, animationType)
   {
-    left: "-3%",
-    top: "55%",
-    animation: "down",
-  },
-  {
-    left: "4%",
-    top: "5%",
-    animation: "up",
-  },
-  {
-    left: "42%",
+    left: "5%",
     top: "60%",
     animation: "down",
   },
   {
-    left: "58%",
+    left: "0%",
     top: "0%",
+    animation: "up",
+  },
+  {
+    left: "50%",
+    top: "55%",
+    animation: "down",
+  },
+  {
+    left: "45%",
+    top: "-2%",
     animation: "up",
   },
 ];
