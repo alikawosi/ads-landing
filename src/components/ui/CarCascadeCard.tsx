@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -10,15 +9,15 @@ interface CarCascadeCardProps {
   mileage: number;
   price: number;
   estimatedPrice: number;
-  priceTag: 'good' | 'fair' | 'high';
-  animation?: 'up' | 'down';
+  priceTag: "good" | "fair" | "high";
+  animation?: "up" | "down";
   animationClass?: string;
 }
 
-export const getPriceTagVariant = (tag: 'good' | 'fair' | 'high') => {
+export const getPriceTagVariant = (tag: "good" | "fair" | "high") => {
   switch (tag) {
     case "good":
-      return "default";
+      return "success";
     case "fair":
       return "secondary"; // This will now use amber-200 color
     case "high":
@@ -28,33 +27,38 @@ export const getPriceTagVariant = (tag: 'good' | 'fair' | 'high') => {
   }
 };
 
-const CarCascadeCard = ({ 
-  model, 
-  year, 
-  mileage, 
-  price, 
-  estimatedPrice, 
+const CarCascadeCard = ({
+  model,
+  year,
+  mileage,
+  price,
+  estimatedPrice,
   priceTag,
-  animationClass = ""
+  animationClass = "",
 }: CarCascadeCardProps) => {
   const priceDifference = price - estimatedPrice;
-  const formattedDifference = priceDifference > 0 
-    ? `+£${Math.abs(priceDifference).toLocaleString()}` 
-    : `-£${Math.abs(priceDifference).toLocaleString()}`;
+  const formattedDifference =
+    priceDifference > 0
+      ? `+£${Math.abs(priceDifference).toLocaleString()}`
+      : `-£${Math.abs(priceDifference).toLocaleString()}`;
 
   return (
-    <Card className={cn("w-full shadow-md bg-white dark:bg-gray-800", animationClass)}>
+    <Card
+      className={cn(
+        "w-full shadow-md bg-white dark:bg-gray-800",
+        animationClass
+      )}
+    >
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <div>
             <h3 className="font-bold text-lg">{model}</h3>
-            <p className="text-muted-foreground text-sm">{year} • {mileage.toLocaleString()} miles</p>
+            <p className="text-muted-foreground text-sm">
+              {year} • {mileage.toLocaleString()} miles
+            </p>
           </div>
-          <Badge 
-            variant={getPriceTagVariant(priceTag)} 
-            className="capitalize"
-          >
-            {priceTag} Price
+          <Badge variant={getPriceTagVariant(priceTag)} className="capitalize">
+            {priceTag}
           </Badge>
         </div>
       </CardHeader>
@@ -66,11 +70,17 @@ const CarCascadeCard = ({
           </div>
           <div className="flex justify-between items-center">
             <span className="text-muted-foreground text-sm">Est. Value</span>
-            <span className="font-semibold">£{estimatedPrice.toLocaleString()}</span>
+            <span className="font-semibold">
+              £{estimatedPrice.toLocaleString()}
+            </span>
           </div>
           <div className="flex justify-between items-center pt-2 border-t">
             <span className="text-muted-foreground text-sm">Difference</span>
-            <span className={`font-bold ${priceDifference > 0 ? "text-red-500" : "text-green-500"}`}>
+            <span
+              className={`font-bold ${
+                priceDifference > 0 ? "text-red-500" : "text-green-500"
+              }`}
+            >
               {formattedDifference}
             </span>
           </div>

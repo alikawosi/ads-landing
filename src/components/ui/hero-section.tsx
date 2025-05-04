@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -55,7 +54,7 @@ const carHeroData = [
     model: "Civic LX",
     year: 2022,
     mileage: 15800,
-    price: 21600,
+    price: 18000,
     estimatedPrice: 21900,
     priceTag: "good" as const,
     animation: "down" as AnimationType,
@@ -66,12 +65,17 @@ const carHeroData = [
 const cardGalleryPositions: CardPosition[] = [
   // (x, y, animationType)
   {
+    left: "-3%",
+    top: "55%",
+    animation: "down",
+  },
+  {
     left: "4%",
     top: "5%",
     animation: "up",
   },
   {
-    left: "32%",
+    left: "42%",
     top: "60%",
     animation: "down",
   },
@@ -79,11 +83,6 @@ const cardGalleryPositions: CardPosition[] = [
     left: "58%",
     top: "0%",
     animation: "up",
-  },
-  {
-    left: "76%",
-    top: "55%",
-    animation: "down",
   },
 ];
 // Only return float class, not fade.

@@ -1,11 +1,10 @@
-
 "use client";
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { PRICING_TIERS } from "@/constants";
-import BillingToggle from '@/components/pricing/BillingToggle';
+import BillingToggle from "@/components/pricing/BillingToggle";
 
 interface PricingTier {
   title: string;
@@ -26,9 +25,10 @@ interface PricingSectionState {
 
 class PricingCard extends React.Component<PricingCardProps> {
   render() {
-    const { title, monthlyPrice, buttonText, popular, inverse, features } = this.props.tier;
+    const { title, monthlyPrice, buttonText, popular, inverse, features } =
+      this.props.tier;
     const monthlyOrAnnualPrice = this.props.tier.monthlyPrice;
-    
+
     return (
       <div
         className={twMerge(
@@ -96,14 +96,14 @@ export class PricingSection extends React.Component<{}, PricingSectionState> {
   constructor(props: {}) {
     super(props);
     this.state = {
-      billingType: 'monthly'
+      billingType: "monthly",
     };
   }
-  
+
   handleBillingTypeChange = (value: string) => {
     this.setState({ billingType: value });
   };
-  
+
   render() {
     return (
       <motion.section
@@ -112,17 +112,12 @@ export class PricingSection extends React.Component<{}, PricingSectionState> {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="">
           <div className="flex flex-col items-center text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Pricing</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl">
-              Free forever. Upgrade for unlimited tasks, better security, and
-              exclusive features.
-            </p>
             <div className="mt-8">
-              <BillingToggle 
-                value={this.state.billingType} 
-                onValueChange={this.handleBillingTypeChange} 
+              <BillingToggle
+                value={this.state.billingType}
+                onValueChange={this.handleBillingTypeChange}
               />
             </div>
           </div>

@@ -33,7 +33,7 @@ class Pricing extends React.Component {
 
   renderHeader() {
     return (
-      <div className="pt-20 pb-16 md:pt-28 md:pb-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950">
+      <div className="pt-20 pb-16 md:pt-28 md:pb-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
