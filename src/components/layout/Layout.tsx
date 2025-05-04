@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -16,7 +17,9 @@ const Layout = ({ children, fullWidth = false }: LayoutProps) => {
           fullWidth ? "" : "container mx-auto px-4 md:px-6"
         }`}
       >
-        {children}
+        <div className="pt-16 md:pt-20"> {/* Add padding-top to account for fixed navbar */}
+          {children}
+        </div>
       </main>
       <Footer />
     </div>

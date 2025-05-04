@@ -1,65 +1,76 @@
 
 import React from "react";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CarCardProps {
-  make: string;
   model: string;
+  make: string;
   year: number;
   price: number;
-  description?: string;
+  mileage: number;
+  priceTag?: "good" | "fair" | "high";
   image?: string;
-  badges?: string[];
-  link?: string;
+  dealType?: string;
+  className?: string;
 }
 
-const CarCard: React.FC<CarCardProps> = ({
-  make,
+const CarCard = ({
   model,
+  make,
   year,
   price,
-  description,
+  mileage,
+  priceTag = "fair",
   image = "/placeholder.svg",
-  badges = [],
-  link = "#",
-}) => {
+  dealType = "Used",
+  className,
+}: CarCardProps) => {
+  const isMobile = useIsMobile();
+  
+  const badgeVariant = {
+    good: "success",
+    fair: "secondary",
+    high: "destructive",
+  }[priceTag] as "success" | "secondary" | "destructive" | "default";
+
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-lg">
-      <div className="aspect-video relative overflow-hidden">
+    <Card className={cn("overflow-hidden transition-all hover:shadow-lg", className)}>
+      <div className="aspect-video w-full relative">
         <img
           src={image}
           alt={`${make} ${model}`}
-          className="object-cover w-full h-full"
+          className="w-full h-full object-cover"
         />
-        {badges && badges.length > 0 && (
-          <div className="absolute top-2 right-2 flex flex-wrap gap-1 justify-end">
-            {badges.map((badge, index) => (
-              <Badge key={index} variant="secondary" className="bg-white/90 shadow-sm">
-                {badge}
-              </Badge>
-            ))}
-          </div>
-        )}
+        <Badge className="absolute top-3 right-3">{dealType}</Badge>
       </div>
-      <CardContent className="p-6">
-        <div className="flex justify-between items-start mb-2">
-          <h3 className="text-xl font-bold">{`${make} ${model}`}</h3>
-          <span className="text-gray-500">{year}</span>
+      <CardHeader className="p-4 md:p-6">
+        <div className="flex justify-between items-start">
+          <div>
+            <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
+            <p className="text-sm text-muted-foreground">{year}</p>
+          </div>
+          <Badge variant={badgeVariant}>
+            {priceTag === "good" ? "Good Deal" : priceTag === "fair" ? "Fair Deal" : "High Price"}
+          </Badge>
         </div>
-        <div className="mb-4">
-          <span className="text-lg font-semibold">£{price.toLocaleString()}</span>
+      </CardHeader>
+      <CardContent className="p-4 md:p-6 pt-0">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 md:gap-4">
+          <div className="text-xl md:text-2xl font-bold">£{price.toLocaleString()}</div>
+          <div className="text-xs md:text-sm text-muted-foreground">
+            {mileage.toLocaleString()} miles
+          </div>
         </div>
-        {description && <p className="text-gray-600 dark:text-gray-300 text-sm">{description}</p>}
       </CardContent>
-      <CardFooter className="p-6 pt-0">
-        <Button asChild className="w-full group">
-          <a href={link}>
-            View Details
-            <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-          </a>
+      <CardFooter className="p-4 md:p-6 pt-0">
+        <Button className="w-full group" size={isMobile ? "sm" : "default"}>
+          View Details
+          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
         </Button>
       </CardFooter>
     </Card>

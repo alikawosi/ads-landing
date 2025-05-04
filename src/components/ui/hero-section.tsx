@@ -1,8 +1,10 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import CarCascadeCard from "./CarCascadeCard";
 import { Car } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface HeroSectionProps {
   title: string;
@@ -15,7 +17,6 @@ interface HeroSectionProps {
 
 type AnimationType = "up" | "down";
 
-// --- Fix: move type annotation for gallery positions!
 interface CardPosition {
   left: string;
   top: string;
@@ -61,31 +62,22 @@ const carHeroData = [
   },
 ];
 
-// --- Fix: correct type on array! Only use AnimationType
-const cardGalleryPositions: CardPosition[] = [
-  // (x, y, animationType)
-  {
-    left: "-3%",
-    top: "55%",
-    animation: "down",
-  },
-  {
-    left: "4%",
-    top: "5%",
-    animation: "up",
-  },
-  {
-    left: "42%",
-    top: "60%",
-    animation: "down",
-  },
-  {
-    left: "58%",
-    top: "0%",
-    animation: "up",
-  },
+// Desktop card positions
+const desktopCardPositions: CardPosition[] = [
+  { left: "-3%", top: "55%", animation: "down" },
+  { left: "4%", top: "5%", animation: "up" },
+  { left: "42%", top: "60%", animation: "down" },
+  { left: "58%", top: "0%", animation: "up" },
 ];
-// Only return float class, not fade.
+
+// Mobile card positions - more condensed
+const mobileCardPositions: CardPosition[] = [
+  { left: "0%", top: "50%", animation: "down" },
+  { left: "0%", top: "0%", animation: "up" },
+  { left: "40%", top: "55%", animation: "down" },
+  { left: "40%", top: "5%", animation: "up" },
+];
+
 const getFloatAnimationClass = (animationType: AnimationType) => {
   return animationType === "up" ? "animate-float-up" : "animate-float-down";
 };
@@ -98,23 +90,26 @@ const HeroSection = ({
   secondaryCtaText,
   secondaryCtaLink,
 }: HeroSectionProps) => {
+  const isMobile = useIsMobile();
+  const cardPositions = isMobile ? mobileCardPositions : desktopCardPositions;
+  
   return (
-    <section className="pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
+    <section className="pt-20 pb-16 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="flex flex-col space-y-6 animate-slide-in-left">
-            <div className="items-center px-3 py-1 rounded-full flex w-48 bg-saas-blue/10 text-saas-blue text-sm font-medium ">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="flex flex-col space-y-4 md:space-y-6 animate-slide-in-left text-center lg:text-left">
+            <div className="items-center px-3 py-1 rounded-full flex w-48 mx-auto lg:mx-0 bg-saas-blue/10 text-saas-blue text-sm font-medium ">
               <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
               AI-Powered Solutions
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
               {title}
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300">
               {subtitle}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="rounded-[16px] px-8" asChild>
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start">
+              <Button size={isMobile ? "default" : "lg"} className="w-full sm:w-auto rounded-[16px] px-6 md:px-8" asChild>
                 <Link to={ctaLink} className="flex items-center gap-2">
                   {ctaText}
                   <Car className="h-4 w-4" />
@@ -122,21 +117,39 @@ const HeroSection = ({
               </Button>
               {secondaryCtaText && (
                 <Button
-                  size="lg"
+                  size={isMobile ? "default" : "lg"}
                   variant="outline"
-                  className="rounded-[16px] px-8"
+                  className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
                   asChild
                 >
                   <Link to={secondaryCtaLink || "#"}>{secondaryCtaText}</Link>
                 </Button>
               )}
             </div>
+
+            <div className="mt-4 md:mt-8 flex items-center gap-3 md:gap-4 justify-center lg:justify-start">
+              <div className="flex -space-x-3 md:-space-x-4">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/20 flex items-center justify-center border-2 border-white"
+                  >
+                    <span className="text-xs md:text-sm text-primary font-bold">
+                      {i}+
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs md:text-sm text-muted-foreground">
+                <span className="font-bold">5,000+</span> cars found today
+              </p>
+            </div>
           </div>
-          {/* Card "gallery": free placement, not in a line or cascade */}
-          <div className="relative h-[410px] min-h-[340px] w-full">
+          
+          {/* Card "gallery" with responsive adjustments */}
+          <div className="relative h-[300px] md:h-[410px] w-full mt-8 lg:mt-0">
             {carHeroData.map((car, idx) => {
-              const pos =
-                cardGalleryPositions[idx % cardGalleryPositions.length];
+              const pos = cardPositions[idx % cardPositions.length];
               return (
                 <div
                   key={car.model}
@@ -147,7 +160,7 @@ const HeroSection = ({
                     left: pos.left,
                     top: pos.top,
                     zIndex: 30 - idx,
-                    width: "260px",
+                    width: isMobile ? "200px" : "260px",
                     animationDelay: `${idx * 0.23}s`,
                   }}
                 >
