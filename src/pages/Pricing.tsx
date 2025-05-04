@@ -14,14 +14,9 @@ class Pricing extends React.Component {
           "Yes, you can upgrade or downgrade your plan at any time. Changes take effect at the start of your next billing cycle.",
       },
       {
-        question: "Is there a free trial?",
-        answer:
-          "Yes, we offer a 14-day free trial for all plans. No credit card required to start.",
-      },
-      {
         question: "How does vehicle counting work?",
         answer:
-          "Vehicle counts are based on active listings in your inventory at any given time, not the total number processed.",
+          "Vehicle counts are based on active listings in your inventory at any given time. We track this automatically.",
       },
       {
         question: "Do you offer refunds?",
