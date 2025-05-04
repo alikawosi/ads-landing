@@ -7,12 +7,13 @@ import {
   CONTACT_INFO,
 } from "../../constants";
 import { Twitter, Linkedin, Facebook, Mail, Phone, MapPin } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 py-12 mt-auto">
+    <footer className="bg-gray-50 dark:bg-gray-900 py-8 md:py-12 mt-auto">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center space-x-2 mb-4">
               <img
@@ -24,7 +25,7 @@ const Footer = () => {
             <h2 className="text-xl font-bold text-saas-blue mb-4">
               {COMPANY_NAME}
             </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
+            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400 mb-4">
               AI-powered solutions to transform the car dealership industry.
             </p>
             <div className="flex space-x-4">
@@ -35,7 +36,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-saas-blue"
                 >
-                  <Twitter size={20} />
+                  <Twitter size={isMobile ? 18 : 20} />
                 </a>
               )}
               {CONTACT_INFO.social.linkedin && (
@@ -45,7 +46,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-saas-blue"
                 >
-                  <Linkedin size={20} />
+                  <Linkedin size={isMobile ? 18 : 20} />
                 </a>
               )}
               {CONTACT_INFO.social.facebook && (
@@ -55,7 +56,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-saas-blue"
                 >
-                  <Facebook size={20} />
+                  <Facebook size={isMobile ? 18 : 20} />
                 </a>
               )}
             </div>
@@ -68,7 +69,7 @@ const Footer = () => {
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className="text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
+                    className="text-sm md:text-base text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -83,7 +84,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/privacy"
-                  className="text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
+                  className="text-sm md:text-base text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
                 >
                   Privacy Policy
                 </Link>
@@ -91,7 +92,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/terms"
-                  className="text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
+                  className="text-sm md:text-base text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue transition-colors"
                 >
                   Terms & Conditions
                 </Link>
@@ -103,19 +104,19 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2">
               <li className="flex items-center space-x-2">
-                <Mail size={16} className="text-saas-blue" />
+                <Mail size={isMobile ? 14 : 16} className="text-saas-blue" />
                 <a
                   href={`mailto:${CONTACT_INFO.email}`}
-                  className="text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue"
+                  className="text-sm md:text-base text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue"
                 >
                   {CONTACT_INFO.email}
                 </a>
               </li>
               <li className="flex items-center space-x-2">
-                <Phone size={16} className="text-saas-blue" />
+                <Phone size={isMobile ? 14 : 16} className="text-saas-blue" />
                 <a
                   href={`tel:${CONTACT_INFO.phone}`}
-                  className="text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue"
+                  className="text-sm md:text-base text-gray-600 dark:text-gray-400 hover:text-saas-blue dark:hover:text-saas-blue"
                 >
                   {CONTACT_INFO.phone}
                 </a>
@@ -130,8 +131,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-200 dark:border-gray-800 mt-10 pt-6 text-center">
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
+        <div className="border-t border-gray-200 dark:border-gray-800 mt-6 md:mt-10 pt-4 md:pt-6 text-center">
+          <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400">
             {COPYRIGHT}
           </p>
         </div>

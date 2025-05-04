@@ -1,19 +1,52 @@
+
 import * as React from "react"
 
+// Updated mobile breakpoint to match common mobile screen sizes
 const MOBILE_BREAKPOINT = 768
 
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
+  const [isMobile, setIsMobile] = React.useState<boolean>(
+    typeof window !== 'undefined' ? window.innerWidth < MOBILE_BREAKPOINT : false
+  )
 
   React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => {
+    const checkMobile = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
     }
-    mql.addEventListener("change", onChange)
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    return () => mql.removeEventListener("change", onChange)
+    
+    // Initial check
+    checkMobile()
+    
+    // Add event listener
+    window.addEventListener('resize', checkMobile)
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  return !!isMobile
+  return isMobile
+}
+
+// Add a new hook to detect extra small devices
+export function useIsExtraSmall() {
+  const [isExtraSmall, setIsExtraSmall] = React.useState<boolean>(
+    typeof window !== 'undefined' ? window.innerWidth < 480 : false
+  )
+
+  React.useEffect(() => {
+    const checkExtraSmall = () => {
+      setIsExtraSmall(window.innerWidth < 480)
+    }
+    
+    // Initial check
+    checkExtraSmall()
+    
+    // Add event listener
+    window.addEventListener('resize', checkExtraSmall)
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkExtraSmall)
+  }, [])
+
+  return isExtraSmall
 }

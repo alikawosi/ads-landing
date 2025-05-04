@@ -1,9 +1,11 @@
+
 import React from "react";
 import Layout from "@/components/layout/Layout";
 import { PricingSection } from "@/components/index-sections/PricingSection";
 import FAQSection from "@/components/pricing/FAQSection";
 import CTASection from "@/components/ui/cta-section";
 import { EXTERNAL_APP_URL } from "@/constants";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 class Pricing extends React.Component {
   getFAQs() {
@@ -28,14 +30,14 @@ class Pricing extends React.Component {
 
   renderHeader() {
     return (
-      <div className="pt-20 pb-16 md:pt-28 md:pb-24 bg-background">
+      <div className="pt-8 pb-8 md:pt-20 md:pb-16 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 animate-fade-in">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6 animate-fade-in">
               Pricing Plans
             </h1>
             <p
-              className="text-xl text-gray-600 dark:text-gray-300 animate-fade-in"
+              className="text-base md:text-xl text-gray-600 dark:text-gray-300 animate-fade-in"
               style={{ animationDelay: "0.1s" }}
             >
               Choose the plan that works best for your dealership
@@ -48,12 +50,12 @@ class Pricing extends React.Component {
 
   renderEnterpriseSolution() {
     return (
-      <div className="mt-16 text-center max-w-3xl mx-auto">
-        <h3 className="text-2xl font-semibold mb-4">Enterprise Solution</h3>
-        <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+      <div className="mt-12 md:mt-16 text-center max-w-3xl mx-auto px-4">
+        <h3 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4">Enterprise Solution</h3>
+        <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 mb-4 md:mb-6">
           Need a custom solution for your multi-location dealership group?
         </p>
-        <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+        <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
           Contact our sales team for a personalized quote and demo.
         </p>
         <div className="flex justify-center">

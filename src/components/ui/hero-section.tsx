@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import CarCascadeCard from "./CarCascadeCard";
 import { Car } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface HeroSectionProps {
   title: string;
@@ -15,7 +16,6 @@ interface HeroSectionProps {
 
 type AnimationType = "up" | "down";
 
-// --- Fix: move type annotation for gallery positions!
 interface CardPosition {
   left: string;
   top: string;
@@ -98,23 +98,31 @@ const HeroSection = ({
   secondaryCtaText,
   secondaryCtaLink,
 }: HeroSectionProps) => {
+  const isMobile = useIsMobile();
+  const cardPositions = isMobile ? mobileCardPositions : desktopCardPositions;
+
   return (
-    <section className="pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
+    <section className="pt-16 pb-16 md:pt-24 md:pb-24 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="flex flex-col space-y-6 animate-slide-in-left">
-            <div className="items-center px-3 py-1 rounded-full flex w-48 bg-saas-blue/10 text-saas-blue text-sm font-medium ">
+        {/* Changed to flex-col to stack elements on mobile */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="flex flex-col space-y-4 md:space-y-6 animate-slide-in-left text-center order-2 lg:order-1 lg:text-left">
+            <div className="items-center px-3 py-1 rounded-full flex w-48 mx-auto lg:mx-0 bg-saas-blue/10 text-saas-blue text-sm font-medium">
               <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
               AI-Powered Solutions
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
               {title}
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300">
               {subtitle}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="rounded-[16px] px-8" asChild>
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start">
+              <Button
+                size={isMobile ? "default" : "lg"}
+                className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
+                asChild
+              >
                 <Link to={ctaLink} className="flex items-center gap-2">
                   {ctaText}
                   <Car className="h-4 w-4" />
@@ -122,39 +130,72 @@ const HeroSection = ({
               </Button>
               {secondaryCtaText && (
                 <Button
-                  size="lg"
+                  size={isMobile ? "default" : "lg"}
                   variant="outline"
-                  className="rounded-[16px] px-8"
+                  className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
                   asChild
                 >
                   <Link to={secondaryCtaLink || "#"}>{secondaryCtaText}</Link>
                 </Button>
               )}
             </div>
+
+            <div className="mt-4 md:mt-8 flex items-center gap-3 md:gap-4 justify-center lg:justify-start">
+              <div className="flex -space-x-3 md:-space-x-4">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary/20 flex items-center justify-center border-2 border-white"
+                  >
+                    <span className="text-xs md:text-sm text-primary font-bold">
+                      {i}+
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs md:text-sm text-muted-foreground">
+                <span className="font-bold">5,000+</span> cars found today
+              </p>
+            </div>
           </div>
-          {/* Card "gallery": free placement, not in a line or cascade */}
-          <div className="relative h-[410px] min-h-[340px] w-full">
-            {carHeroData.map((car, idx) => {
-              const pos =
-                cardGalleryPositions[idx % cardGalleryPositions.length];
-              return (
-                <div
-                  key={car.model}
-                  className={`absolute ${getFloatAnimationClass(
-                    pos.animation
-                  )} shadow-xl transition-all rounded-xl`}
-                  style={{
-                    left: pos.left,
-                    top: pos.top,
-                    zIndex: 30 - idx,
-                    width: "260px",
-                    animationDelay: `${idx * 0.23}s`,
-                  }}
-                >
-                  <CarCascadeCard {...car} animationClass="" />
-                </div>
-              );
-            })}
+
+          {/* Card "gallery" with responsive adjustments - horizontal cascade on mobile */}
+          <div className="relative h-[180px] sm:h-[300px] md:h-[380px] w-full mt-8 lg:mt-0 order-1 lg:order-2 overflow-x-visible">
+            <div
+              className={`flex ${
+                isMobile
+                  ? "overflow-x-auto pb-4 -mx-4 px-4 w-[100vw] absolute left-1/2 transform -translate-x-1/2"
+                  : ""
+              }`}
+            >
+              {carHeroData.map((car, idx) => {
+                const pos = cardPositions[idx % cardPositions.length];
+                return (
+                  <div
+                    key={car.model}
+                    className={`${
+                      isMobile
+                        ? "relative mx-2 first:ml-auto last:mr-auto"
+                        : "absolute"
+                    } ${
+                      !isMobile ? getFloatAnimationClass(pos.animation) : ""
+                    } shadow-xl transition-all rounded-xl`}
+                    style={{
+                      left: isMobile ? "auto" : pos.left,
+                      top: isMobile ? "auto" : pos.top,
+                      zIndex: 30 - idx,
+                      width: isMobile ? "140px" : "260px",
+                      animationDelay: `${idx * 0.23}s`,
+                      transform: isMobile
+                        ? `translateX(${idx * -10}px)`
+                        : "none",
+                    }}
+                  >
+                    <CarCascadeCard {...car} animationClass="" />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

@@ -1,7 +1,9 @@
+
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CarCascadeCardProps {
   model: string;
@@ -36,6 +38,7 @@ const CarCascadeCard = ({
   priceTag,
   animationClass = "",
 }: CarCascadeCardProps) => {
+  const isMobile = useIsMobile();
   const priceDifference = price - estimatedPrice;
   const formattedDifference =
     priceDifference > 0
@@ -49,35 +52,35 @@ const CarCascadeCard = ({
         animationClass
       )}
     >
-      <CardHeader className="pb-2">
+      <CardHeader className={`${isMobile ? 'p-2' : 'pb-2'}`}>
         <div className="flex justify-between items-start">
           <div>
-            <h3 className="font-bold text-lg">{model}</h3>
-            <p className="text-muted-foreground text-sm">
+            <h3 className={`font-bold ${isMobile ? 'text-sm' : 'text-lg'}`}>{model}</h3>
+            <p className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>
               {year} • {mileage.toLocaleString()} miles
             </p>
           </div>
-          <Badge variant={getPriceTagVariant(priceTag)} className="capitalize">
+          <Badge variant={getPriceTagVariant(priceTag)} className={`capitalize ${isMobile ? 'text-xs px-1' : ''}`}>
             {priceTag}
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="pt-2">
-        <div className="border-t pt-3 space-y-2">
+      <CardContent className={`${isMobile ? 'p-2 pt-1' : 'pt-2'}`}>
+        <div className="border-t pt-1 space-y-1">
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground text-sm">Listed Price</span>
-            <span className="font-semibold">£{price.toLocaleString()}</span>
+            <span className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Listed Price</span>
+            <span className={`font-semibold ${isMobile ? 'text-xs' : ''}`}>£{price.toLocaleString()}</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-muted-foreground text-sm">Est. Value</span>
-            <span className="font-semibold">
+            <span className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Est. Value</span>
+            <span className={`font-semibold ${isMobile ? 'text-xs' : ''}`}>
               £{estimatedPrice.toLocaleString()}
             </span>
           </div>
-          <div className="flex justify-between items-center pt-2 border-t">
-            <span className="text-muted-foreground text-sm">Difference</span>
+          <div className="flex justify-between items-center pt-1 border-t">
+            <span className={`text-muted-foreground ${isMobile ? 'text-xs' : 'text-sm'}`}>Difference</span>
             <span
-              className={`font-bold ${
+              className={`font-bold ${isMobile ? 'text-xs' : ''} ${
                 priceDifference > 0 ? "text-red-500" : "text-green-500"
               }`}
             >
