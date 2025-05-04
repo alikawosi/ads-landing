@@ -25,81 +25,28 @@ export const CONTACT_INFO = {
 
 export const TEAM_MEMBERS = [
   {
-    name: "Alex Morgan",
-    role: "Founder & CEO",
-    image: "/placeholder.svg",
-    bio: "15+ years in the automotive industry. Former dealership manager turned tech entrepreneur.",
+    name: "Arya Daryadel",
+    role: "CEO",
+    image: "src/assets/ceo.jpeg",
+    bio: "10+ years in the automotive industry. Passionate about leveraging AI to transform car dealerships.",
   },
   {
-    name: "Sarah Johnson",
+    name: "Ali Kawosi",
+    role: "Chief Product Officer",
+    image: "src/assets/cpo.jpeg",
+    bio: "Product visionary focused on building intuitive tools for the automotive industry. Former tech entrepreneur",
+  },
+  {
+    name: "Amirreza Mohammadi",
     role: "Chief Technology Officer",
-    image: "/placeholder.svg",
-    bio: "AI specialist with background in machine learning and automotive data analytics.",
+    image: "src/assets/cto.jpeg",
+    bio: "AI specialist with background in machine learning and automotive data analytics. Formerly at a leading tech firm.",
   },
   {
-    name: "Michael Chen",
-    role: "VP of Product",
-    image: "/placeholder.svg",
-    bio: "Product visionary focused on building intuitive tools for the automotive industry.",
-  },
-];
-
-// Keep these for reference if needed, but we're using PRICING_TIERS for both pages now
-export const PRICING_PLANS = [
-  {
-    name: "Starter",
-    description: "Perfect for small dealerships just getting started.",
-    price: {
-      monthly: 99,
-      annually: 79,
-    },
-    features: [
-      "Up to 50 vehicles in inventory",
-      "Basic AI matching system",
-      "Standard support",
-      "Market analytics (basic)",
-      "Single location",
-    ],
-    cta: "Start Free Trial",
-    popular: false,
-  },
-  {
-    name: "Professional",
-    description: "Ideal for growing dealerships with multiple staff members.",
-    price: {
-      monthly: 299,
-      annually: 239,
-    },
-    features: [
-      "Up to 200 vehicles in inventory",
-      "Advanced AI matching system",
-      "Priority support",
-      "Market analytics (advanced)",
-      "Customer behavior insights",
-      "Up to 3 locations",
-    ],
-    cta: "Start Free Trial",
-    popular: true,
-  },
-  {
-    name: "Business",
-    description: "For established dealerships with advanced needs.",
-    price: {
-      monthly: 599,
-      annually: 479,
-    },
-    features: [
-      "Up to 500 vehicles in inventory",
-      "Premium AI matching system",
-      "24/7 dedicated support",
-      "Market analytics (premium)",
-      "Customer behavior insights",
-      "Unlimited locations",
-      "Custom integrations",
-      "API access",
-    ],
-    cta: "Start Free Trial",
-    popular: false,
+    name: "Sam Torabi",
+    role: "VP of Sales",
+    image: "src/assets/sales_vp.jpeg",
+    bio: "Experienced sales leader with deep understanding of automotive dealer needs and market dynamics.",
   },
 ];
 
