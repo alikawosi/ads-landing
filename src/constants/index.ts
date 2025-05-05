@@ -26,7 +26,7 @@ export const CONTACT_INFO = {
 export const TEAM_MEMBERS = [
   {
     name: "Arya Daryadel",
-    role: "CEO",
+    role: "Chief Executive Officer",
     image: "src/assets/ceo.jpeg",
     bio: "10+ years in the automotive industry. Passionate about leveraging AI to transform car dealerships.",
   },
@@ -44,7 +44,7 @@ export const TEAM_MEMBERS = [
   },
   {
     name: "Sam Torabi",
-    role: "VP of Sales",
+    role: "Director of Sales",
     image: "src/assets/sales_vp.jpeg",
     bio: "Experienced sales leader with deep understanding of automotive dealer needs and market dynamics.",
   },
