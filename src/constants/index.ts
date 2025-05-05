@@ -28,7 +28,7 @@ export const TEAM_MEMBERS = [
     name: "Arya Daryadel",
     role: "Chief Executive Officer",
     image: "src/assets/ceo.jpeg",
-    bio: "10+ years in the automotive industry. Passionate about leveraging AI to transform car dealerships.",
+    bio: "5+ years in the automotive industry. Passionate about leveraging AI to transform car dealerships.",
   },
   {
     name: "Ali Kawosi",

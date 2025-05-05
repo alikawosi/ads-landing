@@ -33,7 +33,7 @@ const About = () => {
                 all sizes.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                Our founder, Arya Daryadel, spent 10 years working in the
+                Our founder, Arya Daryadel, spent 5 years working in the
                 automotive industry and saw firsthand the challenges dealerships
                 face in inventory management, customer matching, and market
                 analysis.
