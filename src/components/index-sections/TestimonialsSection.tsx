@@ -19,7 +19,7 @@ interface TestimonialsColumnProps {
 class TestimonialsColumn extends React.Component<TestimonialsColumnProps> {
   render() {
     const { testimonials, className, duration } = this.props;
-    
+
     return (
       <div className={className}>
         <motion.div
@@ -44,7 +44,7 @@ class TestimonialsColumn extends React.Component<TestimonialsColumnProps> {
                   </div>
                   <div className="flex items-center gap-3 mt-4">
                     <img
-                      src={`/assets/${testimonial.imageSrc}`}
+                      src={`src//assets/${testimonial.imageSrc}`}
                       alt={testimonial.name}
                       width={40}
                       height={40}
