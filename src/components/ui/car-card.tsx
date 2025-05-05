@@ -26,7 +26,7 @@ const CarCard = ({
   price,
   mileage,
   priceTag = "fair",
-  image = "/placeholder.svg",
+  image = "/assets/placeholder.svg",
   dealType = "Used",
   className,
 }: CarCardProps) => {
