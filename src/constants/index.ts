@@ -27,25 +27,25 @@ export const TEAM_MEMBERS = [
   {
     name: "Arya Daryadel",
     role: "Chief Executive Officer",
-    image: "src/assets/ceo.jpeg",
+    image: "/assets/ceo.jpeg",
     bio: "5+ years in the automotive industry. Passionate about leveraging AI to transform car dealerships.",
   },
   {
     name: "Ali Kawosi",
     role: "Chief Product Officer",
-    image: "src/assets/cpo.jpeg",
+    image: "/assets/cpo.jpeg",
     bio: "Product visionary focused on building intuitive tools for the automotive industry. Former tech entrepreneur",
   },
   {
     name: "Amirreza Mohammadi",
     role: "Chief Technology Officer",
-    image: "src/assets/cto.jpeg",
+    image: "/assets/cto.jpeg",
     bio: "AI specialist with background in machine learning and automotive data analytics. Formerly at a leading tech firm.",
   },
   {
     name: "Sam Torabi",
     role: "Director of Sales",
-    image: "src/assets/sales_vp.jpeg",
+    image: "/assets/sales_vp.jpeg",
     bio: "Experienced sales leader with deep understanding of automotive dealer needs and market dynamics.",
   },
 ];
