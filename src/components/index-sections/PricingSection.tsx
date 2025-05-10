@@ -12,6 +12,7 @@ interface PricingTier {
   buttonText: string;
   popular: boolean;
   inverse: boolean;
+  enterprise: boolean;
   features: string[];
 }
 
@@ -25,8 +26,15 @@ interface PricingSectionState {
 
 class PricingCard extends React.Component<PricingCardProps> {
   render() {
-    const { title, monthlyPrice, buttonText, popular, inverse, features } =
-      this.props.tier;
+    const {
+      title,
+      monthlyPrice,
+      enterprise,
+      buttonText,
+      popular,
+      inverse,
+      features,
+    } = this.props.tier;
     const monthlyOrAnnualPrice = this.props.tier.monthlyPrice;
 
     return (
@@ -63,14 +71,20 @@ class PricingCard extends React.Component<PricingCardProps> {
           )}
         </div>
         <div>
-          <div className="flex items-baseline gap-1 mt-[30px]">
+          {enterprise ? (
             <span className="text-4xl font-bold tracking-tighter leading-none">
-              £{monthlyOrAnnualPrice}
+              {"Contact Sales"}
             </span>
-            <span className="tracking-tight font-bold text-black/50">
-              /month
-            </span>
-          </div>
+          ) : (
+            <div className="flex items-baseline gap-1 mt-[30px]">
+              <span className="text-4xl font-bold tracking-tighter leading-none">
+                £{monthlyOrAnnualPrice}
+              </span>
+              <span className="tracking-tight font-bold text-gray-500">
+                / month
+              </span>
+            </div>
+          )}
         </div>
         <button
           className={twMerge(
