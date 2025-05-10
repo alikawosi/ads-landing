@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -110,16 +111,19 @@ const HeroSection = ({
               {subtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start">
+              {/* Fix for the primary CTA button */}
               <Button
                 size={isMobile ? "default" : "lg"}
                 className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
                 asChild
               >
-                <Link to={ctaLink} className="flex items-center gap-2">
+                <Link to={ctaLink} className="w-full h-full flex items-center justify-center gap-2">
                   {ctaText}
                   <Car className="h-4 w-4" />
                 </Link>
               </Button>
+              
+              {/* Fix for the secondary CTA button */}
               {secondaryCtaText && (
                 <Button
                   size={isMobile ? "default" : "lg"}
@@ -127,7 +131,9 @@ const HeroSection = ({
                   className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
                   asChild
                 >
-                  <Link to={secondaryCtaLink || "#"}>{secondaryCtaText}</Link>
+                  <Link to={secondaryCtaLink || "#"} className="w-full h-full flex items-center justify-center">
+                    {secondaryCtaText}
+                  </Link>
                 </Button>
               )}
             </div>
