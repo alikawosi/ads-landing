@@ -15,6 +15,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import HeroSection from "@/components/ui/hero-section";
 import { EXTERNAL_APP_URL } from "@/constants";
+import { Badge } from "@/components/ui/badge";
 
 const MarketingTool = () => {
   // Sample social media posts for the interactive display
@@ -100,14 +101,22 @@ const MarketingTool = () => {
 
   return (
     <Layout>
-      <div className="py-16 md:py-20">
+      {/* Coming Soon Badge - Fixed position banner at the top */}
+      <div className="bg-amber-500 text-white py-2 px-4 text-center font-semibold sticky top-0 z-50 w-full">
+        Coming Soon - Marketing Tool will be available shortly
+      </div>
+      
+      <div className="py-16 md:py-20 overflow-hidden">
         {/* Interactive Social Post Display - Re-structured for better mobile layout */}
         <section className="py-12 md:py-20 relative overflow-hidden">
           <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="w-full lg:w-1/2 text-center lg:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                Marketing Made Simple
-              </h1>
+              <div className="flex items-center justify-center lg:justify-start mb-4">
+                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                  Marketing Made Simple
+                </h1>
+                <Badge className="ml-3 bg-amber-400 text-amber-900 uppercase text-xs font-bold">Coming Soon</Badge>
+              </div>
               <p className="text-lg md:text-xl text-muted-foreground mb-8">
                 Create, schedule and track your social media posts across all
                 platforms from a single dashboard
@@ -131,7 +140,7 @@ const MarketingTool = () => {
               </div>
             </div>
 
-            {/* Social Post Cards - Improved for mobile */}
+            {/* Social Post Cards - Fixed for mobile */}
             <div className="w-full lg:w-1/2 relative h-[400px] md:h-[450px] mt-8 lg:mt-0">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-3xl" />
 
@@ -143,13 +152,13 @@ const MarketingTool = () => {
                       index === activeCardIndex
                         ? "opacity-100 z-30 scale-100 translate-y-0"
                         : index === (activeCardIndex + 1) % socialPosts.length
-                        ? "opacity-70 z-20 scale-95 translate-y-8 translate-x-8"
+                        ? "opacity-70 z-20 scale-95 translate-y-8 translate-x-4"
                         : index === (activeCardIndex + 2) % socialPosts.length
-                        ? "opacity-40 z-10 scale-90 translate-y-16 translate-x-16"
+                        ? "opacity-40 z-10 scale-90 translate-y-16 translate-x-8"
                         : "opacity-0 scale-85 -translate-y-8 -translate-x-8"
                     }`}
                   >
-                    <Card className="w-full max-w-[280px] sm:max-w-sm md:max-w-md shadow-xl hover:shadow-2xl transition-all bg-white/90">
+                    <Card className="w-full max-w-[250px] sm:max-w-sm md:max-w-md shadow-xl hover:shadow-2xl transition-all bg-white/90">
                       <CardHeader className="pb-2">
                         <div className="flex justify-between items-start">
                           <div>
@@ -180,7 +189,7 @@ const MarketingTool = () => {
                           <span className="text-sm">Posted: {post.posted}</span>
                         </div>
                         <div className="mt-4 pt-2 border-t">
-                          <Button className="w-full group">
+                          <Button className="w-full group" size="sm">
                             View Analytics
                             <ArrowRight className="ml-1 group-hover:translate-x-1 transition-transform" />
                           </Button>

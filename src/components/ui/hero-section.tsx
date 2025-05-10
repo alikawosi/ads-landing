@@ -152,25 +152,13 @@ const HeroSection = ({
             </div>
           </div>
 
-          {/* Card "gallery" with improved mobile cascade layout */}
+          {/* Card "gallery" with improved mobile cascade layout - now showing only one card on mobile */}
           <div className="relative h-[220px] sm:h-[300px] md:h-[380px] w-full order-1 lg:order-2 overflow-visible">
             {isMobile ? (
-              <div className="flex overflow-x-visible w-full relative h-full justify-center">
-                {carHeroData.map((car, idx) => (
-                  <div
-                    key={car.model}
-                    className="absolute transition-all rounded-xl shadow-xl"
-                    style={{
-                      left: `calc(50% - ${120 - idx * 30}px)`,
-                      top: `${idx * 10}px`,
-                      zIndex: carHeroData.length - idx,
-                      width: isExtraSmall ? "120px" : "160px",
-                      transform: `rotate(${idx * 2 - 3}deg)`,
-                    }}
-                  >
-                    <CarCascadeCard {...car} animationClass="" />
-                  </div>
-                ))}
+              <div className="flex justify-center items-center h-full relative">
+                <div className="w-[80%] max-w-[280px]">
+                  <CarCascadeCard {...carHeroData[0]} animationClass="animate-float-up" />
+                </div>
               </div>
             ) : (
               <div className="relative h-full w-full">
