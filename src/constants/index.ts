@@ -62,6 +62,7 @@ export const PRICING_TIERS = [
       "Automated Search Tool",
       "Basic support",
     ],
+    link: import.meta.env.VITE_APP_URL,
   },
   {
     id: 2,
@@ -78,6 +79,7 @@ export const PRICING_TIERS = [
       "Automated Valuation Tool",
       "24/7 support",
     ],
+    link: import.meta.env.VITE_APP_URL,
   },
   {
     id: 3,
@@ -97,6 +99,7 @@ export const PRICING_TIERS = [
       "Advanced security features",
       "High Priority Support",
     ],
+    link: "/contact",
   },
 ];
 

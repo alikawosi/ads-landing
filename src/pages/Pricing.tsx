@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "@/components/layout/Layout";
-import { PricingSection } from "@/components/index-sections/PricingSection";
+import { PricingSection } from "@/components/pricing/PricingSection";
 import FAQSection from "@/components/pricing/FAQSection";
 import CTASection from "@/components/ui/cta-section";
 import { useIsMobile } from "@/hooks/use-mobile";

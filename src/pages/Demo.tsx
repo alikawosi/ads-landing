@@ -24,9 +24,9 @@ const Demo = () => {
                 See how {COMPANY_NAME} can transform your dealership
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Join thousands of dealerships already using our AI-powered
-                platform to optimize inventory, match customers to vehicles, and
-                increase profits through data-driven decisions.
+                Join dealerships already using our AI-powered platform to
+                optimize sourcing, marketing of vehicles, and increase profits
+                through data-driven decisions.
               </p>
 
               <Button
@@ -58,8 +58,8 @@ const Demo = () => {
                       <CheckCircle2 className="h-6 w-6 text-green-600" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Revenue Increase</p>
-                      <p className="text-xl font-bold text-green-600">+28%</p>
+                      <p className="text-sm text-gray-500">Sales Increase</p>
+                      <p className="text-xl font-bold text-green-600">43%</p>
                     </div>
                   </div>
                 </div>
@@ -91,24 +91,24 @@ const Demo = () => {
             <Card className="bg-white dark:bg-gray-800 shadow-md border-0">
               <div className="h-2 bg-saas-blue w-full"></div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-4">Inventory Analytics</h3>
+                <h3 className="text-xl font-bold mb-4">ADS Search Tool</h3>
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-600 dark:text-gray-300">
-                      AI-powered inventory optimization
+                      Real-time Searching Tool
                     </span>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-600 dark:text-gray-300">
-                      Market demand forecasting
+                      Overview of all markets
                     </span>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-600 dark:text-gray-300">
-                      Price prediction models
+                      Personalized notifications
                     </span>
                   </li>
                 </ul>
@@ -118,7 +118,7 @@ const Demo = () => {
             <Card className="bg-white dark:bg-gray-800 shadow-md border-0">
               <div className="h-2 bg-saas-blue w-full"></div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-4">Customer Matching</h3>
+                <h3 className="text-xl font-bold mb-4">Automated Sourcing</h3>
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
@@ -135,7 +135,7 @@ const Demo = () => {
                   <li className="flex items-start">
                     <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-600 dark:text-gray-300">
-                      Automated follow-up system
+                      Automated valuation system
                     </span>
                   </li>
                 </ul>
@@ -145,20 +145,18 @@ const Demo = () => {
             <Card className="bg-white dark:bg-gray-800 shadow-md border-0">
               <div className="h-2 bg-saas-blue w-full"></div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-bold mb-4">
-                  Performance Analytics
-                </h3>
+                <h3 className="text-xl font-bold mb-4">Marketing</h3>
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-600 dark:text-gray-300">
-                      Real-time sales dashboards
+                      Advertising in multiple markets
                     </span>
                   </li>
                   <li className="flex items-start">
                     <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
                     <span className="text-gray-600 dark:text-gray-300">
-                      Competitor analysis tools
+                      Post generating tools
                     </span>
                   </li>
                   <li className="flex items-start">
@@ -225,7 +223,7 @@ const Demo = () => {
       </section>
 
       {/* Example Results */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900 overflow-hidden">
+      {/* <section className="py-16 bg-gray-50 dark:bg-gray-900 overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-saas-blue/10 text-saas-blue text-sm font-medium mb-4">
@@ -324,7 +322,7 @@ const Demo = () => {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Final CTA */}
       <section className="py-16 md:py-20 bg-saas-blue">
