@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import PriceDisplay from "./PriceDisplay";
 import FeaturesList from "./FeaturesList";
-import { EXTERNAL_APP_URL } from "@/constants";
 
 interface PricingCardProps {
   name: string;
@@ -96,7 +95,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
   priceId,
 }) => {
   const handleSubscribe = () => {
-    window.open(EXTERNAL_APP_URL, "_blank", "noopener,noreferrer");
+    window.open(import.meta.env.VITE_APP_URL, "_blank", "noopener,noreferrer");
   };
 
   return (

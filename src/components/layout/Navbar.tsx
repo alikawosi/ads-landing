@@ -11,7 +11,7 @@ import {
   Layers,
   Users,
 } from "lucide-react";
-import { NAVIGATION, COMPANY_NAME, EXTERNAL_APP_URL } from "../../constants";
+import { NAVIGATION, COMPANY_NAME } from "../../constants";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -75,7 +75,7 @@ const Navbar = () => {
         "Streamline your marketing operations with our comprehensive platform",
       href: "/solutions/marketing-tool",
       icon: <DollarSign className="h-6 w-6 text-purple-500" />,
-      badge: null,
+      badge: "Coming Soon",
     },
     {
       title: "Automated Search",
@@ -124,11 +124,18 @@ const Navbar = () => {
                           >
                             <div className="mr-3 mt-1">{solution.icon}</div>
                             <div>
-                              <div className="flex items-center">
+                              <div className="flex items-center gap-4">
                                 <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
                                   {solution.title}
                                 </h3>
-                                {solution.badge}
+                                {solution.badge && (
+                                  <Badge
+                                    className="text-xs"
+                                    variant="secondary"
+                                  >
+                                    {solution.badge}
+                                  </Badge>
+                                )}
                               </div>
                               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                 {solution.description}
@@ -164,7 +171,7 @@ const Navbar = () => {
               className="rounded-[16px] px-6 py-2 border-2 border-saas-blue"
             >
               <a
-                href={EXTERNAL_APP_URL}
+                href={import.meta.env.VITE_APP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -176,7 +183,7 @@ const Navbar = () => {
               asChild
             >
               <a
-                href={EXTERNAL_APP_URL}
+                href={import.meta.env.VITE_APP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -259,7 +266,7 @@ const Navbar = () => {
                   asChild
                 >
                   <a
-                    href={EXTERNAL_APP_URL}
+                    href={import.meta.env.VITE_APP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -271,7 +278,7 @@ const Navbar = () => {
                   asChild
                 >
                   <a
-                    href={EXTERNAL_APP_URL}
+                    href={import.meta.env.VITE_APP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

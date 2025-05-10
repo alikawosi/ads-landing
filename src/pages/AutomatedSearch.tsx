@@ -32,7 +32,6 @@ import {
   TableRow,
   TableCell,
 } from "@/components/ui/table";
-import { EXTERNAL_APP_URL } from "@/constants";
 
 const AutomatedSearch = () => {
   // Updated sample car data with more fields to match the table design
@@ -465,7 +464,7 @@ const AutomatedSearch = () => {
           title="Ready to find your perfect car?"
           subtitle="Let our AI agent do the hard work for you"
           ctaText="Try Automated Search Now"
-          ctaLink={EXTERNAL_APP_URL}
+          ctaLink={import.meta.env.VITE_APP_URL}
           backgroundClass="bg-gradient-to-r from-green-500 to-blue-600"
         />
       </div>

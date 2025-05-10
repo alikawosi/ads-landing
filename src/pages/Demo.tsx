@@ -1,11 +1,10 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, CheckCircle2, Clock, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { CALENDAR_BOOKING_URL, COMPANY_NAME } from "@/constants";
+import { COMPANY_NAME } from "@/constants";
 
 // Calendar booking URL
 
@@ -33,7 +32,9 @@ const Demo = () => {
               <Button
                 size="lg"
                 className="rounded-md group"
-                onClick={() => window.open(CALENDAR_BOOKING_URL, "_blank")}
+                onClick={() =>
+                  window.open(import.meta.env.VITE_DEMO_URL, "_blank")
+                }
               >
                 <Calendar className="mr-2 h-5 w-5" />
                 Book Your Demo Now
@@ -340,7 +341,9 @@ const Demo = () => {
             <Button
               size="lg"
               className="bg-white text-saas-blue hover:bg-gray-100"
-              onClick={() => window.open(CALENDAR_BOOKING_URL, "_blank")}
+              onClick={() =>
+                window.open(import.meta.env.VITE_DEMO_URL, "_blank")
+              }
             >
               <Calendar className="mr-2 h-5 w-5" />
               Book Your Demo Now

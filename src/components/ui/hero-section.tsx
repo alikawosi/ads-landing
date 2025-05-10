@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -157,7 +156,10 @@ const HeroSection = ({
             {isMobile ? (
               <div className="flex justify-center items-center h-full relative">
                 <div className="w-[80%] max-w-[280px]">
-                  <CarCascadeCard {...carHeroData[0]} animationClass="animate-float-up" />
+                  <CarCascadeCard
+                    {...carHeroData[0]}
+                    animationClass="animate-float-up"
+                  />
                 </div>
               </div>
             ) : (

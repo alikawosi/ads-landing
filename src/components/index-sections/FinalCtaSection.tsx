@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Car } from "lucide-react";
-import { EXTERNAL_APP_URL } from "@/constants";
 
 const FinalCtaSection = () => (
   <section className="py-20 bg-saas-blue text-white">
@@ -22,7 +21,7 @@ const FinalCtaSection = () => (
             asChild
           >
             <a
-              href={EXTERNAL_APP_URL}
+              href={import.meta.env.VITE_APP_URL}
               target="_blank"
               rel="noopener noreferrer"
             >

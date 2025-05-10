@@ -1,10 +1,8 @@
-
 import React from "react";
 import Layout from "@/components/layout/Layout";
 import { PricingSection } from "@/components/index-sections/PricingSection";
 import FAQSection from "@/components/pricing/FAQSection";
 import CTASection from "@/components/ui/cta-section";
-import { EXTERNAL_APP_URL } from "@/constants";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 class Pricing extends React.Component {
@@ -51,7 +49,9 @@ class Pricing extends React.Component {
   renderEnterpriseSolution() {
     return (
       <div className="mt-12 md:mt-16 text-center max-w-3xl mx-auto px-4">
-        <h3 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4">Enterprise Solution</h3>
+        <h3 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4">
+          Enterprise Solution
+        </h3>
         <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 mb-4 md:mb-6">
           Need a custom solution for your multi-location dealership group?
         </p>
@@ -82,7 +82,7 @@ class Pricing extends React.Component {
           title="Ready to Transform Your Dealership?"
           subtitle="Get started today. No credit card required."
           ctaText="Start Driving"
-          ctaLink={EXTERNAL_APP_URL}
+          ctaLink={import.meta.env.VITE_APP_URL}
           secondaryCtaText="Contact Sales"
           secondaryCtaLink="/contact"
         />

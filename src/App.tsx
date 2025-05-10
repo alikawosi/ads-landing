@@ -16,16 +16,11 @@ import MarketingTool from "./pages/MarketingTool";
 import AutomatedSearch from "./pages/AutomatedSearch";
 import StockManagement from "./pages/StockManagement";
 import Community from "./pages/Community";
-import { EXTERNAL_APP_URL } from "./constants";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   // Function to redirect to external app
-  const redirectToExternalApp = () => {
-    window.location.href = EXTERNAL_APP_URL;
-    return null;
-  };
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Layout from "../components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -14,7 +13,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import HeroSection from "@/components/ui/hero-section";
-import { EXTERNAL_APP_URL } from "@/constants";
+
 import { Badge } from "@/components/ui/badge";
 
 const MarketingTool = () => {
@@ -52,7 +51,7 @@ const MarketingTool = () => {
     {
       id: 4,
       title: "Toyota RAV4 Adventure Ready",
-      platform: "LinkedIn",
+      platform: "Autotrader",
       content:
         "The perfect SUV for your next adventure - Toyota RAV4 now in stock!",
       engagement: "850 likes",
@@ -102,20 +101,22 @@ const MarketingTool = () => {
   return (
     <Layout>
       {/* Coming Soon Badge - Fixed position banner at the top */}
-      <div className="bg-amber-500 text-white py-2 px-4 text-center font-semibold sticky top-0 z-50 w-full">
-        Coming Soon - Marketing Tool will be available shortly
-      </div>
-      
+
       <div className="py-16 md:py-20 overflow-hidden">
         {/* Interactive Social Post Display - Re-structured for better mobile layout */}
         <section className="py-12 md:py-20 relative overflow-hidden">
           <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div className="w-full lg:w-1/2 text-center lg:text-left">
+            <div className="w-full lg:w-1/2 text-center lg:text-left space-y-4">
+              <Badge
+                className=" text-amber-900 uppercase text-xs font-bold"
+                variant="secondary"
+              >
+                Coming Soon
+              </Badge>
               <div className="flex items-center justify-center lg:justify-start mb-4">
                 <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                   Marketing Made Simple
                 </h1>
-                <Badge className="ml-3 bg-amber-400 text-amber-900 uppercase text-xs font-bold">Coming Soon</Badge>
               </div>
               <p className="text-lg md:text-xl text-muted-foreground mb-8">
                 Create, schedule and track your social media posts across all
@@ -123,7 +124,7 @@ const MarketingTool = () => {
               </p>
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <a
-                  href={EXTERNAL_APP_URL}
+                  href={import.meta.env.VITE_APP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -347,7 +348,7 @@ const MarketingTool = () => {
                 asChild
               >
                 <a
-                  href={EXTERNAL_APP_URL}
+                  href={import.meta.env.VITE_APP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

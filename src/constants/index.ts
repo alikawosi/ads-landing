@@ -8,10 +8,6 @@ export const NAVIGATION = [
 
 export const COPYRIGHT = `© ${new Date().getFullYear()} ${COMPANY_NAME}. All rights reserved.`;
 
-export const EXTERNAL_APP_URL = "https://www.app.autodealersolution.com";
-export const CALENDAR_BOOKING_URL =
-  "https://calendar.app.google/XTHicyBh41FqEfX3A";
-
 export const CONTACT_INFO = {
   email: "support@autodealersolutions.co.uk",
   phone: "+44 7500 056007",

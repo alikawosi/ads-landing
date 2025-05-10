@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -13,9 +12,11 @@ const Layout = ({ children, fullWidth = false }: LayoutProps) => {
   return (
     <div className="flex flex-col min-h-screen bg-white dark:bg-gray-950">
       <Navbar />
-      <div className="relative pt-4"> {/* Added padding-top to accommodate the Termly banner */}
+      <div className="relative pt-4">
+        {" "}
+        {/* Added padding-top to accommodate the Termly banner */}
         <div className="absolute top-0 left-0 right-0 z-30">
-          <TermlyCMP websiteUUID="c7b7d90a-ba00-4660-92c0-e69aede86132" />
+          <TermlyCMP websiteUUID={import.meta.env.VITE_TERMLY_UUID} />
         </div>
         <main
           className={`flex-grow mt-4 ${

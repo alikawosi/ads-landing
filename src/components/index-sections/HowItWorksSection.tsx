@@ -89,7 +89,7 @@ const HowItWorksSection = () => (
               sourcing and sales using artificial intelligence.
             </p>
             <Button className="w-full md:w-auto" asChild>
-              <Link to="/contact">Schedule Demo</Link>
+              <Link to="/demo">Schedule Demo</Link>
             </Button>
           </div>
           <div className="bg-gray-100 dark:bg-gray-700 p-8 md:p-0 flex items-center justify-center">

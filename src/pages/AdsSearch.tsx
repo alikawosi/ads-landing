@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Layout from "../components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -14,7 +13,6 @@ import {
 import CTASection from "@/components/ui/cta-section";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { EXTERNAL_APP_URL } from "@/constants";
 
 const AdsSearch = () => {
   const adListings = [
@@ -120,7 +118,7 @@ const AdsSearch = () => {
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center lg:justify-start">
                   <a
-                    href={EXTERNAL_APP_URL}
+                    href={import.meta.env.VITE_APP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -424,7 +422,7 @@ const AdsSearch = () => {
           title="Ready to revolutionize your vehicle search?"
           subtitle="Access every major automotive marketplace with one powerful tool"
           ctaText="Start Driving Now"
-          ctaLink="EXTERNAL_APP_URL"
+          ctaLink="import.meta.env.VITE_APP_URL"
           backgroundClass="bg-gradient-to-r from-blue-500 to-purple-600"
         />
       </div>

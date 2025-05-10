@@ -1,9 +1,8 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { EXTERNAL_APP_URL } from "@/constants";
+
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CTASectionProps {
@@ -20,16 +19,23 @@ const CTASection: React.FC<CTASectionProps> = ({
   title,
   subtitle,
   ctaText,
-  ctaLink = EXTERNAL_APP_URL,
+  ctaLink = import.meta.env.VITE_APP_URL,
   secondaryCtaText,
   secondaryCtaLink,
   backgroundClass = "bg-saas-blue",
 }) => {
   const isMobile = useIsMobile();
-  
+
   const handleCTAClick = () => {
-    if (ctaLink === EXTERNAL_APP_URL || ctaLink === "EXTERNAL_APP_URL") {
-      window.open(EXTERNAL_APP_URL, "_blank", "noopener,noreferrer");
+    if (
+      ctaLink === import.meta.env.VITE_APP_URL ||
+      ctaLink === "import.meta.env.VITE_APP_URL"
+    ) {
+      window.open(
+        import.meta.env.VITE_APP_URL,
+        "_blank",
+        "noopener,noreferrer"
+      );
     }
   };
 
@@ -40,10 +46,13 @@ const CTASection: React.FC<CTASectionProps> = ({
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-white">
             {title}
           </h2>
-          <p className="text-base sm:text-lg md:text-xl mb-6 md:mb-8 text-white/90">{subtitle}</p>
+          <p className="text-base sm:text-lg md:text-xl mb-6 md:mb-8 text-white/90">
+            {subtitle}
+          </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {ctaLink === EXTERNAL_APP_URL || ctaLink === "EXTERNAL_APP_URL" ? (
+            {ctaLink === import.meta.env.VITE_APP_URL ||
+            ctaLink === "import.meta.env.VITE_APP_URL" ? (
               <Button
                 size={isMobile ? "default" : "lg"}
                 className="w-full sm:w-auto bg-white text-saas-blue hover:bg-gray-100 group"
