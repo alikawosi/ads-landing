@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -105,38 +104,36 @@ const HeroSection = ({
               <span className="w-2 h-2 rounded-full bg-saas-blue mr-2"></span>
               AI-Powered Solutions
             </div>
+
             <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
               {title}
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300">
-              {subtitle}
-            </p>
-            
             {/* Car Search Form */}
-            <div className="pt-4 md:pt-6">
+            <div className="bg-white p-6 rounded-lg shadow-lg border max-w-4xl mx-auto lg:mx-0 w-full">
+              <p className="text-lg mb-4 md:text-xl text-gray-600 dark:text-gray-300">
+                {subtitle}
+              </p>
               <CarSearchForm />
             </div>
-            
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start">
-              {/* Primary CTA button with improved clickable area */}
+
+            {/* <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start">
               <div className="w-full sm:w-auto">
                 <Button
                   size={isMobile ? "default" : "lg"}
                   className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
                   asChild
                 >
-                  <Link 
-                    to={ctaLink} 
+                  <Link
+                    to={ctaLink}
                     className="w-full h-full flex items-center justify-center gap-2"
-                    style={{pointerEvents: "auto"}}
+                    style={{ pointerEvents: "auto" }}
                   >
                     {ctaText}
                     <Car className="h-4 w-4" />
                   </Link>
                 </Button>
               </div>
-              
-              {/* Secondary CTA button with improved clickable area */}
+
               {secondaryCtaText && (
                 <div className="w-full sm:w-auto">
                   <Button
@@ -145,17 +142,17 @@ const HeroSection = ({
                     className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
                     asChild
                   >
-                    <Link 
-                      to={secondaryCtaLink || "#"} 
+                    <Link
+                      to={secondaryCtaLink || "#"}
                       className="w-full h-full flex items-center justify-center"
-                      style={{pointerEvents: "auto"}}
+                      style={{ pointerEvents: "auto" }}
                     >
                       {secondaryCtaText}
                     </Link>
                   </Button>
                 </div>
               )}
-            </div>
+            </div> */}
 
             <div className="mt-4 md:mt-8 flex items-center gap-3 md:gap-4 justify-center lg:justify-start">
               <div className="flex -space-x-3 md:-space-x-4">
@@ -177,7 +174,10 @@ const HeroSection = ({
           </div>
 
           {/* Card "gallery" with fixed z-index to prevent overlapping clickable areas */}
-          <div className="relative h-[220px] sm:h-[300px] md:h-[380px] w-full order-1 lg:order-2 overflow-visible" style={{zIndex: 0}}>
+          <div
+            className="relative h-[220px] sm:h-[300px] md:h-[380px] w-full order-1 lg:order-2 overflow-visible"
+            style={{ zIndex: 0 }}
+          >
             {isMobile ? (
               <div className="flex justify-center items-center h-full relative">
                 <div className="w-[80%] max-w-[280px]">
@@ -217,8 +217,14 @@ const HeroSection = ({
       </div>
 
       {/* Background elements with adjusted z-index and pointer-events */}
-      <div className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl" style={{pointerEvents: "none", zIndex: -1}}></div>
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl" style={{pointerEvents: "none", zIndex: -1}}></div>
+      <div
+        className="absolute top-1/4 right-0 w-64 h-64 bg-saas-blue/5 rounded-full blur-3xl"
+        style={{ pointerEvents: "none", zIndex: -1 }}
+      ></div>
+      <div
+        className="absolute bottom-0 left-0 w-96 h-96 bg-saas-gray/5 rounded-full blur-3xl"
+        style={{ pointerEvents: "none", zIndex: -1 }}
+      ></div>
 
       {/* Animation styles */}
       <style>

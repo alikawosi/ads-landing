@@ -1,9 +1,14 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -20,33 +25,49 @@ const CarSearchForm = () => {
     make: "",
     model: "",
     maxMileage: "",
-    maxPrice: ""
+    maxPrice: "",
   });
 
   const carMakes = [
-    "Toyota", "Honda", "BMW", "Mercedes-Benz", "Audi", "Volkswagen", 
-    "Ford", "Nissan", "Hyundai", "Kia", "Mazda", "Subaru"
+    "Toyota",
+    "Honda",
+    "BMW",
+    "Mercedes-Benz",
+    "Audi",
+    "Volkswagen",
+    "Ford",
+    "Nissan",
+    "Hyundai",
+    "Kia",
+    "Mazda",
+    "Subaru",
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const searchParams = new URLSearchParams();
-    
-    if (formData.make) searchParams.set('make', formData.make);
-    if (formData.model) searchParams.set('model', formData.model);
-    if (formData.maxMileage) searchParams.set('maxMileage', formData.maxMileage);
-    if (formData.maxPrice) searchParams.set('maxPrice', formData.maxPrice);
-    
+
+    if (formData.make) searchParams.set("make", formData.make);
+    if (formData.model) searchParams.set("model", formData.model);
+    if (formData.maxMileage)
+      searchParams.set("maxMileage", formData.maxMileage);
+    if (formData.maxPrice) searchParams.set("maxPrice", formData.maxPrice);
+
     navigate(`/search?${searchParams.toString()}`);
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg border max-w-4xl mx-auto">
+    <div className=" max-w-4xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2  gap-4">
           <div className="space-y-2">
             <Label htmlFor="make">Make</Label>
-            <Select value={formData.make} onValueChange={(value) => setFormData({...formData, make: value})}>
+            <Select
+              value={formData.make}
+              onValueChange={(value) =>
+                setFormData({ ...formData, make: value })
+              }
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select make" />
               </SelectTrigger>
@@ -59,17 +80,19 @@ const CarSearchForm = () => {
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="model">Model</Label>
             <Input
               id="model"
               placeholder="Enter model"
               value={formData.model}
-              onChange={(e) => setFormData({...formData, model: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, model: e.target.value })
+              }
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="mileage">Max Mileage</Label>
             <Input
@@ -77,10 +100,12 @@ const CarSearchForm = () => {
               type="number"
               placeholder="e.g. 50000"
               value={formData.maxMileage}
-              onChange={(e) => setFormData({...formData, maxMileage: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, maxMileage: e.target.value })
+              }
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="price">Max Price (£)</Label>
             <Input
@@ -88,12 +113,14 @@ const CarSearchForm = () => {
               type="number"
               placeholder="e.g. 25000"
               value={formData.maxPrice}
-              onChange={(e) => setFormData({...formData, maxPrice: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, maxPrice: e.target.value })
+              }
             />
           </div>
         </div>
-        
-        <Button type="submit" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700">
+
+        <Button type="submit" className="w-full bg-primary">
           <Search className="h-4 w-4 mr-2" />
           Search Cars
         </Button>
