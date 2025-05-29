@@ -141,6 +141,14 @@ const Search = () => {
     setShowSignIn(true);
   };
 
+  const handleFavorite = (result: any) => {
+    setShowSignIn(true);
+  };
+
+  const handleAddToList = (result: any) => {
+    setShowSignIn(true);
+  };
+
   const removeSearchParam = (param: string) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.delete(param);
@@ -694,6 +702,8 @@ const Search = () => {
                 image={result.Image}
                 onClick={() => handleCardClick(result)}
                 onCheckValuation={() => handleCheckValuation(result)}
+                onFavorite={() => handleFavorite(result)}
+                onAddToList={() => handleAddToList(result)}
                 showValuation={false}
               />
             ))}

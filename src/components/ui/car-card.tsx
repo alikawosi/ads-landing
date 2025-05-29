@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIsMobile, useIsExtraSmall } from "@/hooks/use-mobile";
-import { Loader2 } from "lucide-react";
+import { Loader2, Heart, Plus } from "lucide-react";
 
 interface CarCardProps {
   model: string;
@@ -19,6 +19,8 @@ interface CarCardProps {
   className?: string;
   onClick?: () => void;
   onCheckValuation?: () => void;
+  onFavorite?: () => void;
+  onAddToList?: () => void;
   showValuation?: boolean;
 }
 
@@ -34,6 +36,8 @@ const CarCard = ({
   className,
   onClick,
   onCheckValuation,
+  onFavorite,
+  onAddToList,
   showValuation = false,
 }: CarCardProps) => {
   const isMobile = useIsMobile();
@@ -69,6 +73,16 @@ const CarCard = ({
     }
   };
 
+  const handleFavorite = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onFavorite?.();
+  };
+
+  const handleAddToList = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onAddToList?.();
+  };
+
   return (
     <Card 
       className={cn(
@@ -95,7 +109,25 @@ const CarCard = ({
       
       <CardHeader className={isExtraSmall ? "p-3" : "p-4"}>
         <div className="flex justify-between items-start">
-          <div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
+                onClick={handleFavorite}
+              >
+                <Heart className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 w-8 p-0 hover:bg-blue-50 hover:text-blue-600"
+                onClick={handleAddToList}
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
             <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
             <p className="text-sm text-muted-foreground">{year}</p>
           </div>
