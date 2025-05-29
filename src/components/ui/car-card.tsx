@@ -77,7 +77,7 @@ const CarCard = ({
       )}
       onClick={onClick}
     >
-      <div className="aspect-video w-full relative">
+      <div className="aspect-video w-full relative overflow-hidden">
         <img
           src={image}
           alt={`${make} ${model}`}

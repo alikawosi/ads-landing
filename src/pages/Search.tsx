@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import CarCard from "@/components/ui/car-card";
@@ -72,24 +72,45 @@ const Search = () => {
   // Use the car data hook for filter options
   const { manufacturers, models, loading: carDataLoading, error: carDataError, fetchModelsForManufacturer } = useCarData();
 
-  // Filter states for the sheet
+  // Filter states for the sheet - sync with current search params
   const [tempFilters, setTempFilters] = useState({
-    make: searchParams.get("make") || "",
-    model: searchParams.get("model") || "",
-    postcode: searchParams.get("postcode") || "",
-    distance: searchParams.get("distance") || "",
-    minPrice: searchParams.get("minPrice") || "",
-    maxPrice: searchParams.get("maxPrice") || "",
-    minYear: searchParams.get("minYear") || "",
-    maxYear: searchParams.get("maxYear") || "",
-    maxMileage: searchParams.get("maxMileage") || "",
-    fuelType: searchParams.get("fuelType") || "",
-    transmission: searchParams.get("transmission") || "",
-    bodyType: searchParams.get("bodyType") || "",
-    doors: searchParams.get("doors") || "",
-    engineSize: searchParams.get("engineSize") || "",
-    color: searchParams.get("color") || "",
+    make: "",
+    model: "",
+    postcode: "",
+    distance: "",
+    minPrice: "",
+    maxPrice: "",
+    minYear: "",
+    maxYear: "",
+    maxMileage: "",
+    fuelType: "",
+    transmission: "",
+    bodyType: "",
+    doors: "",
+    engineSize: "",
+    color: "",
   });
+
+  // Update tempFilters when searchParams change
+  useEffect(() => {
+    setTempFilters({
+      make: searchParams.get("make") || "",
+      model: searchParams.get("model") || "",
+      postcode: searchParams.get("postcode") || "",
+      distance: searchParams.get("distance") || "",
+      minPrice: searchParams.get("minPrice") || "",
+      maxPrice: searchParams.get("maxPrice") || "",
+      minYear: searchParams.get("minYear") || "",
+      maxYear: searchParams.get("maxYear") || "",
+      maxMileage: searchParams.get("maxMileage") || "",
+      fuelType: searchParams.get("fuelType") || "",
+      transmission: searchParams.get("transmission") || "",
+      bodyType: searchParams.get("bodyType") || "",
+      doors: searchParams.get("doors") || "",
+      engineSize: searchParams.get("engineSize") || "",
+      color: searchParams.get("color") || "",
+    });
+  }, [searchParams]);
 
   const handleFilterMakeChange = (value: string) => {
     console.log("Filter make changed to:", value);
@@ -139,7 +160,6 @@ const Search = () => {
     const maxMileage = searchParams.get("maxMileage");
     const maxPrice = searchParams.get("maxPrice");
     const distance = searchParams.get("distance");
-    const sort = searchParams.get("sort");
     const minPrice = searchParams.get("minPrice");
     const minYear = searchParams.get("minYear");
     const maxYear = searchParams.get("maxYear");
@@ -177,18 +197,6 @@ const Search = () => {
     if (bodyType) tags.push({ label: `Body: ${bodyType}`, param: "bodyType" });
     if (doors) tags.push({ label: `Doors: ${doors}`, param: "doors" });
     if (color) tags.push({ label: `Color: ${color}`, param: "color" });
-    if (sort && sort !== "most-recent") {
-      const sortLabels = {
-        "relevance": "Relevance",
-        "price-asc": "Price: Low to High",
-        "price-desc": "Price: High to Low", 
-        "distance": "Distance",
-        "mileage": "Mileage",
-        "year-dsc": "Year: Newest First",
-        "year-asc": "Year: Oldest First"
-      };
-      tags.push({ label: `Sort: ${sortLabels[sort] || sort}`, param: "sort" });
-    }
 
     return tags;
   };
@@ -211,6 +219,9 @@ const Search = () => {
 
   // Pagination logic
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const searchTags = getSearchTags();
+  const hasSearchTags = searchTags.length > 0;
 
   // Filter content component to avoid duplication
   const FilterContent = () => (
@@ -550,11 +561,11 @@ const Search = () => {
           )}
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div className="flex flex-col-reverse md:flex-row gap-2 justify-between w-full">
+            <div className={`flex flex-col-reverse md:flex-row gap-2 w-full ${hasSearchTags ? 'justify-between' : 'justify-start'}`}>
               {/* Search Tags */}
-              {getSearchTags().length > 0 && (
+              {hasSearchTags && (
                 <div className="flex flex-wrap gap-2 mt-4">
-                  {getSearchTags().map((tag, index) => (
+                  {searchTags.map((tag, index) => (
                     <Badge
                       key={index}
                       variant="outline"
@@ -571,7 +582,7 @@ const Search = () => {
               )}
 
               <div className="flex justify-center items-center gap-2">
-                {/* Sort Dropdown - now in the search screen toolbar */}
+                {/* Sort Dropdown */}
                 <div className="w-48">
                   <Select
                     value={searchParams.get("sort") || "most-recent"}
@@ -586,7 +597,10 @@ const Search = () => {
                     }}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Sort by" />
+                      <div className="flex items-center gap-2">
+                        <SortAsc className="h-4 w-4" />
+                        <SelectValue placeholder="Sort by" />
+                      </div>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="most-recent">Most Recent</SelectItem>
