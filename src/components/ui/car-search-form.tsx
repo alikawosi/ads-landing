@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -56,6 +55,14 @@ const CarSearchForm = () => {
     }
   }, [formData.make, manufacturers, fetchModelsForManufacturer]);
 
+  const handleMakeChange = (value: string) => {
+    setFormData(prev => ({ ...prev, make: value, model: "" }));
+  };
+
+  const handleModelChange = (value: string) => {
+    setFormData(prev => ({ ...prev, model: value }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -105,9 +112,7 @@ const CarSearchForm = () => {
             <Label htmlFor="make">Make</Label>
             <Select
               value={formData.make}
-              onValueChange={(value) =>
-                setFormData({ ...formData, make: value })
-              }
+              onValueChange={handleMakeChange}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select make" />
@@ -126,13 +131,13 @@ const CarSearchForm = () => {
             <Label htmlFor="model">Model</Label>
             <Select
               value={formData.model}
-              onValueChange={(value) =>
-                setFormData({ ...formData, model: value })
-              }
+              onValueChange={handleModelChange}
               disabled={!formData.make}
             >
               <SelectTrigger className={!formData.make ? "opacity-50" : ""}>
-                <SelectValue placeholder={!formData.make ? "Select make first" : "Select model"} />
+                <SelectValue 
+                  placeholder={!formData.make ? "Select make first" : "Select model"} 
+                />
               </SelectTrigger>
               <SelectContent>
                 {models.map((model) => (
