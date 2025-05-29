@@ -31,6 +31,16 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -39,6 +49,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useCarData } from "@/hooks/useCarData";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Car {
   id: string;
@@ -141,6 +152,7 @@ const Search = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showSignIn, setShowSignIn] = useState(false);
   const itemsPerPage = 12;
+  const isMobile = useIsMobile();
 
   // Use the car data hook
   const { manufacturers, models, loading: carDataLoading, error: carDataError, fetchModelsForManufacturer } = useCarData();
@@ -297,6 +309,321 @@ const Search = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentCars = filteredCars.slice(startIndex, endIndex);
 
+  // Filter content component to avoid duplication
+  const FilterContent = () => (
+    <div className="space-y-6 py-6">
+      {/* Location Filters */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg">Location</h3>
+        <div className="grid grid-cols-1 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Postcode
+            </label>
+            <input
+              type="text"
+              placeholder="Enter postcode"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.postcode}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  postcode: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Distance
+            </label>
+            <select
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.distance}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  distance: e.target.value,
+                })
+              }
+            >
+              <option value="">Select distance</option>
+              <option value="5">Within 5 miles</option>
+              <option value="10">Within 10 miles</option>
+              <option value="25">Within 25 miles</option>
+              <option value="50">Within 50 miles</option>
+              <option value="100">Within 100 miles</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      {/* Make and Model */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg">Make & Model</h3>
+        <div className="grid grid-cols-1 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Make</label>
+            <Select
+              value={tempFilters.make || "any"}
+              onValueChange={handleFilterMakeChange}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Any Make" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Any Make</SelectItem>
+                {manufacturers.map((manufacturer) => (
+                  <SelectItem key={manufacturer.id} value={manufacturer.name}>
+                    {manufacturer.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Model</label>
+            <Select
+              value={tempFilters.model || "any"}
+              onValueChange={handleFilterModelChange}
+              disabled={!tempFilters.make}
+            >
+              <SelectTrigger className={!tempFilters.make ? "opacity-50" : ""}>
+                <SelectValue 
+                  placeholder={!tempFilters.make ? "Select make first" : "Any Model"} 
+                />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Any Model</SelectItem>
+                {models.map((model) => (
+                  <SelectItem key={model.id} value={model.name}>
+                    {model.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+      {/* Price Range */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg">Price Range</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Min Price
+            </label>
+            <input
+              type="number"
+              placeholder="£0"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.minPrice}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  minPrice: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Max Price
+            </label>
+            <input
+              type="number"
+              placeholder="£100,000"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.maxPrice}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  maxPrice: e.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {/* Year Range */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg">Year Range</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              From Year
+            </label>
+            <input
+              type="number"
+              placeholder="2000"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.minYear}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  minYear: e.target.value,
+                })
+              }
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              To Year
+            </label>
+            <input
+              type="number"
+              placeholder="2024"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.maxYear}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  maxYear: e.target.value,
+                })
+              }
+            />
+          </div>
+        </div>
+      </div>
+      {/* Mileage */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg">Mileage</h3>
+        <div className="space-y-2">
+          <label className="text-sm font-medium">
+            Max Mileage
+          </label>
+          <select
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            value={tempFilters.maxMileage}
+            onChange={(e) =>
+              setTempFilters({
+                ...tempFilters,
+                maxMileage: e.target.value,
+              })
+            }
+          >
+            <option value="">Any Mileage</option>
+            <option value="10000">Under 10,000 miles</option>
+            <option value="25000">Under 25,000 miles</option>
+            <option value="50000">Under 50,000 miles</option>
+            <option value="75000">Under 75,000 miles</option>
+            <option value="100000">Under 100,000 miles</option>
+          </select>
+        </div>
+      </div>
+      {/* Additional Filters */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg">
+          Additional Filters
+        </h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Fuel Type
+            </label>
+            <select
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.fuelType}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  fuelType: e.target.value,
+                })
+              }
+            >
+              <option value="">Any Fuel Type</option>
+              <option value="petrol">Petrol</option>
+              <option value="diesel">Diesel</option>
+              <option value="electric">Electric</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Transmission
+            </label>
+            <select
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.transmission}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  transmission: e.target.value,
+                })
+              }
+            >
+              <option value="">Any Transmission</option>
+              <option value="manual">Manual</option>
+              <option value="automatic">Automatic</option>
+            </select>
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Body Type
+            </label>
+            <select
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.bodyType}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  bodyType: e.target.value,
+                })
+              }
+            >
+              <option value="">Any Body Type</option>
+              <option value="hatchback">Hatchback</option>
+              <option value="saloon">Saloon</option>
+              <option value="estate">Estate</option>
+              <option value="suv">SUV</option>
+              <option value="coupe">Coupe</option>
+              <option value="convertible">Convertible</option>
+            </select>
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Doors</label>
+            <select
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.doors}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  doors: e.target.value,
+                })
+              }
+            >
+              <option value="">Any Doors</option>
+              <option value="2">2 Doors</option>
+              <option value="3">3 Doors</option>
+              <option value="4">4 Doors</option>
+              <option value="5">5 Doors</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const FilterFooter = () => (
+    <div className="flex flex-col gap-2 pt-4">
+      <Button onClick={applyFilters} className="w-full">
+        Apply Filters
+      </Button>
+      {isMobile ? (
+        <DrawerClose asChild>
+          <Button variant="outline" className="w-full">
+            Cancel
+          </Button>
+        </DrawerClose>
+      ) : (
+        <SheetClose asChild>
+          <Button variant="outline" className="w-full">
+            Cancel
+          </Button>
+        </SheetClose>
+      )}
+    </div>
+  );
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-24">
@@ -307,7 +634,7 @@ const Search = () => {
           </p>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div className="flex flex-col-reverse md:flex-row gap-2  justify-between w-full">
+            <div className="flex flex-col-reverse md:flex-row gap-2 justify-between w-full">
               {/* Search Tags */}
               {getSearchTags().length > 0 && (
                 <div className="flex flex-wrap gap-2 mt-4">
@@ -328,330 +655,65 @@ const Search = () => {
               )}
 
               <div className="flex justify-center items-center gap-2">
-                <Sheet open={showFilters} onOpenChange={setShowFilters}>
-                  <SheetTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="flex w-48 items-center gap-2"
-                    >
-                      <Filter className="h-4 w-4" />
-                      Filters
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent
-                    side="right"
-                    className="w-full sm:max-w-md overflow-y-auto"
-                  >
-                    <SheetHeader>
-                      <SheetTitle>Filter Cars</SheetTitle>
-                      <SheetDescription>
-                        Refine your search with additional filters
-                      </SheetDescription>
-                    </SheetHeader>
-                    <div className="space-y-6 py-6">
-                      {/* Location Filters */}
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg">Location</h3>
-                        <div className="grid grid-cols-1 gap-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              Postcode
-                            </label>
-                            <input
-                              type="text"
-                              placeholder="Enter postcode"
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.postcode}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  postcode: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              Distance
-                            </label>
-                            <select
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.distance}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  distance: e.target.value,
-                                })
-                              }
-                            >
-                              <option value="">Select distance</option>
-                              <option value="5">Within 5 miles</option>
-                              <option value="10">Within 10 miles</option>
-                              <option value="25">Within 25 miles</option>
-                              <option value="50">Within 50 miles</option>
-                              <option value="100">Within 100 miles</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      {/* Make and Model */}
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg">Make & Model</h3>
-                        <div className="grid grid-cols-1 gap-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">Make</label>
-                            <Select
-                              value={tempFilters.make || "any"}
-                              onValueChange={handleFilterMakeChange}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Any Make" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="any">Any Make</SelectItem>
-                                {manufacturers.map((manufacturer) => (
-                                  <SelectItem key={manufacturer.id} value={manufacturer.name}>
-                                    {manufacturer.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">Model</label>
-                            <Select
-                              value={tempFilters.model || "any"}
-                              onValueChange={handleFilterModelChange}
-                              disabled={!tempFilters.make}
-                            >
-                              <SelectTrigger className={!tempFilters.make ? "opacity-50" : ""}>
-                                <SelectValue 
-                                  placeholder={!tempFilters.make ? "Select make first" : "Any Model"} 
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="any">Any Model</SelectItem>
-                                {models.map((model) => (
-                                  <SelectItem key={model.id} value={model.name}>
-                                    {model.name}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-                      </div>
-                      {/* Price Range */}
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg">Price Range</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              Min Price
-                            </label>
-                            <input
-                              type="number"
-                              placeholder="£0"
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.minPrice}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  minPrice: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              Max Price
-                            </label>
-                            <input
-                              type="number"
-                              placeholder="£100,000"
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.maxPrice}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  maxPrice: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      {/* Year Range */}
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg">Year Range</h3>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              From Year
-                            </label>
-                            <input
-                              type="number"
-                              placeholder="2000"
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.minYear}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  minYear: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              To Year
-                            </label>
-                            <input
-                              type="number"
-                              placeholder="2024"
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.maxYear}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  maxYear: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      {/* Mileage */}
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg">Mileage</h3>
-                        <div className="space-y-2">
-                          <label className="text-sm font-medium">
-                            Max Mileage
-                          </label>
-                          <select
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                            value={tempFilters.maxMileage}
-                            onChange={(e) =>
-                              setTempFilters({
-                                ...tempFilters,
-                                maxMileage: e.target.value,
-                              })
-                            }
-                          >
-                            <option value="">Any Mileage</option>
-                            <option value="10000">Under 10,000 miles</option>
-                            <option value="25000">Under 25,000 miles</option>
-                            <option value="50000">Under 50,000 miles</option>
-                            <option value="75000">Under 75,000 miles</option>
-                            <option value="100000">Under 100,000 miles</option>
-                          </select>
-                        </div>
-                      </div>
-                      {/* Additional Filters */}
-                      <div className="space-y-4">
-                        <h3 className="font-semibold text-lg">
-                          Additional Filters
-                        </h3>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              Fuel Type
-                            </label>
-                            <select
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.fuelType}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  fuelType: e.target.value,
-                                })
-                              }
-                            >
-                              <option value="">Any Fuel Type</option>
-                              <option value="petrol">Petrol</option>
-                              <option value="diesel">Diesel</option>
-                              <option value="electric">Electric</option>
-                              <option value="hybrid">Hybrid</option>
-                            </select>
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              Transmission
-                            </label>
-                            <select
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.transmission}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  transmission: e.target.value,
-                                })
-                              }
-                            >
-                              <option value="">Any Transmission</option>
-                              <option value="manual">Manual</option>
-                              <option value="automatic">Automatic</option>
-                            </select>
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">
-                              Body Type
-                            </label>
-                            <select
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.bodyType}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  bodyType: e.target.value,
-                                })
-                              }
-                            >
-                              <option value="">Any Body Type</option>
-                              <option value="hatchback">Hatchback</option>
-                              <option value="saloon">Saloon</option>
-                              <option value="estate">Estate</option>
-                              <option value="suv">SUV</option>
-                              <option value="coupe">Coupe</option>
-                              <option value="convertible">Convertible</option>
-                            </select>
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">Doors</label>
-                            <select
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                              value={tempFilters.doors}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  doors: e.target.value,
-                                })
-                              }
-                            >
-                              <option value="">Any Doors</option>
-                              <option value="2">2 Doors</option>
-                              <option value="3">3 Doors</option>
-                              <option value="4">4 Doors</option>
-                              <option value="5">5 Doors</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <SheetFooter>
-                      <Button onClick={applyFilters} className="w-full">
-                        Apply Filters
+                {/* Mobile Drawer */}
+                {isMobile ? (
+                  <Drawer open={showFilters} onOpenChange={setShowFilters}>
+                    <DrawerTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="flex w-full sm:w-48 items-center gap-2"
+                      >
+                        <Filter className="h-4 w-4" />
+                        Filters
                       </Button>
-                      <SheetClose asChild>
-                        <Button variant="outline" className="w-full">
-                          Cancel
-                        </Button>
-                      </SheetClose>
-                    </SheetFooter>
-                  </SheetContent>
-                </Sheet>
+                    </DrawerTrigger>
+                    <DrawerContent className="max-h-[85vh]">
+                      <DrawerHeader>
+                        <DrawerTitle>Filter Cars</DrawerTitle>
+                        <DrawerDescription>
+                          Refine your search with additional filters
+                        </DrawerDescription>
+                      </DrawerHeader>
+                      <div className="overflow-y-auto px-4">
+                        <FilterContent />
+                      </div>
+                      <DrawerFooter>
+                        <FilterFooter />
+                      </DrawerFooter>
+                    </DrawerContent>
+                  </Drawer>
+                ) : (
+                  /* Desktop Sheet */
+                  <Sheet open={showFilters} onOpenChange={setShowFilters}>
+                    <SheetTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="flex w-48 items-center gap-2"
+                      >
+                        <Filter className="h-4 w-4" />
+                        Filters
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent
+                      side="right"
+                      className="w-full sm:max-w-md overflow-y-auto"
+                    >
+                      <SheetHeader>
+                        <SheetTitle>Filter Cars</SheetTitle>
+                        <SheetDescription>
+                          Refine your search with additional filters
+                        </SheetDescription>
+                      </SheetHeader>
+                      <FilterContent />
+                      <SheetFooter>
+                        <FilterFooter />
+                      </SheetFooter>
+                    </SheetContent>
+                  </Sheet>
+                )}
+                
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-48">
+                  <SelectTrigger className="w-full sm:w-48">
                     <SortAsc className="h-4 w-4 mr-2" />
                     <SelectValue placeholder="Sort by" />
                   </SelectTrigger>
@@ -678,7 +740,7 @@ const Search = () => {
         </div>
 
         {/* Car Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8">
           {currentCars.map((car) => (
             <CarCard
               key={car.id}
