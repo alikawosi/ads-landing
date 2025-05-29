@@ -166,18 +166,22 @@ const Search = () => {
 
   const handleFilterMakeChange = (value: string) => {
     console.log("Filter make changed to:", value);
-    setTempFilters(prev => ({ ...prev, make: value, model: "" }));
+    const makeValue = value === "any" ? "" : value;
+    setTempFilters(prev => ({ ...prev, make: makeValue, model: "" }));
     
     // Fetch models for the selected manufacturer
-    const selectedManufacturer = manufacturers.find(m => m.name === value);
-    if (selectedManufacturer) {
-      fetchModelsForManufacturer(selectedManufacturer.id);
+    if (value !== "any") {
+      const selectedManufacturer = manufacturers.find(m => m.name === value);
+      if (selectedManufacturer) {
+        fetchModelsForManufacturer(selectedManufacturer.id);
+      }
     }
   };
 
   const handleFilterModelChange = (value: string) => {
     console.log("Filter model changed to:", value);
-    setTempFilters(prev => ({ ...prev, model: value }));
+    const modelValue = value === "any" ? "" : value;
+    setTempFilters(prev => ({ ...prev, model: modelValue }));
   };
 
   useEffect(() => {
@@ -397,14 +401,14 @@ const Search = () => {
                           <div className="space-y-2">
                             <label className="text-sm font-medium">Make</label>
                             <Select
-                              value={tempFilters.make}
+                              value={tempFilters.make || "any"}
                               onValueChange={handleFilterMakeChange}
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Any Make" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="">Any Make</SelectItem>
+                                <SelectItem value="any">Any Make</SelectItem>
                                 {manufacturers.map((manufacturer) => (
                                   <SelectItem key={manufacturer.id} value={manufacturer.name}>
                                     {manufacturer.name}
@@ -416,7 +420,7 @@ const Search = () => {
                           <div className="space-y-2">
                             <label className="text-sm font-medium">Model</label>
                             <Select
-                              value={tempFilters.model}
+                              value={tempFilters.model || "any"}
                               onValueChange={handleFilterModelChange}
                               disabled={!tempFilters.make}
                             >
@@ -426,7 +430,7 @@ const Search = () => {
                                 />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="">Any Model</SelectItem>
+                                <SelectItem value="any">Any Model</SelectItem>
                                 {models.map((model) => (
                                   <SelectItem key={model.id} value={model.name}>
                                     {model.name}
