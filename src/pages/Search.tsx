@@ -50,11 +50,14 @@ import { Badge } from "@/components/ui/badge";
 import { useCarData } from "@/hooks/useCarData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useCarSearch } from "@/hooks/useCarSearch";
+import { getCarValuation, calculatePriceTag } from "@/utils/valuationApi";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
+  const [valuationCount, setValuationCount] = useState(0);
+  const [carValuations, setCarValuations] = useState<Record<string, { estimatedPrice: number; priceTag: "good" | "fair" | "high" }>>({});
   const itemsPerPage = 12;
   const isMobile = useIsMobile();
 
@@ -137,8 +140,35 @@ const Search = () => {
     setShowSignIn(true);
   };
 
-  const handleCheckValuation = (result: any) => {
-    setShowSignIn(true);
+  const handleCheckValuation = async (result: any) => {
+    // Check if user has exceeded the 3 valuation limit
+    if (valuationCount >= 3) {
+      setShowSignIn(true);
+      return;
+    }
+
+    try {
+      const response = await getCarValuation(result);
+      
+      if (response.results.StatusCode === "Success") {
+        const estimatedPrice = response.results.DataItems.ValuationList.DealerForecourt;
+        const currentPrice = parseInt(result.Price);
+        const priceTag = calculatePriceTag(currentPrice, estimatedPrice);
+        
+        // Store the valuation result
+        const carKey = `${result.Link}-${result.Name}`;
+        setCarValuations(prev => ({
+          ...prev,
+          [carKey]: { estimatedPrice, priceTag }
+        }));
+        
+        // Increment the valuation count
+        setValuationCount(prev => prev + 1);
+      }
+    } catch (error) {
+      console.error("Error getting car valuation:", error);
+      // Optionally show an error message to the user
+    }
   };
 
   const handleFavorite = (result: any) => {
@@ -565,6 +595,11 @@ const Search = () => {
           ) : (
             <p className="text-gray-600">
               Found {totalItems.toLocaleString()} cars matching your criteria
+              {valuationCount > 0 && (
+                <span className="ml-4 text-sm text-blue-600">
+                  Valuations used: {valuationCount}/3
+                </span>
+              )}
             </p>
           )}
 
@@ -691,22 +726,30 @@ const Search = () => {
           </div>
         ) : hasResults ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8">
-            {results.map((result, index) => (
-              <CarCard
-                key={`${result.Link}-${index}`}
-                make={result.Name.split(' ')[0] || 'Unknown'}
-                model={result.Name.split(' ').slice(1).join(' ') || result.Desc}
-                year={result.Year}
-                price={parseInt(result.Price) || 0}
-                mileage={result.Mileage || 0}
-                image={result.Image}
-                onClick={() => handleCardClick(result)}
-                onCheckValuation={() => handleCheckValuation(result)}
-                onFavorite={() => handleFavorite(result)}
-                onAddToList={() => handleAddToList(result)}
-                showValuation={false}
-              />
-            ))}
+            {results.map((result, index) => {
+              const carKey = `${result.Link}-${result.Name}`;
+              const valuation = carValuations[carKey];
+              
+              return (
+                <CarCard
+                  key={`${result.Link}-${index}`}
+                  make={result.Name.split(' ')[0] || 'Unknown'}
+                  model={result.Name.split(' ').slice(1).join(' ') || result.Desc}
+                  year={result.Year}
+                  price={parseInt(result.Price) || 0}
+                  mileage={result.Mileage || 0}
+                  image={result.Image}
+                  estimatedPrice={valuation?.estimatedPrice}
+                  priceTag={valuation?.priceTag}
+                  carData={result}
+                  onClick={() => handleCardClick(result)}
+                  onCheckValuation={() => handleCheckValuation(result)}
+                  onFavorite={() => handleFavorite(result)}
+                  onAddToList={() => handleAddToList(result)}
+                  showValuation={false}
+                />
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-12">
@@ -772,7 +815,10 @@ const Search = () => {
             <DialogHeader>
               <DialogTitle>Sign In Required</DialogTitle>
               <DialogDescription>
-                Please sign in to view car details and access premium features.
+                {valuationCount >= 3 
+                  ? "You've used all 3 free valuations. Please sign in to continue."
+                  : "Please sign in to view car details and access premium features."
+                }
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col space-y-4 mt-4">

@@ -22,6 +22,7 @@ interface CarCardProps {
   onFavorite?: () => void;
   onAddToList?: () => void;
   showValuation?: boolean;
+  carData?: any; // Add this to pass the full car data for valuation
 }
 
 const CarCard = ({
@@ -39,11 +40,14 @@ const CarCard = ({
   onFavorite,
   onAddToList,
   showValuation = false,
+  carData,
 }: CarCardProps) => {
   const isMobile = useIsMobile();
   const isExtraSmall = useIsExtraSmall();
   const [isLoading, setIsLoading] = useState(false);
   const [showEstimatedPrice, setShowEstimatedPrice] = useState(false);
+  const [localEstimatedPrice, setLocalEstimatedPrice] = useState<number | null>(estimatedPrice || null);
+  const [localPriceTag, setLocalPriceTag] = useState<"good" | "fair" | "high" | null>(priceTag || null);
 
   const getPriceTagVariant = (tag: "good" | "fair" | "high") => {
     switch (tag) {
@@ -61,15 +65,13 @@ const CarCard = ({
   const handleCheckValuation = async (e: React.MouseEvent) => {
     e.stopPropagation();
     
-    if (showValuation && estimatedPrice) {
+    if (onCheckValuation) {
       setIsLoading(true);
-      // Simulate loading time
-      setTimeout(() => {
+      try {
+        await onCheckValuation();
+      } finally {
         setIsLoading(false);
-        setShowEstimatedPrice(true);
-      }, 1500);
-    } else {
-      onCheckValuation?.();
+      }
     }
   };
 
@@ -82,6 +84,17 @@ const CarCard = ({
     e.stopPropagation();
     onAddToList?.();
   };
+
+  // Update local state when props change
+  React.useEffect(() => {
+    if (estimatedPrice) {
+      setLocalEstimatedPrice(estimatedPrice);
+      setShowEstimatedPrice(true);
+    }
+    if (priceTag) {
+      setLocalPriceTag(priceTag);
+    }
+  }, [estimatedPrice, priceTag]);
 
   return (
     <Card 
@@ -97,12 +110,12 @@ const CarCard = ({
           alt={`${make} ${model}`}
           className="w-full h-full object-cover"
         />
-        {showEstimatedPrice && priceTag && (
+        {showEstimatedPrice && localPriceTag && (
           <Badge 
-            variant={getPriceTagVariant(priceTag)}
+            variant={getPriceTagVariant(localPriceTag)}
             className="absolute top-3 right-3 capitalize"
           >
-            {priceTag}
+            {localPriceTag}
           </Badge>
         )}
       </div>
@@ -143,22 +156,22 @@ const CarCard = ({
           <div className="flex justify-between items-center">
             <div className="text-xl md:text-2xl font-bold">£{price.toLocaleString()}</div>
             <div className="text-xs md:text-sm text-muted-foreground">
-              {mileage.toLocaleString()} miles
+              {mileage?.toLocaleString() || 'N/A'} miles
             </div>
           </div>
           
           {/* Fixed space for estimated price content */}
           <div className="min-h-[60px] pt-2">
-            {showEstimatedPrice && estimatedPrice && (
+            {showEstimatedPrice && localEstimatedPrice && (
               <div className="space-y-1 border-t pt-2">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Est. Value:</span>
-                  <span className="font-semibold">£{estimatedPrice.toLocaleString()}</span>
+                  <span className="font-semibold">£{localEstimatedPrice.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Difference:</span>
-                  <span className={`font-bold ${price > estimatedPrice ? 'text-red-500' : 'text-green-500'}`}>
-                    {price > estimatedPrice ? '+' : ''}£{Math.abs(price - estimatedPrice).toLocaleString()}
+                  <span className={`font-bold ${price > localEstimatedPrice ? 'text-red-500' : 'text-green-500'}`}>
+                    {price > localEstimatedPrice ? '+' : ''}£{Math.abs(price - localEstimatedPrice).toLocaleString()}
                   </span>
                 </div>
               </div>
