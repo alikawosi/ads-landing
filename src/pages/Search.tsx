@@ -261,6 +261,12 @@ const Search = () => {
   const removeSearchParam = (param: string) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.delete(param);
+    
+    // If removing make, also remove model
+    if (param === "make") {
+      newParams.delete("model");
+    }
+    
     setSearchParams(newParams);
   };
 
