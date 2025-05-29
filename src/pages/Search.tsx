@@ -1,11 +1,16 @@
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import CarCard from "@/components/ui/car-card";
 import CarSearchForm from "@/components/ui/car-search-form";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Filter, SortAsc, X } from "lucide-react";
 import {
   Pagination,
@@ -34,7 +39,7 @@ const mockCars: Car[] = [
     year: 2022,
     price: 24500,
     mileage: 15000,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
   },
   {
     id: "2",
@@ -43,7 +48,7 @@ const mockCars: Car[] = [
     year: 2023,
     price: 28900,
     mileage: 8500,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
   },
   {
     id: "3",
@@ -52,7 +57,7 @@ const mockCars: Car[] = [
     year: 2021,
     price: 35000,
     mileage: 22000,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
   },
   {
     id: "4",
@@ -61,7 +66,7 @@ const mockCars: Car[] = [
     year: 2022,
     price: 42000,
     mileage: 12000,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
   },
   {
     id: "5",
@@ -70,7 +75,7 @@ const mockCars: Car[] = [
     year: 2023,
     price: 38500,
     mileage: 6000,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
   },
   {
     id: "6",
@@ -79,7 +84,7 @@ const mockCars: Car[] = [
     year: 2020,
     price: 18900,
     mileage: 35000,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
   },
   {
     id: "7",
@@ -88,7 +93,7 @@ const mockCars: Car[] = [
     year: 2021,
     price: 22000,
     mileage: 18000,
-    image: "/placeholder.svg"
+    image: "/placeholder.svg",
   },
   {
     id: "8",
@@ -97,8 +102,8 @@ const mockCars: Car[] = [
     year: 2020,
     price: 19500,
     mileage: 25000,
-    image: "/placeholder.svg"
-  }
+    image: "/placeholder.svg",
+  },
 ];
 
 const Search = () => {
@@ -111,24 +116,28 @@ const Search = () => {
   const itemsPerPage = 6;
 
   useEffect(() => {
-    const make = searchParams.get('make');
-    const model = searchParams.get('model');
-    const maxMileage = searchParams.get('maxMileage');
-    const maxPrice = searchParams.get('maxPrice');
+    const make = searchParams.get("make");
+    const model = searchParams.get("model");
+    const maxMileage = searchParams.get("maxMileage");
+    const maxPrice = searchParams.get("maxPrice");
 
     let filtered = mockCars;
 
     if (make) {
-      filtered = filtered.filter(car => car.make.toLowerCase().includes(make.toLowerCase()));
+      filtered = filtered.filter((car) =>
+        car.make.toLowerCase().includes(make.toLowerCase())
+      );
     }
     if (model) {
-      filtered = filtered.filter(car => car.model.toLowerCase().includes(model.toLowerCase()));
+      filtered = filtered.filter((car) =>
+        car.model.toLowerCase().includes(model.toLowerCase())
+      );
     }
     if (maxMileage) {
-      filtered = filtered.filter(car => car.mileage <= parseInt(maxMileage));
+      filtered = filtered.filter((car) => car.mileage <= parseInt(maxMileage));
     }
     if (maxPrice) {
-      filtered = filtered.filter(car => car.price <= parseInt(maxPrice));
+      filtered = filtered.filter((car) => car.price <= parseInt(maxPrice));
     }
 
     // Apply sorting
@@ -174,11 +183,6 @@ const Search = () => {
   return (
     <Layout>
       <div className="container mx-auto px-4 py-8">
-        {/* Search Form */}
-        <div className="mb-8">
-          <CarSearchForm />
-        </div>
-
         {/* Results Header */}
         <div className="mb-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -205,8 +209,12 @@ const Search = () => {
                 <SelectContent>
                   <SelectItem value="price-low">Price: Low to High</SelectItem>
                   <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  <SelectItem value="mileage-low">Mileage: Low to High</SelectItem>
-                  <SelectItem value="mileage-high">Mileage: High to Low</SelectItem>
+                  <SelectItem value="mileage-low">
+                    Mileage: Low to High
+                  </SelectItem>
+                  <SelectItem value="mileage-high">
+                    Mileage: High to Low
+                  </SelectItem>
                   <SelectItem value="year-new">Year: Newest First</SelectItem>
                   <SelectItem value="year-old">Year: Oldest First</SelectItem>
                 </SelectContent>
@@ -238,9 +246,13 @@ const Search = () => {
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
-                  <PaginationPrevious 
+                  <PaginationPrevious
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    className={
+                      currentPage === 1
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
                   />
                 </PaginationItem>
                 {[...Array(totalPages)].map((_, i) => (
@@ -255,9 +267,15 @@ const Search = () => {
                   </PaginationItem>
                 ))}
                 <PaginationItem>
-                  <PaginationNext 
-                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  <PaginationNext
+                    onClick={() =>
+                      setCurrentPage(Math.min(totalPages, currentPage + 1))
+                    }
+                    className={
+                      currentPage === totalPages
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
                   />
                 </PaginationItem>
               </PaginationContent>
@@ -275,11 +293,11 @@ const Search = () => {
 
       {/* Sign In Modal */}
       {showSignIn && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
           onClick={() => setShowSignIn(false)}
         >
-          <div 
+          <div
             className="bg-white p-8 rounded-lg max-w-md w-full mx-4 relative"
             onClick={(e) => e.stopPropagation()}
           >
@@ -291,7 +309,8 @@ const Search = () => {
             </button>
             <h2 className="text-2xl font-bold mb-6">Sign In Required</h2>
             <p className="text-gray-600 mb-6">
-              Please sign in or create an account to view car details and check valuations.
+              Please sign in or create an account to view car details and check
+              valuations.
             </p>
             <div className="space-y-4">
               <Button className="w-full bg-blue-600 hover:bg-blue-700">
