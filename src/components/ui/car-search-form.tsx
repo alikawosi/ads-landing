@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useCarData } from "@/hooks/useCarData";
 
 interface SearchFormData {
   make: string;
@@ -24,6 +25,7 @@ interface SearchFormData {
 
 const CarSearchForm = () => {
   const navigate = useNavigate();
+  const { manufacturers, models, loading, error, fetchModelsForManufacturer } = useCarData();
   const [formData, setFormData] = useState<SearchFormData>({
     make: "",
     model: "",
@@ -32,24 +34,6 @@ const CarSearchForm = () => {
     maxMileage: "",
     maxPrice: "",
   });
-
-  const carMakesAndModels = {
-    "Toyota": ["Camry", "Corolla", "Prius", "RAV4", "Highlander", "Sienna"],
-    "Honda": ["Accord", "Civic", "CR-V", "Pilot", "Odyssey", "Fit"],
-    "BMW": ["3 Series", "5 Series", "X3", "X5", "i3", "i8"],
-    "Mercedes-Benz": ["C-Class", "E-Class", "S-Class", "GLC", "GLE", "A-Class"],
-    "Audi": ["A3", "A4", "A6", "Q3", "Q5", "Q7"],
-    "Volkswagen": ["Golf", "Jetta", "Passat", "Tiguan", "Atlas", "Beetle"],
-    "Ford": ["Focus", "Fiesta", "Mustang", "Explorer", "F-150", "Escape"],
-    "Nissan": ["Altima", "Sentra", "Rogue", "Pathfinder", "Titan", "Leaf"],
-    "Hyundai": ["Elantra", "Sonata", "Tucson", "Santa Fe", "Genesis", "Kona"],
-    "Kia": ["Forte", "Optima", "Sorento", "Sportage", "Soul", "Stinger"],
-    "Mazda": ["Mazda3", "Mazda6", "CX-5", "CX-9", "MX-5", "CX-3"],
-    "Subaru": ["Impreza", "Legacy", "Outback", "Forester", "Ascent", "WRX"],
-  };
-
-  const carMakes = Object.keys(carMakesAndModels);
-  const availableModels = formData.make ? carMakesAndModels[formData.make as keyof typeof carMakesAndModels] || [] : [];
 
   const distanceOptions = [
     { value: "5", label: "5 miles" },
@@ -61,12 +45,16 @@ const CarSearchForm = () => {
     { value: "200", label: "200 miles" },
   ];
 
-  // Reset model when make changes
+  // Reset model when make changes and fetch new models
   useEffect(() => {
     if (formData.make) {
       setFormData(prev => ({ ...prev, model: "" }));
+      const selectedManufacturer = manufacturers.find(m => m.name === formData.make);
+      if (selectedManufacturer) {
+        fetchModelsForManufacturer(selectedManufacturer.id);
+      }
     }
-  }, [formData.make]);
+  }, [formData.make, manufacturers, fetchModelsForManufacturer]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,6 +77,26 @@ const CarSearchForm = () => {
     navigate(`/search?${searchParams.toString()}`);
   };
 
+  if (loading) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center py-4">
+          <p>Loading car data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center py-4 text-red-600">
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -105,9 +113,9 @@ const CarSearchForm = () => {
                 <SelectValue placeholder="Select make" />
               </SelectTrigger>
               <SelectContent>
-                {carMakes.map((make) => (
-                  <SelectItem key={make} value={make}>
-                    {make}
+                {manufacturers.map((manufacturer) => (
+                  <SelectItem key={manufacturer.id} value={manufacturer.name}>
+                    {manufacturer.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -127,9 +135,9 @@ const CarSearchForm = () => {
                 <SelectValue placeholder={!formData.make ? "Select make first" : "Select model"} />
               </SelectTrigger>
               <SelectContent>
-                {availableModels.map((model) => (
-                  <SelectItem key={model} value={model}>
-                    {model}
+                {models.map((model) => (
+                  <SelectItem key={model.id} value={model.name}>
+                    {model.name}
                   </SelectItem>
                 ))}
               </SelectContent>
