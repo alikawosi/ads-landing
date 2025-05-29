@@ -110,22 +110,24 @@ const CarCard = ({
           alt={`${make} ${model}`}
           className="w-full h-full object-cover"
         />
-        {showEstimatedPrice && localPriceTag && (
-          <Badge 
-            variant={getPriceTagVariant(localPriceTag)}
-            className="absolute top-3 right-3 capitalize"
-          >
-            {localPriceTag}
-          </Badge>
-        )}
       </div>
       
       <CardHeader className={isExtraSmall ? "p-3" : "p-4"}>
         <div className="flex justify-between items-start">
           <div className="flex-1">
             <div className="flex items-center justify-between gap-2">
-              <div>
-                <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
+                  {localPriceTag && (
+                    <Badge 
+                      variant={getPriceTagVariant(localPriceTag)}
+                      className="capitalize text-xs"
+                    >
+                      {localPriceTag}
+                    </Badge>
+                  )}
+                </div>
                 <p className="text-sm text-muted-foreground">{year}</p>
               </div>
               <div className="flex items-center gap-2">
@@ -183,7 +185,7 @@ const CarCard = ({
       <CardFooter className={isExtraSmall ? "p-3 pt-0" : "p-4 pt-0"}>
         <Button 
           variant="outline"
-          className="w-full bg-green-50 hover:bg-green-100 border-green-200 text-green-700"
+          className="w-full bg-zinc-50 hover:bg-zinc-100 border-zinc-200 text-zinc-700"
           size={isMobile ? "sm" : "default"}
           onClick={handleCheckValuation}
           disabled={isLoading}
