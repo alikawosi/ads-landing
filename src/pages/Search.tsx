@@ -133,8 +133,8 @@ const Search = () => {
   };
 
   const handleCardClick = (result: any) => {
-    // Open the original AutoTrader link
-    window.open(result.Link, '_blank');
+    // Show sign-in modal instead of opening AutoTrader link
+    setShowSignIn(true);
   };
 
   const handleCheckValuation = (result: any) => {
@@ -709,8 +709,8 @@ const Search = () => {
           </div>
         )}
 
-        {/* Pagination */}
-        {totalPages > 1 && hasResults && (
+        {/* Pagination - Hide when loading */}
+        {!loading && totalPages > 1 && hasResults && (
           <div className="flex justify-center">
             <Pagination>
               <PaginationContent>
