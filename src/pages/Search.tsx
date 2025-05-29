@@ -56,20 +56,10 @@ const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
+  const [valuationCount, setValuationCount] = useState(0);
   const [carValuations, setCarValuations] = useState<Record<string, { estimatedPrice: number; priceTag: "good" | "fair" | "high" }>>({});
   const itemsPerPage = 12;
   const isMobile = useIsMobile();
-
-  // Session-based valuation count - persists across page reloads
-  const [valuationCount, setValuationCount] = useState(() => {
-    const stored = sessionStorage.getItem('valuationCount');
-    return stored ? parseInt(stored) : 0;
-  });
-
-  // Update sessionStorage whenever valuationCount changes
-  useEffect(() => {
-    sessionStorage.setItem('valuationCount', valuationCount.toString());
-  }, [valuationCount]);
 
   // Use the car search hook
   const { 
@@ -151,14 +141,11 @@ const Search = () => {
   };
 
   const handleCheckValuation = async (result: any) => {
-    // Check if user has exceeded the 3 valuation limit FIRST
+    // Check if user has exceeded the 3 valuation limit
     if (valuationCount >= 3) {
       setShowSignIn(true);
       return;
     }
-
-    // Increment the valuation count immediately when button is clicked
-    setValuationCount(prev => prev + 1);
 
     try {
       const response = await getCarValuation(result);
@@ -174,11 +161,13 @@ const Search = () => {
           ...prev,
           [carKey]: { estimatedPrice, priceTag }
         }));
+        
+        // Increment the valuation count
+        setValuationCount(prev => prev + 1);
       }
     } catch (error) {
       console.error("Error getting car valuation:", error);
-      // If API call fails, we still keep the count incremented
-      // This prevents users from spamming failed requests
+      // Optionally show an error message to the user
     }
   };
 
