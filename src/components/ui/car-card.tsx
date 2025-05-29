@@ -110,26 +110,28 @@ const CarCard = ({
       <CardHeader className={isExtraSmall ? "p-3" : "p-4"}>
         <div className="flex justify-between items-start">
           <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
-                onClick={handleFavorite}
-              >
-                <Heart className="h-4 w-4" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-8 w-8 p-0 hover:bg-blue-50 hover:text-blue-600"
-                onClick={handleAddToList}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
+            <div className="flex items-center justify-between gap-2">
               <div>
                 <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
                 <p className="text-sm text-muted-foreground">{year}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 hover:bg-red-50 hover:text-red-600"
+                  onClick={handleFavorite}
+                >
+                  <Heart className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 w-8 p-0 hover:bg-blue-50 hover:text-blue-600"
+                  onClick={handleAddToList}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
               </div>
             </div>
           </div>
