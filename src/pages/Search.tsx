@@ -89,6 +89,7 @@ const Search = () => {
     doors: searchParams.get("doors") || "",
     engineSize: searchParams.get("engineSize") || "",
     color: searchParams.get("color") || "",
+    sort: searchParams.get("sort") || "most-recent",
   });
 
   const handleFilterMakeChange = (value: string) => {
@@ -138,8 +139,16 @@ const Search = () => {
     const model = searchParams.get("model");
     const maxMileage = searchParams.get("maxMileage");
     const maxPrice = searchParams.get("maxPrice");
-    const postcode = searchParams.get("postcode");
     const distance = searchParams.get("distance");
+    const sort = searchParams.get("sort");
+    const minPrice = searchParams.get("minPrice");
+    const minYear = searchParams.get("minYear");
+    const maxYear = searchParams.get("maxYear");
+    const fuelType = searchParams.get("fuelType");
+    const transmission = searchParams.get("transmission");
+    const bodyType = searchParams.get("bodyType");
+    const doors = searchParams.get("doors");
+    const color = searchParams.get("color");
 
     if (make) tags.push({ label: `Make: ${make}`, param: "make" });
     if (model) tags.push({ label: `Model: ${model}`, param: "model" });
@@ -153,8 +162,34 @@ const Search = () => {
         label: `Max Price: £${parseInt(maxPrice).toLocaleString()}`,
         param: "maxPrice",
       });
-    if (postcode) tags.push({ label: `Postcode: ${postcode}`, param: "postcode" });
-    if (distance) tags.push({ label: `Distance: ${distance} miles`, param: "distance" });
+    if (minPrice)
+      tags.push({
+        label: `Min Price: £${parseInt(minPrice).toLocaleString()}`,
+        param: "minPrice",
+      });
+    if (distance) {
+      const distanceLabel = distance === "national" ? "National" : `${distance} miles`;
+      tags.push({ label: `Distance: ${distanceLabel}`, param: "distance" });
+    }
+    if (minYear) tags.push({ label: `From Year: ${minYear}`, param: "minYear" });
+    if (maxYear) tags.push({ label: `To Year: ${maxYear}`, param: "maxYear" });
+    if (fuelType) tags.push({ label: `Fuel: ${fuelType}`, param: "fuelType" });
+    if (transmission) tags.push({ label: `Transmission: ${transmission}`, param: "transmission" });
+    if (bodyType) tags.push({ label: `Body: ${bodyType}`, param: "bodyType" });
+    if (doors) tags.push({ label: `Doors: ${doors}`, param: "doors" });
+    if (color) tags.push({ label: `Color: ${color}`, param: "color" });
+    if (sort && sort !== "most-recent") {
+      const sortLabels = {
+        "relevance": "Relevance",
+        "price-asc": "Price: Low to High",
+        "price-desc": "Price: High to Low", 
+        "distance": "Distance",
+        "mileage": "Mileage",
+        "year-dsc": "Year: Newest First",
+        "year-asc": "Year: Oldest First"
+      };
+      tags.push({ label: `Sort: ${sortLabels[sort] || sort}`, param: "sort" });
+    }
 
     return tags;
   };
@@ -164,7 +199,7 @@ const Search = () => {
 
     // Update URL params with filter values
     Object.entries(tempFilters).forEach(([key, value]) => {
-      if (value) {
+      if (value && !(key === "sort" && value === "most-recent")) {
         newParams.set(key, value);
       } else {
         newParams.delete(key);
@@ -204,7 +239,7 @@ const Search = () => {
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">
-              Distance *
+              Distance
             </label>
             <select
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -222,8 +257,36 @@ const Search = () => {
               <option value="25">Within 25 miles</option>
               <option value="50">Within 50 miles</option>
               <option value="100">Within 100 miles</option>
+              <option value="200">Within 200 miles</option>
+              <option value="national">National</option>
             </select>
           </div>
+        </div>
+      </div>
+      
+      {/* Sort Options */}
+      <div className="space-y-4">
+        <h3 className="font-semibold text-lg">Sort By</h3>
+        <div className="space-y-2">
+          <select
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            value={tempFilters.sort}
+            onChange={(e) =>
+              setTempFilters({
+                ...tempFilters,
+                sort: e.target.value,
+              })
+            }
+          >
+            <option value="most-recent">Most Recent</option>
+            <option value="relevance">Relevance</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="distance">Distance</option>
+            <option value="mileage">Mileage</option>
+            <option value="year-dsc">Year: Newest First</option>
+            <option value="year-asc">Year: Oldest First</option>
+          </select>
         </div>
       </div>
       
@@ -622,9 +685,9 @@ const Search = () => {
           <div className="text-center py-12">
             <h3 className="text-xl font-semibold mb-2">No cars found</h3>
             <p className="text-gray-600">
-              {searchParams.get("postcode") && searchParams.get("distance") 
+              {searchParams.get("postcode") 
                 ? "Try adjusting your search criteria" 
-                : "Please enter a postcode and select a distance to search"}
+                : "Please enter a postcode to search"}
             </p>
           </div>
         )}

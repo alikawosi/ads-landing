@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,7 @@ interface SearchFormData {
   distance: string;
   maxMileage: string;
   maxPrice: string;
+  sort: string;
 }
 
 const CarSearchForm = () => {
@@ -32,6 +34,7 @@ const CarSearchForm = () => {
     distance: "",
     maxMileage: "",
     maxPrice: "",
+    sort: "most-recent",
   });
 
   const distanceOptions = [
@@ -42,6 +45,18 @@ const CarSearchForm = () => {
     { value: "50", label: "50 miles" },
     { value: "100", label: "100 miles" },
     { value: "200", label: "200 miles" },
+    { value: "national", label: "National" },
+  ];
+
+  const sortOptions = [
+    { value: "most-recent", label: "Most Recent" },
+    { value: "relevance", label: "Relevance" },
+    { value: "price-asc", label: "Price: Low to High" },
+    { value: "price-desc", label: "Price: High to Low" },
+    { value: "distance", label: "Distance" },
+    { value: "mileage", label: "Mileage" },
+    { value: "year-dsc", label: "Year: Newest First" },
+    { value: "year-asc", label: "Year: Oldest First" },
   ];
 
   const handleMakeChange = (value: string) => {
@@ -63,9 +78,9 @@ const CarSearchForm = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Check required fields
-    if (!formData.postcode || !formData.distance) {
-      alert("Please fill in all required fields (Postcode and Distance)");
+    // Check required fields (only postcode is required now)
+    if (!formData.postcode) {
+      alert("Please enter a postcode");
       return;
     }
 
@@ -77,6 +92,9 @@ const CarSearchForm = () => {
     if (formData.distance) searchParams.set("distance", formData.distance);
     if (formData.maxMileage) searchParams.set("maxMileage", formData.maxMileage);
     if (formData.maxPrice) searchParams.set("maxPrice", formData.maxPrice);
+    if (formData.sort && formData.sort !== "most-recent") {
+      searchParams.set("sort", formData.sort);
+    }
 
     navigate(`/search?${searchParams.toString()}`);
   };
@@ -160,13 +178,12 @@ const CarSearchForm = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="distance">Distance *</Label>
+            <Label htmlFor="distance">Distance</Label>
             <Select
               value={formData.distance}
               onValueChange={(value) =>
                 setFormData({ ...formData, distance: value })
               }
-              required
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select distance" />
@@ -205,6 +222,27 @@ const CarSearchForm = () => {
                 setFormData({ ...formData, maxPrice: e.target.value })
               }
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="sort">Sort By</Label>
+            <Select
+              value={formData.sort}
+              onValueChange={(value) =>
+                setFormData({ ...formData, sort: value })
+              }
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                {sortOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 

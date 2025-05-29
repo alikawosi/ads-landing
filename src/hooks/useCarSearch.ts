@@ -30,6 +30,7 @@ interface SearchFilters {
   doors?: string;
   engineSize?: string;
   color?: string;
+  sort?: string;
 }
 
 export const useCarSearch = () => {
@@ -58,6 +59,7 @@ export const useCarSearch = () => {
     const bodyType = searchParams.get("bodyType");
     const doors = searchParams.get("doors");
     const color = searchParams.get("color");
+    const sort = searchParams.get("sort");
 
     if (make) filters.make = make;
     if (model) filters.model = model;
@@ -73,6 +75,7 @@ export const useCarSearch = () => {
     if (bodyType) filters.bodyType = bodyType;
     if (doors) filters.doors = doors;
     if (color) filters.color = color;
+    if (sort) filters.sort = sort;
 
     return filters;
   };
@@ -80,11 +83,11 @@ export const useCarSearch = () => {
   const performSearch = async (page: number = 1) => {
     const filters = getFiltersFromParams();
     
-    // Check if we have required filters (postcode and distance)
-    if (!filters.postcode || !filters.distance) {
+    // Only require postcode now (distance is optional)
+    if (!filters.postcode) {
       setResults([]);
       setTotalItems(0);
-      setError("Postcode and distance are required for search");
+      setError("Postcode is required for search");
       return;
     }
 

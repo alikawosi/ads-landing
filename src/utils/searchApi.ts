@@ -15,6 +15,7 @@ interface SearchFilters {
   doors?: string;
   engineSize?: string;
   color?: string;
+  sort?: string;
 }
 
 interface SearchResult {
@@ -43,7 +44,7 @@ export const buildAutoTraderUrl = (filters: SearchFilters, page: number = 1): st
   params.set("advertising-location", "at_cars");
   params.set("seller-type", "private");
   params.set("homeDeliveryAdverts", "include");
-  params.set("sort", "most-recent");
+  params.set("sort", filters.sort || "most-recent");
   
   // Add page number (AutoTrader uses 1-based pagination)
   if (page > 1) {
@@ -54,7 +55,10 @@ export const buildAutoTraderUrl = (filters: SearchFilters, page: number = 1): st
   if (filters.make) params.set("make", filters.make);
   if (filters.model) params.set("model", filters.model);
   if (filters.postcode) params.set("postcode", filters.postcode);
-  if (filters.distance) params.set("radius", filters.distance);
+  // Only add radius if distance is not "national"
+  if (filters.distance && filters.distance !== "national") {
+    params.set("radius", filters.distance);
+  }
   if (filters.minPrice) params.set("price-from", filters.minPrice);
   if (filters.maxPrice) params.set("price-to", filters.maxPrice);
   if (filters.minYear) params.set("year-from", filters.minYear);
