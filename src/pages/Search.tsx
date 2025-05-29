@@ -38,6 +38,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { useCarData } from "@/hooks/useCarData";
 
 interface Car {
   id: string;
@@ -141,6 +142,9 @@ const Search = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const itemsPerPage = 12;
 
+  // Use the car data hook
+  const { manufacturers, models, loading: carDataLoading, error: carDataError, fetchModelsForManufacturer } = useCarData();
+
   // Filter states for the sheet
   const [tempFilters, setTempFilters] = useState({
     make: searchParams.get("make") || "",
@@ -159,6 +163,22 @@ const Search = () => {
     engineSize: "",
     color: "",
   });
+
+  const handleFilterMakeChange = (value: string) => {
+    console.log("Filter make changed to:", value);
+    setTempFilters(prev => ({ ...prev, make: value, model: "" }));
+    
+    // Fetch models for the selected manufacturer
+    const selectedManufacturer = manufacturers.find(m => m.name === value);
+    if (selectedManufacturer) {
+      fetchModelsForManufacturer(selectedManufacturer.id);
+    }
+  };
+
+  const handleFilterModelChange = (value: string) => {
+    console.log("Filter model changed to:", value);
+    setTempFilters(prev => ({ ...prev, model: value }));
+  };
 
   useEffect(() => {
     const make = searchParams.get("make");
@@ -376,41 +396,44 @@ const Search = () => {
                         <div className="grid grid-cols-1 gap-4">
                           <div className="space-y-2">
                             <label className="text-sm font-medium">Make</label>
-                            <select
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            <Select
                               value={tempFilters.make}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  make: e.target.value,
-                                })
-                              }
+                              onValueChange={handleFilterMakeChange}
                             >
-                              <option value="">Any Make</option>
-                              <option value="Toyota">Toyota</option>
-                              <option value="Honda">Honda</option>
-                              <option value="BMW">BMW</option>
-                              <option value="Mercedes-Benz">
-                                Mercedes-Benz
-                              </option>
-                              <option value="Audi">Audi</option>
-                              <option value="Ford">Ford</option>
-                            </select>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Any Make" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="">Any Make</SelectItem>
+                                {manufacturers.map((manufacturer) => (
+                                  <SelectItem key={manufacturer.id} value={manufacturer.name}>
+                                    {manufacturer.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </div>
                           <div className="space-y-2">
                             <label className="text-sm font-medium">Model</label>
-                            <input
-                              type="text"
-                              placeholder="Enter model"
-                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            <Select
                               value={tempFilters.model}
-                              onChange={(e) =>
-                                setTempFilters({
-                                  ...tempFilters,
-                                  model: e.target.value,
-                                })
-                              }
-                            />
+                              onValueChange={handleFilterModelChange}
+                              disabled={!tempFilters.make}
+                            >
+                              <SelectTrigger className={!tempFilters.make ? "opacity-50" : ""}>
+                                <SelectValue 
+                                  placeholder={!tempFilters.make ? "Select make first" : "Any Model"} 
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="">Any Model</SelectItem>
+                                {models.map((model) => (
+                                  <SelectItem key={model.id} value={model.name}>
+                                    {model.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </div>
                         </div>
                       </div>
