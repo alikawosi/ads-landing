@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -20,6 +21,15 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
 
 interface Car {
   id: string;
@@ -29,6 +39,8 @@ interface Car {
   price: number;
   mileage: number;
   image: string;
+  estimatedPrice?: number;
+  priceTag?: "good" | "fair" | "high";
 }
 
 const mockCars: Car[] = [
@@ -40,6 +52,8 @@ const mockCars: Car[] = [
     price: 24500,
     mileage: 15000,
     image: "/placeholder.svg",
+    estimatedPrice: 25000,
+    priceTag: "good",
   },
   {
     id: "2",
@@ -49,6 +63,8 @@ const mockCars: Car[] = [
     price: 28900,
     mileage: 8500,
     image: "/placeholder.svg",
+    estimatedPrice: 27500,
+    priceTag: "fair",
   },
   {
     id: "3",
@@ -58,6 +74,8 @@ const mockCars: Car[] = [
     price: 35000,
     mileage: 22000,
     image: "/placeholder.svg",
+    estimatedPrice: 32000,
+    priceTag: "high",
   },
   {
     id: "4",
@@ -107,13 +125,25 @@ const mockCars: Car[] = [
 ];
 
 const Search = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [filteredCars, setFilteredCars] = useState<Car[]>([]);
   const [sortBy, setSortBy] = useState<string>("price-low");
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [showSignIn, setShowSignIn] = useState(false);
-  const itemsPerPage = 6;
+  const [showValuation, setShowValuation] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
+  const itemsPerPage = 10; // Increased to show more cards per page
+
+  // Filter states for the drawer
+  const [tempFilters, setTempFilters] = useState({
+    minPrice: "",
+    maxPrice: "",
+    minYear: "",
+    maxYear: "",
+    fuelType: "",
+    transmission: "",
+  });
 
   useEffect(() => {
     const make = searchParams.get("make");
@@ -166,12 +196,53 @@ const Search = () => {
     setCurrentPage(1);
   }, [searchParams, sortBy]);
 
+  const handleCardClick = (car: Car) => {
+    const carIndex = mockCars.findIndex(c => c.id === car.id);
+    if (carIndex < 3 && car.estimatedPrice) {
+      setSelectedCar(car);
+      setShowValuation(true);
+    } else {
+      setShowSignIn(true);
+    }
+  };
+
+  const handleCheckValuation = (car: Car) => {
+    const carIndex = mockCars.findIndex(c => c.id === car.id);
+    if (carIndex < 3 && car.estimatedPrice) {
+      setSelectedCar(car);
+      setShowValuation(true);
+    } else {
+      setShowSignIn(true);
+    }
+  };
+
   const handleViewDetails = () => {
     setShowSignIn(true);
   };
 
-  const handleCheckValuation = () => {
-    setShowSignIn(true);
+  const removeSearchParam = (param: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete(param);
+    setSearchParams(newParams);
+  };
+
+  const getSearchTags = () => {
+    const tags = [];
+    const make = searchParams.get("make");
+    const model = searchParams.get("model");
+    const maxMileage = searchParams.get("maxMileage");
+    const maxPrice = searchParams.get("maxPrice");
+    const postcode = searchParams.get("postcode");
+    const distance = searchParams.get("distance");
+
+    if (make) tags.push({ label: `Make: ${make}`, param: "make" });
+    if (model) tags.push({ label: `Model: ${model}`, param: "model" });
+    if (maxMileage) tags.push({ label: `Max Mileage: ${parseInt(maxMileage).toLocaleString()}`, param: "maxMileage" });
+    if (maxPrice) tags.push({ label: `Max Price: £${parseInt(maxPrice).toLocaleString()}`, param: "maxPrice" });
+    if (postcode) tags.push({ label: `Postcode: ${postcode}`, param: "postcode" });
+    if (distance) tags.push({ label: `Distance: ${distance} miles`, param: "distance" });
+
+    return tags;
   };
 
   // Pagination logic
@@ -193,14 +264,65 @@ const Search = () => {
               </p>
             </div>
             <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center gap-2"
-              >
-                <Filter className="h-4 w-4" />
-                Filters
-              </Button>
+              <Sheet open={showFilters} onOpenChange={setShowFilters}>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <Filter className="h-4 w-4" />
+                    Filters
+                  </Button>
+                </SheetTrigger>
+                <SheetContent>
+                  <SheetHeader>
+                    <SheetTitle>Filter Cars</SheetTitle>
+                    <SheetDescription>
+                      Refine your search with additional filters
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="space-y-4 mt-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Price Range</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="number"
+                          placeholder="Min"
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          value={tempFilters.minPrice}
+                          onChange={(e) => setTempFilters({...tempFilters, minPrice: e.target.value})}
+                        />
+                        <input
+                          type="number"
+                          placeholder="Max"
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          value={tempFilters.maxPrice}
+                          onChange={(e) => setTempFilters({...tempFilters, maxPrice: e.target.value})}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Year Range</label>
+                      <div className="flex gap-2">
+                        <input
+                          type="number"
+                          placeholder="From"
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          value={tempFilters.minYear}
+                          onChange={(e) => setTempFilters({...tempFilters, minYear: e.target.value})}
+                        />
+                        <input
+                          type="number"
+                          placeholder="To"
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          value={tempFilters.maxYear}
+                          onChange={(e) => setTempFilters({...tempFilters, maxYear: e.target.value})}
+                        />
+                      </div>
+                    </div>
+                    <Button className="w-full mt-6" onClick={() => setShowFilters(false)}>
+                      Apply Filters
+                    </Button>
+                  </div>
+                </SheetContent>
+              </Sheet>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48">
                   <SortAsc className="h-4 w-4 mr-2" />
@@ -221,10 +343,25 @@ const Search = () => {
               </Select>
             </div>
           </div>
+
+          {/* Search Tags */}
+          {getSearchTags().length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-4">
+              {getSearchTags().map((tag, index) => (
+                <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                  {tag.label}
+                  <X
+                    className="h-3 w-3 cursor-pointer hover:text-red-500"
+                    onClick={() => removeSearchParam(tag.param)}
+                  />
+                </Badge>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Car Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {/* Car Cards - Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
           {currentCars.map((car) => (
             <CarCard
               key={car.id}
@@ -234,8 +371,12 @@ const Search = () => {
               price={car.price}
               mileage={car.mileage}
               image={car.image}
+              estimatedPrice={car.estimatedPrice}
+              priceTag={car.priceTag}
+              onClick={() => handleCardClick(car)}
               onViewDetails={handleViewDetails}
-              onCheckValuation={handleCheckValuation}
+              onCheckValuation={() => handleCheckValuation(car)}
+              showValuation={mockCars.findIndex(c => c.id === car.id) < 3}
             />
           ))}
         </div>
@@ -319,6 +460,49 @@ const Search = () => {
               <Button variant="outline" className="w-full">
                 Create Account
               </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Valuation Modal */}
+      {showValuation && selectedCar && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={() => setShowValuation(false)}
+        >
+          <div
+            className="bg-white p-8 rounded-lg max-w-md w-full mx-4 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowValuation(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <h2 className="text-2xl font-bold mb-6">Car Valuation</h2>
+            <div className="space-y-4">
+              <div className="border-b pb-4">
+                <h3 className="text-lg font-semibold">{selectedCar.make} {selectedCar.model}</h3>
+                <p className="text-gray-600">{selectedCar.year} • {selectedCar.mileage.toLocaleString()} miles</p>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span>Listed Price:</span>
+                  <span className="font-semibold">£{selectedCar.price.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Estimated Value:</span>
+                  <span className="font-semibold">£{selectedCar.estimatedPrice?.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between border-t pt-2">
+                  <span>Price Rating:</span>
+                  <Badge variant={selectedCar.priceTag === "good" ? "default" : selectedCar.priceTag === "fair" ? "secondary" : "destructive"} className="capitalize">
+                    {selectedCar.priceTag}
+                  </Badge>
+                </div>
+              </div>
             </div>
           </div>
         </div>
