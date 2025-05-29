@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import CarCard from "@/components/ui/car-card";
-import CarSearchForm from "@/components/ui/car-search-form";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -50,111 +49,27 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { useCarData } from "@/hooks/useCarData";
 import { useIsMobile } from "@/hooks/use-mobile";
-
-interface Car {
-  id: string;
-  make: string;
-  model: string;
-  year: number;
-  price: number;
-  mileage: number;
-  image: string;
-  estimatedPrice?: number;
-  priceTag?: "good" | "fair" | "high";
-}
-
-const mockCars: Car[] = [
-  {
-    id: "1",
-    make: "Toyota",
-    model: "Camry",
-    year: 2022,
-    price: 24500,
-    mileage: 15000,
-    image: "/placeholder.svg",
-    estimatedPrice: 25000,
-    priceTag: "good",
-  },
-  {
-    id: "2",
-    make: "Honda",
-    model: "Accord",
-    year: 2023,
-    price: 28900,
-    mileage: 8500,
-    image: "/placeholder.svg",
-    estimatedPrice: 27500,
-    priceTag: "fair",
-  },
-  {
-    id: "3",
-    make: "BMW",
-    model: "3 Series",
-    year: 2021,
-    price: 35000,
-    mileage: 22000,
-    image: "/placeholder.svg",
-    estimatedPrice: 32000,
-    priceTag: "high",
-  },
-  {
-    id: "4",
-    make: "Mercedes-Benz",
-    model: "C-Class",
-    year: 2022,
-    price: 42000,
-    mileage: 12000,
-    image: "/placeholder.svg",
-  },
-  {
-    id: "5",
-    make: "Audi",
-    model: "A4",
-    year: 2023,
-    price: 38500,
-    mileage: 6000,
-    image: "/placeholder.svg",
-  },
-  {
-    id: "6",
-    make: "Ford",
-    model: "Focus",
-    year: 2020,
-    price: 18900,
-    mileage: 35000,
-    image: "/placeholder.svg",
-  },
-  {
-    id: "7",
-    make: "Toyota",
-    model: "Corolla",
-    year: 2021,
-    price: 22000,
-    mileage: 18000,
-    image: "/placeholder.svg",
-  },
-  {
-    id: "8",
-    make: "Honda",
-    model: "Civic",
-    year: 2020,
-    price: 19500,
-    mileage: 25000,
-    image: "/placeholder.svg",
-  },
-];
+import { useCarSearch } from "@/hooks/useCarSearch";
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [filteredCars, setFilteredCars] = useState<Car[]>([]);
-  const [sortBy, setSortBy] = useState<string>("price-low");
   const [showFilters, setShowFilters] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [showSignIn, setShowSignIn] = useState(false);
   const itemsPerPage = 12;
   const isMobile = useIsMobile();
 
-  // Use the car data hook
+  // Use the car search hook
+  const { 
+    results, 
+    totalItems, 
+    loading, 
+    error, 
+    currentPage, 
+    searchNextPage,
+    hasResults 
+  } = useCarSearch();
+
+  // Use the car data hook for filter options
   const { manufacturers, models, loading: carDataLoading, error: carDataError, fetchModelsForManufacturer } = useCarData();
 
   // Filter states for the sheet
@@ -163,17 +78,17 @@ const Search = () => {
     model: searchParams.get("model") || "",
     postcode: searchParams.get("postcode") || "",
     distance: searchParams.get("distance") || "",
-    minPrice: "",
+    minPrice: searchParams.get("minPrice") || "",
     maxPrice: searchParams.get("maxPrice") || "",
-    minYear: "",
-    maxYear: "",
+    minYear: searchParams.get("minYear") || "",
+    maxYear: searchParams.get("maxYear") || "",
     maxMileage: searchParams.get("maxMileage") || "",
-    fuelType: "",
-    transmission: "",
-    bodyType: "",
-    doors: "",
-    engineSize: "",
-    color: "",
+    fuelType: searchParams.get("fuelType") || "",
+    transmission: searchParams.get("transmission") || "",
+    bodyType: searchParams.get("bodyType") || "",
+    doors: searchParams.get("doors") || "",
+    engineSize: searchParams.get("engineSize") || "",
+    color: searchParams.get("color") || "",
   });
 
   const handleFilterMakeChange = (value: string) => {
@@ -196,66 +111,13 @@ const Search = () => {
     setTempFilters(prev => ({ ...prev, model: modelValue }));
   };
 
-  useEffect(() => {
-    const make = searchParams.get("make");
-    const model = searchParams.get("model");
-    const maxMileage = searchParams.get("maxMileage");
-    const maxPrice = searchParams.get("maxPrice");
-
-    let filtered = mockCars;
-
-    if (make) {
-      filtered = filtered.filter((car) =>
-        car.make.toLowerCase().includes(make.toLowerCase())
-      );
-    }
-    if (model) {
-      filtered = filtered.filter((car) =>
-        car.model.toLowerCase().includes(model.toLowerCase())
-      );
-    }
-    if (maxMileage) {
-      filtered = filtered.filter((car) => car.mileage <= parseInt(maxMileage));
-    }
-    if (maxPrice) {
-      filtered = filtered.filter((car) => car.price <= parseInt(maxPrice));
-    }
-
-    // Apply sorting
-    switch (sortBy) {
-      case "price-low":
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case "price-high":
-        filtered.sort((a, b) => b.price - a.price);
-        break;
-      case "mileage-low":
-        filtered.sort((a, b) => a.mileage - b.mileage);
-        break;
-      case "mileage-high":
-        filtered.sort((a, b) => b.mileage - a.mileage);
-        break;
-      case "year-new":
-        filtered.sort((a, b) => b.year - a.year);
-        break;
-      case "year-old":
-        filtered.sort((a, b) => a.year - b.year);
-        break;
-    }
-
-    setFilteredCars(filtered);
-    setCurrentPage(1);
-  }, [searchParams, sortBy]);
-
-  const handleCardClick = (car: Car) => {
-    setShowSignIn(true);
+  const handleCardClick = (result: any) => {
+    // Open the original AutoTrader link
+    window.open(result.Link, '_blank');
   };
 
-  const handleCheckValuation = (car: Car) => {
-    const carIndex = mockCars.findIndex((c) => c.id === car.id);
-    if (carIndex >= 3) {
-      setShowSignIn(true);
-    }
+  const handleCheckValuation = (result: any) => {
+    setShowSignIn(true);
   };
 
   const removeSearchParam = (param: string) => {
@@ -276,6 +138,8 @@ const Search = () => {
     const model = searchParams.get("model");
     const maxMileage = searchParams.get("maxMileage");
     const maxPrice = searchParams.get("maxPrice");
+    const postcode = searchParams.get("postcode");
+    const distance = searchParams.get("distance");
 
     if (make) tags.push({ label: `Make: ${make}`, param: "make" });
     if (model) tags.push({ label: `Model: ${model}`, param: "model" });
@@ -289,6 +153,8 @@ const Search = () => {
         label: `Max Price: £${parseInt(maxPrice).toLocaleString()}`,
         param: "maxPrice",
       });
+    if (postcode) tags.push({ label: `Postcode: ${postcode}`, param: "postcode" });
+    if (distance) tags.push({ label: `Distance: ${distance} miles`, param: "distance" });
 
     return tags;
   };
@@ -310,10 +176,7 @@ const Search = () => {
   };
 
   // Pagination logic
-  const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentCars = filteredCars.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   // Filter content component to avoid duplication
   const FilterContent = () => (
@@ -324,7 +187,7 @@ const Search = () => {
         <div className="grid grid-cols-1 gap-4">
           <div className="space-y-2">
             <label className="text-sm font-medium">
-              Postcode
+              Postcode *
             </label>
             <input
               type="text"
@@ -341,7 +204,7 @@ const Search = () => {
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">
-              Distance
+              Distance *
             </label>
             <select
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -363,6 +226,7 @@ const Search = () => {
           </div>
         </div>
       </div>
+      
       {/* Make and Model */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Make & Model</h3>
@@ -410,6 +274,7 @@ const Search = () => {
           </div>
         </div>
       </div>
+      
       {/* Price Range */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Price Range</h3>
@@ -450,6 +315,7 @@ const Search = () => {
           </div>
         </div>
       </div>
+      
       {/* Year Range */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Year Range</h3>
@@ -490,6 +356,7 @@ const Search = () => {
           </div>
         </div>
       </div>
+      
       {/* Mileage */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Mileage</h3>
@@ -516,6 +383,7 @@ const Search = () => {
           </select>
         </div>
       </div>
+      
       {/* Additional Filters */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">
@@ -635,9 +503,15 @@ const Search = () => {
       <div className="container mx-auto px-4 py-24">
         {/* Results Header */}
         <div className="mb-6">
-          <p className="text-gray-600 block">
-            Found {filteredCars.length} cars matching your criteria
-          </p>
+          {loading ? (
+            <p className="text-gray-600">Searching cars...</p>
+          ) : error ? (
+            <p className="text-red-600">{error}</p>
+          ) : (
+            <p className="text-gray-600">
+              Found {totalItems.toLocaleString()} cars matching your criteria
+            </p>
+          )}
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div className="flex flex-col-reverse md:flex-row gap-2 justify-between w-full">
@@ -717,62 +591,52 @@ const Search = () => {
                     </SheetContent>
                   </Sheet>
                 )}
-                
-                <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-full sm:w-48">
-                    <SortAsc className="h-4 w-4 mr-2" />
-                    <SelectValue placeholder="Sort by" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="price-low">
-                      Price: Low to High
-                    </SelectItem>
-                    <SelectItem value="price-high">
-                      Price: High to Low
-                    </SelectItem>
-                    <SelectItem value="mileage-low">
-                      Mileage: Low to High
-                    </SelectItem>
-                    <SelectItem value="mileage-high">
-                      Mileage: High to Low
-                    </SelectItem>
-                    <SelectItem value="year-new">Year: Newest First</SelectItem>
-                    <SelectItem value="year-old">Year: Oldest First</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
             </div>
           </div>
         </div>
 
         {/* Car Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8">
-          {currentCars.map((car) => (
-            <CarCard
-              key={car.id}
-              make={car.make}
-              model={car.model}
-              year={car.year}
-              price={car.price}
-              mileage={car.mileage}
-              image={car.image}
-              estimatedPrice={car.estimatedPrice}
-              priceTag={car.priceTag}
-              onClick={() => handleCardClick(car)}
-              onCheckValuation={() => handleCheckValuation(car)}
-              showValuation={mockCars.findIndex((c) => c.id === car.id) < 3}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+        ) : hasResults ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8">
+            {results.map((result, index) => (
+              <CarCard
+                key={`${result.Link}-${index}`}
+                make={result.Name.split(' ')[0] || 'Unknown'}
+                model={result.Name.split(' ').slice(1).join(' ') || result.Desc}
+                year={result.Year}
+                price={parseInt(result.Price) || 0}
+                mileage={result.Mileage || 0}
+                image={result.Image}
+                onClick={() => handleCardClick(result)}
+                onCheckValuation={() => handleCheckValuation(result)}
+                showValuation={false}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <h3 className="text-xl font-semibold mb-2">No cars found</h3>
+            <p className="text-gray-600">
+              {searchParams.get("postcode") && searchParams.get("distance") 
+                ? "Try adjusting your search criteria" 
+                : "Please enter a postcode and select a distance to search"}
+            </p>
+          </div>
+        )}
 
         {/* Pagination */}
-        {totalPages > 1 && (
+        {totalPages > 1 && hasResults && (
           <div className="flex justify-center">
             <Pagination>
               <PaginationContent>
                 <PaginationItem>
                   <PaginationPrevious
-                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    onClick={() => searchNextPage(Math.max(1, currentPage - 1))}
                     className={
                       currentPage === 1
                         ? "pointer-events-none opacity-50"
@@ -780,21 +644,25 @@ const Search = () => {
                     }
                   />
                 </PaginationItem>
-                {[...Array(totalPages)].map((_, i) => (
-                  <PaginationItem key={i + 1}>
-                    <PaginationLink
-                      onClick={() => setCurrentPage(i + 1)}
-                      isActive={currentPage === i + 1}
-                      className="cursor-pointer"
-                    >
-                      {i + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
+                {[...Array(Math.min(5, totalPages))].map((_, i) => {
+                  const pageNum = currentPage <= 3 ? i + 1 : currentPage - 2 + i;
+                  if (pageNum > totalPages) return null;
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationLink
+                        onClick={() => searchNextPage(pageNum)}
+                        isActive={currentPage === pageNum}
+                        className="cursor-pointer"
+                      >
+                        {pageNum}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
                 <PaginationItem>
                   <PaginationNext
                     onClick={() =>
-                      setCurrentPage(Math.min(totalPages, currentPage + 1))
+                      searchNextPage(Math.min(totalPages, currentPage + 1))
                     }
                     className={
                       currentPage === totalPages
@@ -805,13 +673,6 @@ const Search = () => {
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
-          </div>
-        )}
-
-        {filteredCars.length === 0 && (
-          <div className="text-center py-12">
-            <h3 className="text-xl font-semibold mb-2">No cars found</h3>
-            <p className="text-gray-600">Try adjusting your search criteria</p>
           </div>
         )}
 
