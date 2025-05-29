@@ -22,13 +22,15 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Badge } from "@/components/ui/badge";
 
 interface Car {
@@ -133,16 +135,25 @@ const Search = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showValuation, setShowValuation] = useState(false);
   const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-  const itemsPerPage = 10; // Increased to show more cards per page
+  const itemsPerPage = 12; // Changed from 10 to 12 for better 4-column layout
 
   // Filter states for the drawer
   const [tempFilters, setTempFilters] = useState({
+    make: searchParams.get("make") || "",
+    model: searchParams.get("model") || "",
+    postcode: searchParams.get("postcode") || "",
+    distance: searchParams.get("distance") || "",
     minPrice: "",
-    maxPrice: "",
+    maxPrice: searchParams.get("maxPrice") || "",
     minYear: "",
     maxYear: "",
+    maxMileage: searchParams.get("maxMileage") || "",
     fuelType: "",
     transmission: "",
+    bodyType: "",
+    doors: "",
+    engineSize: "",
+    color: "",
   });
 
   useEffect(() => {
@@ -216,10 +227,6 @@ const Search = () => {
     }
   };
 
-  const handleViewDetails = () => {
-    setShowSignIn(true);
-  };
-
   const removeSearchParam = (param: string) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.delete(param);
@@ -232,17 +239,29 @@ const Search = () => {
     const model = searchParams.get("model");
     const maxMileage = searchParams.get("maxMileage");
     const maxPrice = searchParams.get("maxPrice");
-    const postcode = searchParams.get("postcode");
-    const distance = searchParams.get("distance");
 
     if (make) tags.push({ label: `Make: ${make}`, param: "make" });
     if (model) tags.push({ label: `Model: ${model}`, param: "model" });
     if (maxMileage) tags.push({ label: `Max Mileage: ${parseInt(maxMileage).toLocaleString()}`, param: "maxMileage" });
     if (maxPrice) tags.push({ label: `Max Price: £${parseInt(maxPrice).toLocaleString()}`, param: "maxPrice" });
-    if (postcode) tags.push({ label: `Postcode: ${postcode}`, param: "postcode" });
-    if (distance) tags.push({ label: `Distance: ${distance} miles`, param: "distance" });
 
     return tags;
+  };
+
+  const applyFilters = () => {
+    const newParams = new URLSearchParams(searchParams);
+    
+    // Update URL params with filter values
+    Object.entries(tempFilters).forEach(([key, value]) => {
+      if (value) {
+        newParams.set(key, value);
+      } else {
+        newParams.delete(key);
+      }
+    });
+    
+    setSearchParams(newParams);
+    setShowFilters(false);
   };
 
   // Pagination logic
@@ -264,65 +283,235 @@ const Search = () => {
               </p>
             </div>
             <div className="flex gap-2">
-              <Sheet open={showFilters} onOpenChange={setShowFilters}>
-                <SheetTrigger asChild>
+              <Drawer open={showFilters} onOpenChange={setShowFilters}>
+                <DrawerTrigger asChild>
                   <Button variant="outline" className="flex items-center gap-2">
                     <Filter className="h-4 w-4" />
                     Filters
                   </Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Filter Cars</SheetTitle>
-                    <SheetDescription>
+                </DrawerTrigger>
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>Filter Cars</DrawerTitle>
+                    <DrawerDescription>
                       Refine your search with additional filters
-                    </SheetDescription>
-                  </SheetHeader>
-                  <div className="space-y-4 mt-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Price Range</label>
-                      <div className="flex gap-2">
-                        <input
-                          type="number"
-                          placeholder="Min"
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                          value={tempFilters.minPrice}
-                          onChange={(e) => setTempFilters({...tempFilters, minPrice: e.target.value})}
-                        />
-                        <input
-                          type="number"
-                          placeholder="Max"
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                          value={tempFilters.maxPrice}
-                          onChange={(e) => setTempFilters({...tempFilters, maxPrice: e.target.value})}
-                        />
+                    </DrawerDescription>
+                  </DrawerHeader>
+                  <div className="space-y-6 p-6 max-h-[60vh] overflow-y-auto">
+                    {/* Location Filters */}
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg">Location</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Postcode</label>
+                          <input
+                            type="text"
+                            placeholder="Enter postcode"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.postcode}
+                            onChange={(e) => setTempFilters({...tempFilters, postcode: e.target.value})}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Distance</label>
+                          <select
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.distance}
+                            onChange={(e) => setTempFilters({...tempFilters, distance: e.target.value})}
+                          >
+                            <option value="">Select distance</option>
+                            <option value="5">Within 5 miles</option>
+                            <option value="10">Within 10 miles</option>
+                            <option value="25">Within 25 miles</option>
+                            <option value="50">Within 50 miles</option>
+                            <option value="100">Within 100 miles</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Year Range</label>
-                      <div className="flex gap-2">
-                        <input
-                          type="number"
-                          placeholder="From"
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                          value={tempFilters.minYear}
-                          onChange={(e) => setTempFilters({...tempFilters, minYear: e.target.value})}
-                        />
-                        <input
-                          type="number"
-                          placeholder="To"
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                          value={tempFilters.maxYear}
-                          onChange={(e) => setTempFilters({...tempFilters, maxYear: e.target.value})}
-                        />
+
+                    {/* Make and Model */}
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg">Make & Model</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Make</label>
+                          <select
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.make}
+                            onChange={(e) => setTempFilters({...tempFilters, make: e.target.value})}
+                          >
+                            <option value="">Any Make</option>
+                            <option value="Toyota">Toyota</option>
+                            <option value="Honda">Honda</option>
+                            <option value="BMW">BMW</option>
+                            <option value="Mercedes-Benz">Mercedes-Benz</option>
+                            <option value="Audi">Audi</option>
+                            <option value="Ford">Ford</option>
+                          </select>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Model</label>
+                          <input
+                            type="text"
+                            placeholder="Enter model"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.model}
+                            onChange={(e) => setTempFilters({...tempFilters, model: e.target.value})}
+                          />
+                        </div>
                       </div>
                     </div>
-                    <Button className="w-full mt-6" onClick={() => setShowFilters(false)}>
+
+                    {/* Price Range */}
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg">Price Range</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Min Price</label>
+                          <input
+                            type="number"
+                            placeholder="£0"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.minPrice}
+                            onChange={(e) => setTempFilters({...tempFilters, minPrice: e.target.value})}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Max Price</label>
+                          <input
+                            type="number"
+                            placeholder="£100,000"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.maxPrice}
+                            onChange={(e) => setTempFilters({...tempFilters, maxPrice: e.target.value})}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Year Range */}
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg">Year Range</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">From Year</label>
+                          <input
+                            type="number"
+                            placeholder="2000"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.minYear}
+                            onChange={(e) => setTempFilters({...tempFilters, minYear: e.target.value})}
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">To Year</label>
+                          <input
+                            type="number"
+                            placeholder="2024"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.maxYear}
+                            onChange={(e) => setTempFilters({...tempFilters, maxYear: e.target.value})}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Mileage */}
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg">Mileage</h3>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Max Mileage</label>
+                        <select
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                          value={tempFilters.maxMileage}
+                          onChange={(e) => setTempFilters({...tempFilters, maxMileage: e.target.value})}
+                        >
+                          <option value="">Any Mileage</option>
+                          <option value="10000">Under 10,000 miles</option>
+                          <option value="25000">Under 25,000 miles</option>
+                          <option value="50000">Under 50,000 miles</option>
+                          <option value="75000">Under 75,000 miles</option>
+                          <option value="100000">Under 100,000 miles</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Additional Filters */}
+                    <div className="space-y-4">
+                      <h3 className="font-semibold text-lg">Additional Filters</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Fuel Type</label>
+                          <select
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.fuelType}
+                            onChange={(e) => setTempFilters({...tempFilters, fuelType: e.target.value})}
+                          >
+                            <option value="">Any Fuel Type</option>
+                            <option value="petrol">Petrol</option>
+                            <option value="diesel">Diesel</option>
+                            <option value="electric">Electric</option>
+                            <option value="hybrid">Hybrid</option>
+                          </select>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Transmission</label>
+                          <select
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.transmission}
+                            onChange={(e) => setTempFilters({...tempFilters, transmission: e.target.value})}
+                          >
+                            <option value="">Any Transmission</option>
+                            <option value="manual">Manual</option>
+                            <option value="automatic">Automatic</option>
+                          </select>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Body Type</label>
+                          <select
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.bodyType}
+                            onChange={(e) => setTempFilters({...tempFilters, bodyType: e.target.value})}
+                          >
+                            <option value="">Any Body Type</option>
+                            <option value="hatchback">Hatchback</option>
+                            <option value="saloon">Saloon</option>
+                            <option value="estate">Estate</option>
+                            <option value="suv">SUV</option>
+                            <option value="coupe">Coupe</option>
+                            <option value="convertible">Convertible</option>
+                          </select>
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium">Doors</label>
+                          <select
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            value={tempFilters.doors}
+                            onChange={(e) => setTempFilters({...tempFilters, doors: e.target.value})}
+                          >
+                            <option value="">Any Doors</option>
+                            <option value="2">2 Doors</option>
+                            <option value="3">3 Doors</option>
+                            <option value="4">4 Doors</option>
+                            <option value="5">5 Doors</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <DrawerFooter>
+                    <Button onClick={applyFilters} className="w-full">
                       Apply Filters
                     </Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
+                    <DrawerClose asChild>
+                      <Button variant="outline" className="w-full">
+                        Cancel
+                      </Button>
+                    </DrawerClose>
+                  </DrawerFooter>
+                </DrawerContent>
+              </Drawer>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48">
                   <SortAsc className="h-4 w-4 mr-2" />
@@ -348,7 +537,7 @@ const Search = () => {
           {getSearchTags().length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4">
               {getSearchTags().map((tag, index) => (
-                <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                <Badge key={index} variant="secondary" className="flex items-center gap-1 bg-blue-50 text-blue-700 border-blue-200">
                   {tag.label}
                   <X
                     className="h-3 w-3 cursor-pointer hover:text-red-500"
@@ -360,8 +549,8 @@ const Search = () => {
           )}
         </div>
 
-        {/* Car Cards - Responsive Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
+        {/* Car Cards - Updated Responsive Grid (max 4 per row) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
           {currentCars.map((car) => (
             <CarCard
               key={car.id}
@@ -374,7 +563,6 @@ const Search = () => {
               estimatedPrice={car.estimatedPrice}
               priceTag={car.priceTag}
               onClick={() => handleCardClick(car)}
-              onViewDetails={handleViewDetails}
               onCheckValuation={() => handleCheckValuation(car)}
               showValuation={mockCars.findIndex(c => c.id === car.id) < 3}
             />
@@ -431,82 +619,6 @@ const Search = () => {
           </div>
         )}
       </div>
-
-      {/* Sign In Modal */}
-      {showSignIn && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          onClick={() => setShowSignIn(false)}
-        >
-          <div
-            className="bg-white p-8 rounded-lg max-w-md w-full mx-4 relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setShowSignIn(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-            >
-              <X className="h-6 w-6" />
-            </button>
-            <h2 className="text-2xl font-bold mb-6">Sign In Required</h2>
-            <p className="text-gray-600 mb-6">
-              Please sign in or create an account to view car details and check
-              valuations.
-            </p>
-            <div className="space-y-4">
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                Sign In
-              </Button>
-              <Button variant="outline" className="w-full">
-                Create Account
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Valuation Modal */}
-      {showValuation && selectedCar && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          onClick={() => setShowValuation(false)}
-        >
-          <div
-            className="bg-white p-8 rounded-lg max-w-md w-full mx-4 relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setShowValuation(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-            >
-              <X className="h-6 w-6" />
-            </button>
-            <h2 className="text-2xl font-bold mb-6">Car Valuation</h2>
-            <div className="space-y-4">
-              <div className="border-b pb-4">
-                <h3 className="text-lg font-semibold">{selectedCar.make} {selectedCar.model}</h3>
-                <p className="text-gray-600">{selectedCar.year} • {selectedCar.mileage.toLocaleString()} miles</p>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span>Listed Price:</span>
-                  <span className="font-semibold">£{selectedCar.price.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Estimated Value:</span>
-                  <span className="font-semibold">£{selectedCar.estimatedPrice?.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between border-t pt-2">
-                  <span>Price Rating:</span>
-                  <Badge variant={selectedCar.priceTag === "good" ? "default" : selectedCar.priceTag === "fair" ? "secondary" : "destructive"} className="capitalize">
-                    {selectedCar.priceTag}
-                  </Badge>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </Layout>
   );
 };

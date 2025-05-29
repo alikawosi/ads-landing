@@ -3,7 +3,6 @@ import React from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile, useIsExtraSmall } from "@/hooks/use-mobile";
 
@@ -18,7 +17,6 @@ interface CarCardProps {
   priceTag?: "good" | "fair" | "high";
   className?: string;
   onClick?: () => void;
-  onViewDetails?: () => void;
   onCheckValuation?: () => void;
   showValuation?: boolean;
 }
@@ -34,7 +32,6 @@ const CarCard = ({
   priceTag,
   className,
   onClick,
-  onViewDetails,
   onCheckValuation,
   showValuation = false,
 }: CarCardProps) => {
@@ -114,30 +111,17 @@ const CarCard = ({
       </CardContent>
       
       <CardFooter className={isExtraSmall ? "p-3 pt-0" : "p-4 pt-0"}>
-        <div className="flex gap-2 w-full">
-          <Button 
-            className="flex-1 group" 
-            size={isMobile ? "sm" : "default"}
-            onClick={(e) => {
-              e.stopPropagation();
-              onViewDetails?.();
-            }}
-          >
-            <Eye className="mr-1 h-4 w-4" />
-            View Details
-          </Button>
-          <Button 
-            variant="outline"
-            className="flex-1 bg-green-50 hover:bg-green-100 border-green-200 text-green-700"
-            size={isMobile ? "sm" : "default"}
-            onClick={(e) => {
-              e.stopPropagation();
-              onCheckValuation?.();
-            }}
-          >
-            Check Valuation
-          </Button>
-        </div>
+        <Button 
+          variant="outline"
+          className="w-full bg-green-50 hover:bg-green-100 border-green-200 text-green-700"
+          size={isMobile ? "sm" : "default"}
+          onClick={(e) => {
+            e.stopPropagation();
+            onCheckValuation?.();
+          }}
+        >
+          Check Valuation
+        </Button>
       </CardFooter>
     </Card>
   );
