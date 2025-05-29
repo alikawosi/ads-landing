@@ -21,7 +21,6 @@ interface SearchFormData {
   distance: string;
   maxMileage: string;
   maxPrice: string;
-  sort: string;
 }
 
 const CarSearchForm = () => {
@@ -34,7 +33,6 @@ const CarSearchForm = () => {
     distance: "",
     maxMileage: "",
     maxPrice: "",
-    sort: "most-recent",
   });
 
   const distanceOptions = [
@@ -46,17 +44,6 @@ const CarSearchForm = () => {
     { value: "100", label: "100 miles" },
     { value: "200", label: "200 miles" },
     { value: "national", label: "National" },
-  ];
-
-  const sortOptions = [
-    { value: "most-recent", label: "Most Recent" },
-    { value: "relevance", label: "Relevance" },
-    { value: "price-asc", label: "Price: Low to High" },
-    { value: "price-desc", label: "Price: High to Low" },
-    { value: "distance", label: "Distance" },
-    { value: "mileage", label: "Mileage" },
-    { value: "year-dsc", label: "Year: Newest First" },
-    { value: "year-asc", label: "Year: Oldest First" },
   ];
 
   const handleMakeChange = (value: string) => {
@@ -92,9 +79,6 @@ const CarSearchForm = () => {
     if (formData.distance) searchParams.set("distance", formData.distance);
     if (formData.maxMileage) searchParams.set("maxMileage", formData.maxMileage);
     if (formData.maxPrice) searchParams.set("maxPrice", formData.maxPrice);
-    if (formData.sort && formData.sort !== "most-recent") {
-      searchParams.set("sort", formData.sort);
-    }
 
     navigate(`/search?${searchParams.toString()}`);
   };
@@ -222,27 +206,6 @@ const CarSearchForm = () => {
                 setFormData({ ...formData, maxPrice: e.target.value })
               }
             />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="sort">Sort By</Label>
-            <Select
-              value={formData.sort}
-              onValueChange={(value) =>
-                setFormData({ ...formData, sort: value })
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                {sortOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
         </div>
 

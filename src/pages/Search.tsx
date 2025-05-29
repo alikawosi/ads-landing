@@ -89,7 +89,6 @@ const Search = () => {
     doors: searchParams.get("doors") || "",
     engineSize: searchParams.get("engineSize") || "",
     color: searchParams.get("color") || "",
-    sort: searchParams.get("sort") || "most-recent",
   });
 
   const handleFilterMakeChange = (value: string) => {
@@ -199,7 +198,7 @@ const Search = () => {
 
     // Update URL params with filter values
     Object.entries(tempFilters).forEach(([key, value]) => {
-      if (value && !(key === "sort" && value === "most-recent")) {
+      if (value) {
         newParams.set(key, value);
       } else {
         newParams.delete(key);
@@ -261,32 +260,6 @@ const Search = () => {
               <option value="national">National</option>
             </select>
           </div>
-        </div>
-      </div>
-      
-      {/* Sort Options */}
-      <div className="space-y-4">
-        <h3 className="font-semibold text-lg">Sort By</h3>
-        <div className="space-y-2">
-          <select
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-            value={tempFilters.sort}
-            onChange={(e) =>
-              setTempFilters({
-                ...tempFilters,
-                sort: e.target.value,
-              })
-            }
-          >
-            <option value="most-recent">Most Recent</option>
-            <option value="relevance">Relevance</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-            <option value="distance">Distance</option>
-            <option value="mileage">Mileage</option>
-            <option value="year-dsc">Year: Newest First</option>
-            <option value="year-asc">Year: Oldest First</option>
-          </select>
         </div>
       </div>
       
@@ -598,7 +571,37 @@ const Search = () => {
               )}
 
               <div className="flex justify-center items-center gap-2">
-                {/* Mobile Drawer */}
+                {/* Sort Dropdown - now in the search screen toolbar */}
+                <div className="w-48">
+                  <Select
+                    value={searchParams.get("sort") || "most-recent"}
+                    onValueChange={(value) => {
+                      const newParams = new URLSearchParams(searchParams);
+                      if (value && value !== "most-recent") {
+                        newParams.set("sort", value);
+                      } else {
+                        newParams.delete("sort");
+                      }
+                      setSearchParams(newParams);
+                    }}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sort by" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="most-recent">Most Recent</SelectItem>
+                      <SelectItem value="relevance">Relevance</SelectItem>
+                      <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                      <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                      <SelectItem value="distance">Distance</SelectItem>
+                      <SelectItem value="mileage">Mileage</SelectItem>
+                      <SelectItem value="year-dsc">Year: Newest First</SelectItem>
+                      <SelectItem value="year-asc">Year: Oldest First</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Mobile Drawer and Desktop Sheet for filters */}
                 {isMobile ? (
                   <Drawer open={showFilters} onOpenChange={setShowFilters}>
                     <DrawerTrigger asChild>
