@@ -95,12 +95,22 @@ export const useCarSearch = () => {
     setError(null);
     
     try {
+      console.log("Performing search with filters:", filters);
       const response = await searchCars(filters, page);
+      console.log("Search response received:", response);
+      
       setResults(response.results);
       setTotalItems(response.total_items);
       setCurrentPage(page);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to search cars');
+      console.error("Search error:", err);
+      
+      let errorMessage = 'Failed to search cars';
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
       setResults([]);
       setTotalItems(0);
     } finally {
@@ -110,6 +120,7 @@ export const useCarSearch = () => {
 
   // Trigger search when search parameters change
   useEffect(() => {
+    console.log("Search params changed, triggering search");
     performSearch(1); // Always start from page 1 when filters change
   }, [searchParams]);
 
