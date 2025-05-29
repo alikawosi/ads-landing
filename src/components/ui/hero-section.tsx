@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import CarCascadeCard from "./CarCascadeCard";
+import CarSearchForm from "./car-search-form";
 import { Car } from "lucide-react";
 import { useIsMobile, useIsExtraSmall } from "@/hooks/use-mobile";
 
@@ -110,6 +111,12 @@ const HeroSection = ({
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300">
               {subtitle}
             </p>
+            
+            {/* Car Search Form */}
+            <div className="pt-4 md:pt-6">
+              <CarSearchForm />
+            </div>
+            
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start">
               {/* Primary CTA button with improved clickable area */}
               <div className="w-full sm:w-auto">

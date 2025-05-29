@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,12 +17,11 @@ import MarketingTool from "./pages/MarketingTool";
 import AutomatedSearch from "./pages/AutomatedSearch";
 import StockManagement from "./pages/StockManagement";
 import Community from "./pages/Community";
+import Search from "./pages/Search";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Function to redirect to external app
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -37,6 +37,7 @@ const App = () => {
             <Route path="/terms" element={<Terms />} />
             <Route path="/demo" element={<Demo />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/solutions/ads-search" element={<AdsSearch />} />
             <Route
               path="/solutions/marketing-tool"
@@ -50,11 +51,8 @@ const App = () => {
               path="/solutions/stock-management"
               element={<StockManagement />}
             />
-            <Route path="/signup" element={<Contact />} />{" "}
-            {/* Keeping Contact as fallback */}
-            <Route path="/login" element={<Contact />} />{" "}
-            {/* Keeping Contact as fallback */}
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/signup" element={<Contact />} />
+            <Route path="/login" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
