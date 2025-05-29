@@ -110,7 +110,7 @@ const CarCard = ({
       <CardHeader className={isExtraSmall ? "p-3" : "p-4"}>
         <div className="flex justify-between items-start">
           <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
                 size="sm"
@@ -127,9 +127,11 @@ const CarCard = ({
               >
                 <Plus className="h-4 w-4" />
               </Button>
+              <div>
+                <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
+                <p className="text-sm text-muted-foreground">{year}</p>
+              </div>
             </div>
-            <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
-            <p className="text-sm text-muted-foreground">{year}</p>
           </div>
         </div>
       </CardHeader>
