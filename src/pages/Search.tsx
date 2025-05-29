@@ -613,6 +613,22 @@ const Search = () => {
             <p className="text-gray-600">Try adjusting your search criteria</p>
           </div>
         )}
+
+        {/* Sign In Modal */}
+        <Dialog open={showSignIn} onOpenChange={setShowSignIn}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Sign In Required</DialogTitle>
+              <DialogDescription>
+                Please sign in to view car details and access premium features.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col space-y-4 mt-4">
+              <Button className="w-full">Sign In</Button>
+              <Button variant="outline" className="w-full">Create Account</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </Layout>
   );
