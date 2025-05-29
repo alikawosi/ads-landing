@@ -1,10 +1,11 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useIsMobile, useIsExtraSmall } from "@/hooks/use-mobile";
+import { Loader2 } from "lucide-react";
 
 interface CarCardProps {
   model: string;
@@ -37,6 +38,8 @@ const CarCard = ({
 }: CarCardProps) => {
   const isMobile = useIsMobile();
   const isExtraSmall = useIsExtraSmall();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showEstimatedPrice, setShowEstimatedPrice] = useState(false);
 
   const getPriceTagVariant = (tag: "good" | "fair" | "high") => {
     switch (tag) {
@@ -51,10 +54,25 @@ const CarCard = ({
     }
   };
 
+  const handleCheckValuation = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    if (showValuation && estimatedPrice) {
+      setIsLoading(true);
+      // Simulate loading time
+      setTimeout(() => {
+        setIsLoading(false);
+        setShowEstimatedPrice(true);
+      }, 1500);
+    } else {
+      onCheckValuation?.();
+    }
+  };
+
   return (
     <Card 
       className={cn(
-        "overflow-hidden transition-all hover:shadow-lg w-full max-w-full mx-auto cursor-pointer hover:scale-[1.02]", 
+        "overflow-hidden transition-all hover:shadow-lg w-full max-w-full mx-auto cursor-pointer hover:scale-[1.02] h-full flex flex-col", 
         className
       )}
       onClick={onClick}
@@ -65,7 +83,7 @@ const CarCard = ({
           alt={`${make} ${model}`}
           className="w-full h-full object-cover"
         />
-        {showValuation && priceTag && (
+        {showEstimatedPrice && priceTag && (
           <Badge 
             variant={getPriceTagVariant(priceTag)}
             className="absolute top-3 right-3 capitalize"
@@ -84,7 +102,7 @@ const CarCard = ({
         </div>
       </CardHeader>
       
-      <CardContent className={isExtraSmall ? "p-3 pt-0" : "p-4 pt-0"}>
+      <CardContent className={cn(isExtraSmall ? "p-3 pt-0" : "p-4 pt-0", "flex-grow")}>
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <div className="text-xl md:text-2xl font-bold">£{price.toLocaleString()}</div>
@@ -93,20 +111,23 @@ const CarCard = ({
             </div>
           </div>
           
-          {showValuation && estimatedPrice && (
-            <div className="space-y-1 pt-2 border-t">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Est. Value:</span>
-                <span className="font-semibold">£{estimatedPrice.toLocaleString()}</span>
+          {/* Fixed space for estimated price content */}
+          <div className="min-h-[60px] pt-2">
+            {showEstimatedPrice && estimatedPrice && (
+              <div className="space-y-1 border-t pt-2">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-muted-foreground">Est. Value:</span>
+                  <span className="font-semibold">£{estimatedPrice.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-muted-foreground">Difference:</span>
+                  <span className={`font-bold ${price > estimatedPrice ? 'text-red-500' : 'text-green-500'}`}>
+                    {price > estimatedPrice ? '+' : ''}£{Math.abs(price - estimatedPrice).toLocaleString()}
+                  </span>
+                </div>
               </div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-muted-foreground">Difference:</span>
-                <span className={`font-bold ${price > estimatedPrice ? 'text-red-500' : 'text-green-500'}`}>
-                  {price > estimatedPrice ? '+' : ''}£{Math.abs(price - estimatedPrice).toLocaleString()}
-                </span>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </CardContent>
       
@@ -115,12 +136,17 @@ const CarCard = ({
           variant="outline"
           className="w-full bg-green-50 hover:bg-green-100 border-green-200 text-green-700"
           size={isMobile ? "sm" : "default"}
-          onClick={(e) => {
-            e.stopPropagation();
-            onCheckValuation?.();
-          }}
+          onClick={handleCheckValuation}
+          disabled={isLoading}
         >
-          Check Valuation
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Loading...
+            </>
+          ) : (
+            "Check Valuation"
+          )}
         </Button>
       </CardFooter>
     </Card>

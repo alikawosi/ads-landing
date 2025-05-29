@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -22,15 +21,22 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 
 interface Car {
@@ -133,11 +139,9 @@ const Search = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [showSignIn, setShowSignIn] = useState(false);
-  const [showValuation, setShowValuation] = useState(false);
-  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-  const itemsPerPage = 12; // Changed from 10 to 12 for better 4-column layout
+  const itemsPerPage = 12;
 
-  // Filter states for the drawer
+  // Filter states for the sheet
   const [tempFilters, setTempFilters] = useState({
     make: searchParams.get("make") || "",
     model: searchParams.get("model") || "",
@@ -208,21 +212,12 @@ const Search = () => {
   }, [searchParams, sortBy]);
 
   const handleCardClick = (car: Car) => {
-    const carIndex = mockCars.findIndex(c => c.id === car.id);
-    if (carIndex < 3 && car.estimatedPrice) {
-      setSelectedCar(car);
-      setShowValuation(true);
-    } else {
-      setShowSignIn(true);
-    }
+    setShowSignIn(true);
   };
 
   const handleCheckValuation = (car: Car) => {
     const carIndex = mockCars.findIndex(c => c.id === car.id);
-    if (carIndex < 3 && car.estimatedPrice) {
-      setSelectedCar(car);
-      setShowValuation(true);
-    } else {
+    if (carIndex >= 3) {
       setShowSignIn(true);
     }
   };
@@ -283,25 +278,25 @@ const Search = () => {
               </p>
             </div>
             <div className="flex gap-2">
-              <Drawer open={showFilters} onOpenChange={setShowFilters}>
-                <DrawerTrigger asChild>
+              <Sheet open={showFilters} onOpenChange={setShowFilters}>
+                <SheetTrigger asChild>
                   <Button variant="outline" className="flex items-center gap-2">
                     <Filter className="h-4 w-4" />
                     Filters
                   </Button>
-                </DrawerTrigger>
-                <DrawerContent>
-                  <DrawerHeader>
-                    <DrawerTitle>Filter Cars</DrawerTitle>
-                    <DrawerDescription>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-full sm:max-w-md overflow-y-auto">
+                  <SheetHeader>
+                    <SheetTitle>Filter Cars</SheetTitle>
+                    <SheetDescription>
                       Refine your search with additional filters
-                    </DrawerDescription>
-                  </DrawerHeader>
-                  <div className="space-y-6 p-6 max-h-[60vh] overflow-y-auto">
+                    </SheetDescription>
+                  </SheetHeader>
+                  <div className="space-y-6 py-6">
                     {/* Location Filters */}
                     <div className="space-y-4">
                       <h3 className="font-semibold text-lg">Location</h3>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
                           <label className="text-sm font-medium">Postcode</label>
                           <input
@@ -333,7 +328,7 @@ const Search = () => {
                     {/* Make and Model */}
                     <div className="space-y-4">
                       <h3 className="font-semibold text-lg">Make & Model</h3>
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 gap-4">
                         <div className="space-y-2">
                           <label className="text-sm font-medium">Make</label>
                           <select
@@ -500,18 +495,18 @@ const Search = () => {
                       </div>
                     </div>
                   </div>
-                  <DrawerFooter>
+                  <SheetFooter>
                     <Button onClick={applyFilters} className="w-full">
                       Apply Filters
                     </Button>
-                    <DrawerClose asChild>
+                    <SheetClose asChild>
                       <Button variant="outline" className="w-full">
                         Cancel
                       </Button>
-                    </DrawerClose>
-                  </DrawerFooter>
-                </DrawerContent>
-              </Drawer>
+                    </SheetClose>
+                  </SheetFooter>
+                </SheetContent>
+              </Sheet>
               <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="w-48">
                   <SortAsc className="h-4 w-4 mr-2" />
@@ -549,8 +544,8 @@ const Search = () => {
           )}
         </div>
 
-        {/* Car Cards - Updated Responsive Grid (max 4 per row) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
+        {/* Car Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
           {currentCars.map((car) => (
             <CarCard
               key={car.id}
