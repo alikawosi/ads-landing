@@ -44,22 +44,19 @@ const CarSearchForm = () => {
     { value: "200", label: "200 miles" },
   ];
 
-  // Reset model when make changes and fetch new models
-  useEffect(() => {
-    if (formData.make) {
-      setFormData(prev => ({ ...prev, model: "" }));
-      const selectedManufacturer = manufacturers.find(m => m.name === formData.make);
-      if (selectedManufacturer) {
-        fetchModelsForManufacturer(selectedManufacturer.id);
-      }
-    }
-  }, [formData.make, manufacturers, fetchModelsForManufacturer]);
-
   const handleMakeChange = (value: string) => {
+    console.log("Make changed to:", value);
     setFormData(prev => ({ ...prev, make: value, model: "" }));
+    
+    // Fetch models for the selected manufacturer
+    const selectedManufacturer = manufacturers.find(m => m.name === value);
+    if (selectedManufacturer) {
+      fetchModelsForManufacturer(selectedManufacturer.id);
+    }
   };
 
   const handleModelChange = (value: string) => {
+    console.log("Model changed to:", value);
     setFormData(prev => ({ ...prev, model: value }));
   };
 
