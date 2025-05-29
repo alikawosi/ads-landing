@@ -3,7 +3,7 @@ import React from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile, useIsExtraSmall } from "@/hooks/use-mobile";
 
@@ -13,10 +13,11 @@ interface CarCardProps {
   year: number;
   price: number;
   mileage: number;
-  priceTag?: "good" | "fair" | "high";
   image?: string;
   dealType?: string;
   className?: string;
+  onViewDetails?: () => void;
+  onCheckValuation?: () => void;
 }
 
 const CarCard = ({
@@ -25,19 +26,14 @@ const CarCard = ({
   year,
   price,
   mileage,
-  priceTag = "fair",
   image = "/assets/placeholder.svg",
   dealType = "Used",
   className,
+  onViewDetails,
+  onCheckValuation,
 }: CarCardProps) => {
   const isMobile = useIsMobile();
   const isExtraSmall = useIsExtraSmall();
-  
-  const badgeVariant = {
-    good: "success",
-    fair: "secondary",
-    high: "destructive",
-  }[priceTag] as "success" | "secondary" | "destructive" | "default";
 
   return (
     <Card className={cn("overflow-hidden transition-all hover:shadow-lg w-full sm:w-[320px] max-w-full mx-auto", className)}>
@@ -55,9 +51,6 @@ const CarCard = ({
             <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
             <p className="text-sm text-muted-foreground">{year}</p>
           </div>
-          <Badge variant={badgeVariant}>
-            {priceTag === "good" ? "Good Deal" : priceTag === "fair" ? "Fair Deal" : "High Price"}
-          </Badge>
         </div>
       </CardHeader>
       <CardContent className={isExtraSmall ? "p-3 pt-0" : "p-4 md:p-6 pt-0"}>
@@ -69,10 +62,25 @@ const CarCard = ({
         </div>
       </CardContent>
       <CardFooter className={isExtraSmall ? "p-3 pt-0" : "p-4 md:p-6 pt-0"}>
-        <Button className="w-full group" size={isMobile ? "sm" : "default"}>
-          View Details
-          <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-        </Button>
+        <div className="flex flex-col gap-2 w-full">
+          <Button 
+            className="w-full group" 
+            size={isMobile ? "sm" : "default"}
+            onClick={onViewDetails}
+          >
+            <Eye className="mr-2 h-4 w-4" />
+            View Details
+            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
+          <Button 
+            variant="outline"
+            className="w-full bg-green-50 hover:bg-green-100 border-green-200 text-green-700"
+            size={isMobile ? "sm" : "default"}
+            onClick={onCheckValuation}
+          >
+            Check Valuation
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );
