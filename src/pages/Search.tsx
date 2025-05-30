@@ -314,25 +314,29 @@ const Search = () => {
             <label className="text-sm font-medium">
               Distance
             </label>
-            <select
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={tempFilters.distance}
-              onChange={(e) =>
+            <Select
+              value={tempFilters.distance || ""}
+              onValueChange={(value) =>
                 setTempFilters({
                   ...tempFilters,
-                  distance: e.target.value,
+                  distance: value === "any" ? "" : value,
                 })
               }
             >
-              <option value="">Select distance</option>
-              <option value="5">Within 5 miles</option>
-              <option value="10">Within 10 miles</option>
-              <option value="25">Within 25 miles</option>
-              <option value="50">Within 50 miles</option>
-              <option value="100">Within 100 miles</option>
-              <option value="200">Within 200 miles</option>
-              <option value="national">National</option>
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Select distance" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Any Distance</SelectItem>
+                <SelectItem value="5">Within 5 miles</SelectItem>
+                <SelectItem value="10">Within 10 miles</SelectItem>
+                <SelectItem value="25">Within 25 miles</SelectItem>
+                <SelectItem value="50">Within 50 miles</SelectItem>
+                <SelectItem value="100">Within 100 miles</SelectItem>
+                <SelectItem value="200">Within 200 miles</SelectItem>
+                <SelectItem value="national">National</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </div>
@@ -474,23 +478,27 @@ const Search = () => {
           <label className="text-sm font-medium">
             Max Mileage
           </label>
-          <select
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-            value={tempFilters.maxMileage}
-            onChange={(e) =>
+          <Select
+            value={tempFilters.maxMileage || ""}
+            onValueChange={(value) =>
               setTempFilters({
                 ...tempFilters,
-                maxMileage: e.target.value,
+                maxMileage: value === "any" ? "" : value,
               })
             }
           >
-            <option value="">Any Mileage</option>
-            {mileageOptions.map((option) => (
-              <option key={option.id} value={option.value}>
-                {option.display_name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger>
+              <SelectValue placeholder="Any Mileage" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="any">Any Mileage</SelectItem>
+              {mileageOptions.map((option) => (
+                <SelectItem key={option.id} value={option.value || ""}>
+                  {option.display_name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
       
@@ -504,107 +512,127 @@ const Search = () => {
             <label className="text-sm font-medium">
               Fuel Type
             </label>
-            <select
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={tempFilters.fuelType}
-              onChange={(e) =>
+            <Select
+              value={tempFilters.fuelType || ""}
+              onValueChange={(value) =>
                 setTempFilters({
                   ...tempFilters,
-                  fuelType: e.target.value,
+                  fuelType: value === "any" ? "" : value,
                 })
               }
             >
-              <option value="">Any Fuel Type</option>
-              {fuelTypes.map((fuelType) => (
-                <option key={fuelType.id} value={fuelType.name}>
-                  {fuelType.display_name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Any Fuel Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Any Fuel Type</SelectItem>
+                {fuelTypes.map((fuelType) => (
+                  <SelectItem key={fuelType.id} value={fuelType.name || ""}>
+                    {fuelType.display_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">
               Transmission
             </label>
-            <select
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={tempFilters.transmission}
-              onChange={(e) =>
+            <Select
+              value={tempFilters.transmission || ""}
+              onValueChange={(value) =>
                 setTempFilters({
                   ...tempFilters,
-                  transmission: e.target.value,
+                  transmission: value === "any" ? "" : value,
                 })
               }
             >
-              <option value="">Any Transmission</option>
-              {transmissionTypes.map((transmission) => (
-                <option key={transmission.id} value={transmission.name}>
-                  {transmission.display_name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Any Transmission" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Any Transmission</SelectItem>
+                {transmissionTypes.map((transmission) => (
+                  <SelectItem key={transmission.id} value={transmission.name || ""}>
+                    {transmission.display_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">
               Body Type
             </label>
-            <select
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={tempFilters.bodyType}
-              onChange={(e) =>
+            <Select
+              value={tempFilters.bodyType || ""}
+              onValueChange={(value) =>
                 setTempFilters({
                   ...tempFilters,
-                  bodyType: e.target.value,
+                  bodyType: value === "any" ? "" : value,
                 })
               }
             >
-              <option value="">Any Body Type</option>
-              {bodyTypes.map((bodyType) => (
-                <option key={bodyType.id} value={bodyType.name}>
-                  {bodyType.display_name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Any Body Type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Any Body Type</SelectItem>
+                {bodyTypes.map((bodyType) => (
+                  <SelectItem key={bodyType.id} value={bodyType.name || ""}>
+                    {bodyType.display_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Doors</label>
-            <select
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={tempFilters.doors}
-              onChange={(e) =>
+            <Select
+              value={tempFilters.doors || ""}
+              onValueChange={(value) =>
                 setTempFilters({
                   ...tempFilters,
-                  doors: e.target.value,
+                  doors: value === "any" ? "" : value,
                 })
               }
             >
-              <option value="">Any Doors</option>
-              {doorOptions.map((doorOption) => (
-                <option key={doorOption.id} value={doorOption.value}>
-                  {doorOption.display_name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Any Doors" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Any Doors</SelectItem>
+                {doorOptions.map((doorOption) => (
+                  <SelectItem key={doorOption.id} value={doorOption.value || ""}>
+                    {doorOption.display_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium">Color</label>
-            <select
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={tempFilters.color}
-              onChange={(e) =>
+            <Select
+              value={tempFilters.color || ""}
+              onValueChange={(value) =>
                 setTempFilters({
                   ...tempFilters,
-                  color: e.target.value,
+                  color: value === "any" ? "" : value,
                 })
               }
             >
-              <option value="">Any Color</option>
-              {carColors.map((color) => (
-                <option key={color.id} value={color.name}>
-                  {color.display_name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger>
+                <SelectValue placeholder="Any Color" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Any Color</SelectItem>
+                {carColors.map((color) => (
+                  <SelectItem key={color.id} value={color.display_name}>
+                    {color.display_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </div>
@@ -616,13 +644,6 @@ const Search = () => {
       <Button onClick={applyFilters} className="w-full">
         Apply Filters
       </Button>
-      {!isMobile && (
-        <SheetClose asChild>
-          <Button variant="outline" className="w-full">
-            Cancel
-          </Button>
-        </SheetClose>
-      )}
     </div>
   );
 
@@ -667,7 +688,7 @@ const Search = () => {
                 </div>
               )}
 
-              <div className="flex justify-center items-center gap-2">
+              <div className="flex justify-center items-center gap-2 ml-auto">
                 {/* Sort Dropdown */}
                 <div className="w-48">
                   <Select
@@ -724,9 +745,7 @@ const Search = () => {
                         <FilterContent />
                       </div>
                       <DrawerFooter>
-                        <Button onClick={applyFilters} className="w-full">
-                          Apply Filters
-                        </Button>
+                        <FilterFooter />
                       </DrawerFooter>
                     </DrawerContent>
                   </Drawer>
@@ -754,16 +773,7 @@ const Search = () => {
                       </SheetHeader>
                       <FilterContent />
                       <SheetFooter>
-                        <Button onClick={applyFilters} className="w-full">
-                          Apply Filters
-                        </Button>
-                        {!isMobile && (
-                          <SheetClose asChild>
-                            <Button variant="outline" className="w-full">
-                              Cancel
-                            </Button>
-                          </SheetClose>
-                        )}
+                        <FilterFooter />
                       </SheetFooter>
                     </SheetContent>
                   </Sheet>
