@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +24,8 @@ interface SearchFormData {
 
 const CarSearchForm = () => {
   const navigate = useNavigate();
-  const { manufacturers, models, loading, error, fetchModelsForManufacturer } = useCarData();
+  const { manufacturers, models, loading, error, fetchModelsForManufacturer } =
+    useCarData();
   const [formData, setFormData] = useState<SearchFormData>({
     make: "",
     model: "",
@@ -48,10 +48,10 @@ const CarSearchForm = () => {
 
   const handleMakeChange = (value: string) => {
     console.log("Make changed to:", value);
-    setFormData(prev => ({ ...prev, make: value, model: "" }));
-    
+    setFormData((prev) => ({ ...prev, make: value, model: "" }));
+
     // Fetch models for the selected manufacturer
-    const selectedManufacturer = manufacturers.find(m => m.name === value);
+    const selectedManufacturer = manufacturers.find((m) => m.name === value);
     if (selectedManufacturer) {
       fetchModelsForManufacturer(selectedManufacturer.id);
     }
@@ -59,12 +59,12 @@ const CarSearchForm = () => {
 
   const handleModelChange = (value: string) => {
     console.log("Model changed to:", value);
-    setFormData(prev => ({ ...prev, model: value }));
+    setFormData((prev) => ({ ...prev, model: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Check required fields (only postcode is required now)
     if (!formData.postcode) {
       alert("Please enter a postcode");
@@ -77,7 +77,8 @@ const CarSearchForm = () => {
     if (formData.model) searchParams.set("model", formData.model);
     if (formData.postcode) searchParams.set("postcode", formData.postcode);
     if (formData.distance) searchParams.set("distance", formData.distance);
-    if (formData.maxMileage) searchParams.set("maxMileage", formData.maxMileage);
+    if (formData.maxMileage)
+      searchParams.set("maxMileage", formData.maxMileage);
     if (formData.maxPrice) searchParams.set("maxPrice", formData.maxPrice);
 
     navigate(`/search?${searchParams.toString()}`);
@@ -108,11 +109,21 @@ const CarSearchForm = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
+            <Label htmlFor="postcode">Postcode *</Label>
+            <Input
+              id="postcode"
+              placeholder="e.g. SW1A 1AA"
+              value={formData.postcode}
+              onChange={(e) =>
+                setFormData({ ...formData, postcode: e.target.value })
+              }
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="make">Make</Label>
-            <Select
-              value={formData.make}
-              onValueChange={handleMakeChange}
-            >
+            <Select value={formData.make} onValueChange={handleMakeChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select make" />
               </SelectTrigger>
@@ -125,39 +136,16 @@ const CarSearchForm = () => {
               </SelectContent>
             </Select>
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="model">Model</Label>
-            <Select
-              value={formData.model}
-              onValueChange={handleModelChange}
-              disabled={!formData.make}
-            >
-              <SelectTrigger className={!formData.make ? "opacity-50" : ""}>
-                <SelectValue 
-                  placeholder={!formData.make ? "Select make first" : "Select model"} 
-                />
-              </SelectTrigger>
-              <SelectContent>
-                {models.map((model) => (
-                  <SelectItem key={model.id} value={model.name}>
-                    {model.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="postcode">Postcode *</Label>
+            <Label htmlFor="mileage">Max Mileage</Label>
             <Input
-              id="postcode"
-              placeholder="e.g. SW1A 1AA"
-              value={formData.postcode}
+              id="mileage"
+              type="number"
+              placeholder="e.g. 50000"
+              value={formData.maxMileage}
               onChange={(e) =>
-                setFormData({ ...formData, postcode: e.target.value })
+                setFormData({ ...formData, maxMileage: e.target.value })
               }
-              required
             />
           </div>
 
@@ -181,18 +169,28 @@ const CarSearchForm = () => {
               </SelectContent>
             </Select>
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="mileage">Max Mileage</Label>
-            <Input
-              id="mileage"
-              type="number"
-              placeholder="e.g. 50000"
-              value={formData.maxMileage}
-              onChange={(e) =>
-                setFormData({ ...formData, maxMileage: e.target.value })
-              }
-            />
+            <Label htmlFor="model">Model</Label>
+            <Select
+              value={formData.model}
+              onValueChange={handleModelChange}
+              disabled={!formData.make}
+            >
+              <SelectTrigger className={!formData.make ? "opacity-50" : ""}>
+                <SelectValue
+                  placeholder={
+                    !formData.make ? "Select make first" : "Select model"
+                  }
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {models.map((model) => (
+                  <SelectItem key={model.id} value={model.name}>
+                    {model.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
