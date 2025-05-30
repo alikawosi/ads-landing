@@ -578,13 +578,7 @@ const Search = () => {
       <Button onClick={applyFilters} className="w-full">
         Apply Filters
       </Button>
-      {isMobile ? (
-        <DrawerClose asChild>
-          <Button variant="outline" className="w-full">
-            Cancel
-          </Button>
-        </DrawerClose>
-      ) : (
+      {!isMobile && (
         <SheetClose asChild>
           <Button variant="outline" className="w-full">
             Cancel
@@ -615,7 +609,7 @@ const Search = () => {
           )}
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div className={`flex flex-col-reverse md:flex-row gap-2 w-full ${hasSearchTags ? 'justify-between' : 'justify-start'}`}>
+            <div className="flex flex-col-reverse md:flex-row gap-2 w-full justify-between">
               {/* Search Tags */}
               {hasSearchTags && (
                 <div className="flex flex-wrap gap-2 mt-4">
@@ -692,7 +686,9 @@ const Search = () => {
                         <FilterContent />
                       </div>
                       <DrawerFooter>
-                        <FilterFooter />
+                        <Button onClick={applyFilters} className="w-full">
+                          Apply Filters
+                        </Button>
                       </DrawerFooter>
                     </DrawerContent>
                   </Drawer>
