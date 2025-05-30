@@ -48,6 +48,7 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useCarData } from "@/hooks/useCarData";
+import { useFilterData } from "@/hooks/useFilterData";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useCarSearch } from "@/hooks/useCarSearch";
 import { getCarValuation, calculatePriceTag } from "@/utils/valuationApi";
@@ -84,6 +85,19 @@ const Search = () => {
 
   // Use the car data hook for filter options
   const { manufacturers, models, loading: carDataLoading, error: carDataError, fetchModelsForManufacturer } = useCarData();
+
+  // Use the filter data hook for database filter options
+  const { 
+    bodyTypes, 
+    carColors, 
+    doorOptions, 
+    fuelTypes, 
+    mileageOptions, 
+    seatOptions, 
+    transmissionTypes,
+    loading: filterDataLoading,
+    error: filterDataError
+  } = useFilterData();
 
   // Filter states for the sheet - sync with current search params
   const [tempFilters, setTempFilters] = useState({
@@ -471,11 +485,11 @@ const Search = () => {
             }
           >
             <option value="">Any Mileage</option>
-            <option value="10000">Under 10,000 miles</option>
-            <option value="25000">Under 25,000 miles</option>
-            <option value="50000">Under 50,000 miles</option>
-            <option value="75000">Under 75,000 miles</option>
-            <option value="100000">Under 100,000 miles</option>
+            {mileageOptions.map((option) => (
+              <option key={option.id} value={option.value}>
+                {option.display_name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
@@ -501,10 +515,11 @@ const Search = () => {
               }
             >
               <option value="">Any Fuel Type</option>
-              <option value="petrol">Petrol</option>
-              <option value="diesel">Diesel</option>
-              <option value="electric">Electric</option>
-              <option value="hybrid">Hybrid</option>
+              {fuelTypes.map((fuelType) => (
+                <option key={fuelType.id} value={fuelType.name}>
+                  {fuelType.display_name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="space-y-2">
@@ -522,8 +537,11 @@ const Search = () => {
               }
             >
               <option value="">Any Transmission</option>
-              <option value="manual">Manual</option>
-              <option value="automatic">Automatic</option>
+              {transmissionTypes.map((transmission) => (
+                <option key={transmission.id} value={transmission.name}>
+                  {transmission.display_name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="space-y-2">
@@ -541,12 +559,11 @@ const Search = () => {
               }
             >
               <option value="">Any Body Type</option>
-              <option value="hatchback">Hatchback</option>
-              <option value="saloon">Saloon</option>
-              <option value="estate">Estate</option>
-              <option value="suv">SUV</option>
-              <option value="coupe">Coupe</option>
-              <option value="convertible">Convertible</option>
+              {bodyTypes.map((bodyType) => (
+                <option key={bodyType.id} value={bodyType.name}>
+                  {bodyType.display_name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="space-y-2">
@@ -562,10 +579,31 @@ const Search = () => {
               }
             >
               <option value="">Any Doors</option>
-              <option value="2">2 Doors</option>
-              <option value="3">3 Doors</option>
-              <option value="4">4 Doors</option>
-              <option value="5">5 Doors</option>
+              {doorOptions.map((doorOption) => (
+                <option key={doorOption.id} value={doorOption.value}>
+                  {doorOption.display_name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Color</label>
+            <select
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={tempFilters.color}
+              onChange={(e) =>
+                setTempFilters({
+                  ...tempFilters,
+                  color: e.target.value,
+                })
+              }
+            >
+              <option value="">Any Color</option>
+              {carColors.map((color) => (
+                <option key={color.id} value={color.name}>
+                  {color.display_name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -716,7 +754,16 @@ const Search = () => {
                       </SheetHeader>
                       <FilterContent />
                       <SheetFooter>
-                        <FilterFooter />
+                        <Button onClick={applyFilters} className="w-full">
+                          Apply Filters
+                        </Button>
+                        {!isMobile && (
+                          <SheetClose asChild>
+                            <Button variant="outline" className="w-full">
+                              Cancel
+                            </Button>
+                          </SheetClose>
+                        )}
                       </SheetFooter>
                     </SheetContent>
                   </Sheet>
