@@ -1,6 +1,10 @@
-
 import React, { useState } from "react";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -46,8 +50,12 @@ const CarCard = ({
   const isExtraSmall = useIsExtraSmall();
   const [isLoading, setIsLoading] = useState(false);
   const [showEstimatedPrice, setShowEstimatedPrice] = useState(false);
-  const [localEstimatedPrice, setLocalEstimatedPrice] = useState<number | null>(estimatedPrice || null);
-  const [localPriceTag, setLocalPriceTag] = useState<"good" | "fair" | "high" | null>(priceTag || null);
+  const [localEstimatedPrice, setLocalEstimatedPrice] = useState<number | null>(
+    estimatedPrice || null
+  );
+  const [localPriceTag, setLocalPriceTag] = useState<
+    "good" | "fair" | "high" | null
+  >(priceTag || null);
 
   const getPriceTagVariant = (tag: "good" | "fair" | "high") => {
     switch (tag) {
@@ -64,7 +72,7 @@ const CarCard = ({
 
   const handleCheckValuation = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     if (onCheckValuation) {
       setIsLoading(true);
       try {
@@ -97,9 +105,9 @@ const CarCard = ({
   }, [estimatedPrice, priceTag]);
 
   return (
-    <Card 
+    <Card
       className={cn(
-        "overflow-hidden transition-all hover:shadow-lg w-full max-w-full mx-auto cursor-pointer hover:scale-[1.02] h-full flex flex-col", 
+        "overflow-hidden transition-all hover:shadow-lg w-full max-w-full mx-auto cursor-pointer hover:scale-[1.02] h-full flex flex-col",
         className
       )}
       onClick={onClick}
@@ -111,16 +119,18 @@ const CarCard = ({
           className="w-full h-full object-cover"
         />
       </div>
-      
+
       <CardHeader className={isExtraSmall ? "p-3" : "p-4"}>
         <div className="flex justify-between items-start">
           <div className="flex-1">
             <div className="flex items-center justify-between gap-2">
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-base md:text-lg font-bold">{make} {model}</h3>
+                  <h3 className="text-base md:text-lg font-bold">
+                    {make} {model}
+                  </h3>
                   {localPriceTag && (
-                    <Badge 
+                    <Badge
                       variant={getPriceTagVariant(localPriceTag)}
                       className="capitalize text-xs"
                     >
@@ -152,28 +162,41 @@ const CarCard = ({
           </div>
         </div>
       </CardHeader>
-      
-      <CardContent className={cn(isExtraSmall ? "p-3 pt-0" : "p-4 pt-0", "flex-grow")}>
+
+      <CardContent
+        className={cn(isExtraSmall ? "p-3 pt-0" : "p-4 pt-0", "flex-grow")}
+      >
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <div className="text-xl md:text-2xl font-bold">£{price.toLocaleString()}</div>
+            <div className="text-xl md:text-2xl font-bold">
+              £{price.toLocaleString()}
+            </div>
             <div className="text-xs md:text-sm text-muted-foreground">
-              {mileage?.toLocaleString() || 'N/A'} miles
+              {mileage?.toLocaleString() || "N/A"} miles
             </div>
           </div>
-          
+
           {/* Fixed space for estimated price content */}
           <div className="min-h-[60px] pt-2">
             {showEstimatedPrice && localEstimatedPrice && (
               <div className="space-y-1 border-t pt-2">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Est. Value:</span>
-                  <span className="font-semibold">£{localEstimatedPrice.toLocaleString()}</span>
+                  <span className="font-semibold">
+                    £{localEstimatedPrice.toLocaleString()}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Difference:</span>
-                  <span className={`font-bold ${price > localEstimatedPrice ? 'text-red-500' : 'text-green-500'}`}>
-                    {price > localEstimatedPrice ? '+' : ''}£{Math.abs(price - localEstimatedPrice).toLocaleString()}
+                  <span
+                    className={`font-bold ${
+                      price > localEstimatedPrice
+                        ? "text-red-500"
+                        : "text-green-500"
+                    }`}
+                  >
+                    {price > localEstimatedPrice ? "+" : ""}£
+                    {Math.abs(price - localEstimatedPrice).toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -181,11 +204,10 @@ const CarCard = ({
           </div>
         </div>
       </CardContent>
-      
+
       <CardFooter className={isExtraSmall ? "p-3 pt-0" : "p-4 pt-0"}>
-        <Button 
-          variant="outline"
-          className="w-full bg-zinc-50 hover:bg-zinc-100 border-zinc-200 text-zinc-700"
+        <Button
+          className="w-full bg-zinc-900  text-zinc-100"
           size={isMobile ? "sm" : "default"}
           onClick={handleCheckValuation}
           disabled={isLoading}

@@ -57,46 +57,57 @@ const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [showFilters, setShowFilters] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
-  const [carValuations, setCarValuations] = useState<Record<string, { estimatedPrice: number; priceTag: "good" | "fair" | "high" }>>({});
+  const [carValuations, setCarValuations] = useState<
+    Record<
+      string,
+      { estimatedPrice: number; priceTag: "good" | "fair" | "high" }
+    >
+  >({});
   const itemsPerPage = 12;
   const isMobile = useIsMobile();
 
   // Session-based valuation count - persists across page reloads
   const [valuationCount, setValuationCount] = useState(() => {
-    const stored = sessionStorage.getItem('valuationCount');
+    const stored = sessionStorage.getItem("valuationCount");
     return stored ? parseInt(stored) : 0;
   });
 
   // Update sessionStorage whenever valuationCount changes
   useEffect(() => {
-    sessionStorage.setItem('valuationCount', valuationCount.toString());
+    sessionStorage.setItem("valuationCount", valuationCount.toString());
   }, [valuationCount]);
 
   // Use the car search hook
-  const { 
-    results, 
-    totalItems, 
-    loading, 
-    error, 
-    currentPage, 
+  const {
+    results,
+    totalItems,
+    loading,
+    error,
+    currentPage,
     searchNextPage,
-    hasResults 
+    hasResults,
   } = useCarSearch();
 
   // Use the car data hook for filter options
-  const { manufacturers, models, loading: carDataLoading, error: carDataError, fetchModelsForManufacturer } = useCarData();
+  const {
+    manufacturers,
+    models,
+    loading: carDataLoading,
+    error: carDataError,
+    fetchModelsForManufacturer,
+  } = useCarData();
 
   // Use the filter data hook for database filter options
-  const { 
-    bodyTypes, 
-    carColors, 
-    doorOptions, 
-    fuelTypes, 
-    mileageOptions, 
-    seatOptions, 
+  const {
+    bodyTypes,
+    carColors,
+    doorOptions,
+    fuelTypes,
+    mileageOptions,
+    seatOptions,
     transmissionTypes,
     loading: filterDataLoading,
-    error: filterDataError
+    error: filterDataError,
   } = useFilterData();
 
   // Filter states for the sheet - sync with current search params
@@ -142,11 +153,11 @@ const Search = () => {
   const handleFilterMakeChange = (value: string) => {
     console.log("Filter make changed to:", value);
     const makeValue = value === "any" ? "" : value;
-    setTempFilters(prev => ({ ...prev, make: makeValue, model: "" }));
-    
+    setTempFilters((prev) => ({ ...prev, make: makeValue, model: "" }));
+
     // Fetch models for the selected manufacturer
     if (value !== "any") {
-      const selectedManufacturer = manufacturers.find(m => m.name === value);
+      const selectedManufacturer = manufacturers.find((m) => m.name === value);
       if (selectedManufacturer) {
         fetchModelsForManufacturer(selectedManufacturer.id);
       }
@@ -156,7 +167,7 @@ const Search = () => {
   const handleFilterModelChange = (value: string) => {
     console.log("Filter model changed to:", value);
     const modelValue = value === "any" ? "" : value;
-    setTempFilters(prev => ({ ...prev, model: modelValue }));
+    setTempFilters((prev) => ({ ...prev, model: modelValue }));
   };
 
   const handleCardClick = (result: any) => {
@@ -172,21 +183,22 @@ const Search = () => {
     }
 
     // Increment the valuation count immediately when button is clicked
-    setValuationCount(prev => prev + 1);
+    setValuationCount((prev) => prev + 1);
 
     try {
       const response = await getCarValuation(result);
-      
+
       if (response.results.StatusCode === "Success") {
-        const estimatedPrice = response.results.DataItems.ValuationList.DealerForecourt;
+        const estimatedPrice =
+          response.results.DataItems.ValuationList.DealerForecourt;
         const currentPrice = parseInt(result.Price);
         const priceTag = calculatePriceTag(currentPrice, estimatedPrice);
-        
+
         // Store the valuation result
         const carKey = `${result.Link}-${result.Name}`;
-        setCarValuations(prev => ({
+        setCarValuations((prev) => ({
           ...prev,
-          [carKey]: { estimatedPrice, priceTag }
+          [carKey]: { estimatedPrice, priceTag },
         }));
       }
     } catch (error) {
@@ -207,12 +219,12 @@ const Search = () => {
   const removeSearchParam = (param: string) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.delete(param);
-    
+
     // If removing make, also remove model
     if (param === "make") {
       newParams.delete("model");
     }
-    
+
     setSearchParams(newParams);
   };
 
@@ -250,13 +262,19 @@ const Search = () => {
         param: "minPrice",
       });
     if (distance) {
-      const distanceLabel = distance === "national" ? "National" : `${distance} miles`;
+      const distanceLabel =
+        distance === "national" ? "National" : `${distance} miles`;
       tags.push({ label: `Distance: ${distanceLabel}`, param: "distance" });
     }
-    if (minYear) tags.push({ label: `From Year: ${minYear}`, param: "minYear" });
+    if (minYear)
+      tags.push({ label: `From Year: ${minYear}`, param: "minYear" });
     if (maxYear) tags.push({ label: `To Year: ${maxYear}`, param: "maxYear" });
     if (fuelType) tags.push({ label: `Fuel: ${fuelType}`, param: "fuelType" });
-    if (transmission) tags.push({ label: `Transmission: ${transmission}`, param: "transmission" });
+    if (transmission)
+      tags.push({
+        label: `Transmission: ${transmission}`,
+        param: "transmission",
+      });
     if (bodyType) tags.push({ label: `Body: ${bodyType}`, param: "bodyType" });
     if (doors) tags.push({ label: `Doors: ${doors}`, param: "doors" });
     if (color) tags.push({ label: `Color: ${color}`, param: "color" });
@@ -294,9 +312,7 @@ const Search = () => {
         <h3 className="font-semibold text-lg">Location</h3>
         <div className="grid grid-cols-1 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Postcode *
-            </label>
+            <label className="text-sm font-medium">Postcode *</label>
             <input
               type="text"
               placeholder="Enter postcode"
@@ -311,9 +327,7 @@ const Search = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Distance
-            </label>
+            <label className="text-sm font-medium">Distance</label>
             <Select
               value={tempFilters.distance || ""}
               onValueChange={(value) =>
@@ -340,7 +354,7 @@ const Search = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Make and Model */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Make & Model</h3>
@@ -372,8 +386,10 @@ const Search = () => {
               disabled={!tempFilters.make}
             >
               <SelectTrigger className={!tempFilters.make ? "opacity-50" : ""}>
-                <SelectValue 
-                  placeholder={!tempFilters.make ? "Select make first" : "Any Model"} 
+                <SelectValue
+                  placeholder={
+                    !tempFilters.make ? "Select make first" : "Any Model"
+                  }
                 />
               </SelectTrigger>
               <SelectContent>
@@ -388,15 +404,13 @@ const Search = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Price Range */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Price Range</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Min Price
-            </label>
+            <label className="text-sm font-medium">Min Price</label>
             <input
               type="number"
               placeholder="£0"
@@ -411,9 +425,7 @@ const Search = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Max Price
-            </label>
+            <label className="text-sm font-medium">Max Price</label>
             <input
               type="number"
               placeholder="£100,000"
@@ -429,15 +441,13 @@ const Search = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Year Range */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Year Range</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              From Year
-            </label>
+            <label className="text-sm font-medium">From Year</label>
             <input
               type="number"
               placeholder="2000"
@@ -452,9 +462,7 @@ const Search = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              To Year
-            </label>
+            <label className="text-sm font-medium">To Year</label>
             <input
               type="number"
               placeholder="2024"
@@ -470,14 +478,12 @@ const Search = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Mileage */}
       <div className="space-y-4">
         <h3 className="font-semibold text-lg">Mileage</h3>
         <div className="space-y-2">
-          <label className="text-sm font-medium">
-            Max Mileage
-          </label>
+          <label className="text-sm font-medium">Max Mileage</label>
           <Select
             value={tempFilters.maxMileage || ""}
             onValueChange={(value) =>
@@ -501,17 +507,13 @@ const Search = () => {
           </Select>
         </div>
       </div>
-      
+
       {/* Additional Filters */}
       <div className="space-y-4">
-        <h3 className="font-semibold text-lg">
-          Additional Filters
-        </h3>
+        <h3 className="font-semibold text-lg">Additional Filters</h3>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Fuel Type
-            </label>
+            <label className="text-sm font-medium">Fuel Type</label>
             <Select
               value={tempFilters.fuelType || ""}
               onValueChange={(value) =>
@@ -535,9 +537,7 @@ const Search = () => {
             </Select>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Transmission
-            </label>
+            <label className="text-sm font-medium">Transmission</label>
             <Select
               value={tempFilters.transmission || ""}
               onValueChange={(value) =>
@@ -553,7 +553,10 @@ const Search = () => {
               <SelectContent>
                 <SelectItem value="any">Any Transmission</SelectItem>
                 {transmissionTypes.map((transmission) => (
-                  <SelectItem key={transmission.id} value={transmission.name || ""}>
+                  <SelectItem
+                    key={transmission.id}
+                    value={transmission.name || ""}
+                  >
                     {transmission.display_name}
                   </SelectItem>
                 ))}
@@ -561,9 +564,7 @@ const Search = () => {
             </Select>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Body Type
-            </label>
+            <label className="text-sm font-medium">Body Type</label>
             <Select
               value={tempFilters.bodyType || ""}
               onValueChange={(value) =>
@@ -603,7 +604,10 @@ const Search = () => {
               <SelectContent>
                 <SelectItem value="any">Any Doors</SelectItem>
                 {doorOptions.map((doorOption) => (
-                  <SelectItem key={doorOption.id} value={doorOption.value || ""}>
+                  <SelectItem
+                    key={doorOption.id}
+                    value={doorOption.value || ""}
+                  >
                     {doorOption.display_name}
                   </SelectItem>
                 ))}
@@ -640,7 +644,7 @@ const Search = () => {
   );
 
   const FilterFooter = () => (
-    <div className="flex flex-col gap-2 pt-4">
+    <div className="flex flex-col gap-2 pt-4 w-full">
       <Button onClick={applyFilters} className="w-full">
         Apply Filters
       </Button>
@@ -649,21 +653,16 @@ const Search = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-24">
+      <div className=" mx-auto py-24">
         {/* Results Header */}
-        <div className="mb-6">
+        <div className="mb-6 flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
           {loading ? (
-            <p className="text-gray-600">Searching cars...</p>
+            <></>
           ) : error ? (
             <p className="text-red-600">{error}</p>
           ) : (
             <p className="text-gray-600">
-              Found {totalItems.toLocaleString()} cars matching your criteria
-              {valuationCount > 0 && (
-                <span className="ml-4 text-sm text-blue-600">
-                  Valuations used: {valuationCount}/3
-                </span>
-              )}
+              Found {totalItems.toLocaleString()} cars matching your search
             </p>
           )}
 
@@ -688,9 +687,9 @@ const Search = () => {
                 </div>
               )}
 
-              <div className="flex justify-center items-center gap-2 ml-auto">
+              <div className="flex flex-col-reverse md:flex-row w-full justify-center items-center gap-2 ml-auto md:justify-end">
                 {/* Sort Dropdown */}
-                <div className="w-48">
+                <div className="w-full md:w-48">
                   <Select
                     value={searchParams.get("sort") || "most-recent"}
                     onValueChange={(value) => {
@@ -704,7 +703,7 @@ const Search = () => {
                     }}
                   >
                     <SelectTrigger>
-                      <div className="flex items-center gap-2">
+                      <div className="flex w-full md:w-48 items-center justify-center">
                         <SortAsc className="h-4 w-4" />
                         <SelectValue placeholder="Sort by" />
                       </div>
@@ -712,12 +711,20 @@ const Search = () => {
                     <SelectContent>
                       <SelectItem value="most-recent">Most Recent</SelectItem>
                       <SelectItem value="relevance">Relevance</SelectItem>
-                      <SelectItem value="price-asc">Price: Low to High</SelectItem>
-                      <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                      <SelectItem value="price-asc">
+                        Price: Low to High
+                      </SelectItem>
+                      <SelectItem value="price-desc">
+                        Price: High to Low
+                      </SelectItem>
                       <SelectItem value="distance">Distance</SelectItem>
                       <SelectItem value="mileage">Mileage</SelectItem>
-                      <SelectItem value="year-dsc">Year: Newest First</SelectItem>
-                      <SelectItem value="year-asc">Year: Oldest First</SelectItem>
+                      <SelectItem value="year-dsc">
+                        Year: Newest First
+                      </SelectItem>
+                      <SelectItem value="year-asc">
+                        Year: Oldest First
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -728,7 +735,7 @@ const Search = () => {
                     <DrawerTrigger asChild>
                       <Button
                         variant="outline"
-                        className="flex w-full sm:w-48 items-center gap-2"
+                        className="flex w-full items-center gap-2"
                       >
                         <Filter className="h-4 w-4" />
                         Filters
@@ -793,12 +800,14 @@ const Search = () => {
             {results.map((result, index) => {
               const carKey = `${result.Link}-${result.Name}`;
               const valuation = carValuations[carKey];
-              
+
               return (
                 <CarCard
                   key={`${result.Link}-${index}`}
-                  make={result.Name.split(' ')[0] || 'Unknown'}
-                  model={result.Name.split(' ').slice(1).join(' ') || result.Desc}
+                  make={result.Name.split(" ")[0] || "Unknown"}
+                  model={
+                    result.Name.split(" ").slice(1).join(" ") || result.Desc
+                  }
                   year={result.Year}
                   price={parseInt(result.Price) || 0}
                   mileage={result.Mileage || 0}
@@ -819,8 +828,8 @@ const Search = () => {
           <div className="text-center py-12">
             <h3 className="text-xl font-semibold mb-2">No cars found</h3>
             <p className="text-gray-600">
-              {searchParams.get("postcode") 
-                ? "Try adjusting your search criteria" 
+              {searchParams.get("postcode")
+                ? "Try adjusting your search criteria"
                 : "Please enter a postcode to search"}
             </p>
           </div>
@@ -842,7 +851,8 @@ const Search = () => {
                   />
                 </PaginationItem>
                 {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                  const pageNum = currentPage <= 3 ? i + 1 : currentPage - 2 + i;
+                  const pageNum =
+                    currentPage <= 3 ? i + 1 : currentPage - 2 + i;
                   if (pageNum > totalPages) return null;
                   return (
                     <PaginationItem key={pageNum}>
@@ -879,19 +889,30 @@ const Search = () => {
             <DialogHeader>
               <DialogTitle>Sign In Required</DialogTitle>
               <DialogDescription>
-                {valuationCount >= 3 
+                {valuationCount >= 3
                   ? "You've used all 3 free valuations. Please sign in to continue."
-                  : "Please sign in to view car details and access premium features."
-                }
+                  : "Please sign in to view car details and access premium features."}
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col space-y-4 mt-4">
               <Button className="w-full bg-white text-gray-700 border border-gray-300 hover:bg-gray-50">
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  <path
+                    fill="#4285F4"
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                  />
+                  <path
+                    fill="#EA4335"
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  />
                 </svg>
                 Continue with Google
               </Button>
