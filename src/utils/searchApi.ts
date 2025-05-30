@@ -80,9 +80,6 @@ export const searchCars = async (filters: SearchFilters, page: number = 1): Prom
   const apiUrl = `${BASE_URL}/dealer/search/cars`;
   
   try {
-    console.log("Making API request to:", apiUrl);
-    console.log("Request payload:", { url: autoTraderUrl });
-    
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
@@ -93,13 +90,8 @@ export const searchCars = async (filters: SearchFilters, page: number = 1): Prom
       })
     });
     
-    console.log("Response status:", response.status);
-    console.log("Response ok:", response.ok);
-    
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error("API error response:", errorText);
-      throw new Error(`API request failed: ${response.status} - ${errorText}`);
+      throw new Error(`API request failed: ${response.status}`);
     }
     
     const data: ApiResponse = await response.json();
@@ -108,13 +100,6 @@ export const searchCars = async (filters: SearchFilters, page: number = 1): Prom
     return data;
   } catch (error) {
     console.error("Error searching cars:", error);
-    
-    // Check if it's a network error
-    if (error instanceof TypeError && error.message === "Failed to fetch") {
-      throw new Error("Unable to connect to search service. Please check your internet connection or try again later.");
-    }
-    
-    // Re-throw other errors
     throw error;
   }
 };
