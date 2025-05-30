@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -107,7 +108,8 @@ const CarSearchForm = () => {
   return (
     <div className="max-w-4xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Row 1: Postcode and Make */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor="postcode">Postcode *</Label>
             <Input
@@ -136,7 +138,8 @@ const CarSearchForm = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-2 md:block hidden">
             <Label htmlFor="mileage">Max Mileage</Label>
             <Input
               id="mileage"
@@ -148,7 +151,10 @@ const CarSearchForm = () => {
               }
             />
           </div>
+        </div>
 
+        {/* Row 2: Distance and Model */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor="distance">Distance</Label>
             <Select
@@ -169,6 +175,7 @@ const CarSearchForm = () => {
               </SelectContent>
             </Select>
           </div>
+
           <div className="space-y-2">
             <Label htmlFor="model">Model</Label>
             <Select
@@ -193,10 +200,39 @@ const CarSearchForm = () => {
             </Select>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 md:block hidden">
             <Label htmlFor="price">Max Price (£)</Label>
             <Input
               id="price"
+              type="number"
+              placeholder="e.g. 25000"
+              value={formData.maxPrice}
+              onChange={(e) =>
+                setFormData({ ...formData, maxPrice: e.target.value })
+              }
+            />
+          </div>
+        </div>
+
+        {/* Row 3: Max Mileage and Max Price (Mobile only) */}
+        <div className="grid grid-cols-2 gap-4 md:hidden">
+          <div className="space-y-2">
+            <Label htmlFor="mileage-mobile">Max Mileage</Label>
+            <Input
+              id="mileage-mobile"
+              type="number"
+              placeholder="e.g. 50000"
+              value={formData.maxMileage}
+              onChange={(e) =>
+                setFormData({ ...formData, maxMileage: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="price-mobile">Max Price (£)</Label>
+            <Input
+              id="price-mobile"
               type="number"
               placeholder="e.g. 25000"
               value={formData.maxPrice}
