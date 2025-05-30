@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface FilterOption {
   id: string;
-  name: string;
+  name?: string;
   display_name: string;
   value?: string;
   sort_order?: number;
