@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -70,14 +71,6 @@ const desktopCardPositions: CardPosition[] = [
   { left: "45%", top: "-2%", animation: "up" },
 ];
 
-// Mobile card positions - set for horizontal cascade
-const mobileCardPositions: CardPosition[] = [
-  { left: "0%", top: "0%", animation: "down" },
-  { left: "10%", top: "0%", animation: "up" },
-  { left: "20%", top: "0%", animation: "down" },
-  { left: "30%", top: "0%", animation: "up" },
-];
-
 // Only return float class, not fade.
 const getFloatAnimationClass = (animationType: AnimationType) => {
   return animationType === "up" ? "animate-float-up" : "animate-float-down";
@@ -93,7 +86,6 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   const isMobile = useIsMobile();
   const isExtraSmall = useIsExtraSmall();
-  const cardPositions = isMobile ? mobileCardPositions : desktopCardPositions;
 
   return (
     <section className="pt-16 pb-16 md:pt-24 md:pb-24 overflow-hidden bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-gray-950 relative">
@@ -116,44 +108,6 @@ const HeroSection = ({
               <CarSearchForm />
             </div>
 
-            {/* <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4 justify-center lg:justify-start">
-              <div className="w-full sm:w-auto">
-                <Button
-                  size={isMobile ? "default" : "lg"}
-                  className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
-                  asChild
-                >
-                  <Link
-                    to={ctaLink}
-                    className="w-full h-full flex items-center justify-center gap-2"
-                    style={{ pointerEvents: "auto" }}
-                  >
-                    {ctaText}
-                    <Car className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-
-              {secondaryCtaText && (
-                <div className="w-full sm:w-auto">
-                  <Button
-                    size={isMobile ? "default" : "lg"}
-                    variant="outline"
-                    className="w-full sm:w-auto rounded-[16px] px-6 md:px-8"
-                    asChild
-                  >
-                    <Link
-                      to={secondaryCtaLink || "#"}
-                      className="w-full h-full flex items-center justify-center"
-                      style={{ pointerEvents: "auto" }}
-                    >
-                      {secondaryCtaText}
-                    </Link>
-                  </Button>
-                </div>
-              )}
-            </div> */}
-
             <div className="mt-4 md:mt-8 flex items-center gap-3 md:gap-4 justify-center lg:justify-start">
               <div className="flex -space-x-3 md:-space-x-4">
                 {[1, 2, 3].map((i) => (
@@ -173,45 +127,34 @@ const HeroSection = ({
             </div>
           </div>
 
-          {/* Card "gallery" with fixed z-index to prevent overlapping clickable areas */}
+          {/* Card "gallery" with fixed z-index to prevent overlapping clickable areas - only show on desktop */}
           <div
-            className="relative h-[220px] sm:h-[300px] md:h-[380px] w-full order-1 lg:order-2 overflow-visible"
+            className="relative h-[220px] sm:h-[300px] md:h-[380px] w-full order-1 lg:order-2 overflow-visible hidden lg:block"
             style={{ zIndex: 0 }}
           >
-            {isMobile ? (
-              <div className="flex justify-center items-center h-full relative">
-                <div className="w-[80%] max-w-[280px]">
-                  <CarCascadeCard
-                    {...carHeroData[0]}
-                    animationClass="animate-float-up"
-                  />
-                </div>
-              </div>
-            ) : (
-              <div className="relative h-full w-full">
-                {carHeroData.map((car, idx) => {
-                  const pos = cardPositions[idx % cardPositions.length];
-                  return (
-                    <div
-                      key={car.model}
-                      className={`absolute ${getFloatAnimationClass(
-                        pos.animation
-                      )} shadow-xl transition-all rounded-xl`}
-                      style={{
-                        left: pos.left,
-                        top: pos.top,
-                        zIndex: 10 - idx, // Reduced z-index to avoid blocking clicks
-                        width: "260px",
-                        animationDelay: `${idx * 0.23}s`,
-                        pointerEvents: "none", // Make cards non-interactive to prevent click blocking
-                      }}
-                    >
-                      <CarCascadeCard {...car} animationClass="" />
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+            <div className="relative h-full w-full">
+              {carHeroData.map((car, idx) => {
+                const pos = desktopCardPositions[idx % desktopCardPositions.length];
+                return (
+                  <div
+                    key={car.model}
+                    className={`absolute ${getFloatAnimationClass(
+                      pos.animation
+                    )} shadow-xl transition-all rounded-xl`}
+                    style={{
+                      left: pos.left,
+                      top: pos.top,
+                      zIndex: 10 - idx, // Reduced z-index to avoid blocking clicks
+                      width: "260px",
+                      animationDelay: `${idx * 0.23}s`,
+                      pointerEvents: "none", // Make cards non-interactive to prevent click blocking
+                    }}
+                  >
+                    <CarCascadeCard {...car} animationClass="" />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
