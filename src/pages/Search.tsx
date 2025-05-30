@@ -655,7 +655,7 @@ const Search = () => {
     <Layout>
       <div className=" mx-auto py-24">
         {/* Results Header */}
-        <div className="mb-6 flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
+        <div className="mb-6">
           {loading ? (
             <></>
           ) : error ? (
